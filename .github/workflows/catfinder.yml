@@ -41,12 +41,12 @@ jobs:
       - name: E-Mail senden
         uses: dawidd6/action-send-mail@v3
         with:
-          server_address: smtp.gmail.com
+          server_address: smtp.sendgrid.net
           server_port: 465
           secure: true
-          username: ${{ secrets.GMAIL_USERNAME }}
-          password: ${{ secrets.GMAIL_APP_PASSWORD }}
-          subject: "🐱 Catfinder – neue Katzen (${{ github.run_number }})"
-          to: ${{ secrets.GMAIL_USERNAME }}
-          from: "Catfinder <${{ secrets.GMAIL_USERNAME }}>"
+          username: apikey
+          password: ${{ secrets.SENDGRID_API_KEY }}
+          subject: "Catfinder – neue Katzen (${{ github.run_number }})"
+          to: ${{ secrets.MAIL_TO }}
+          from: "Catfinder <${{ secrets.MAIL_FROM }}>"
           html_body: file://reports/report.html
