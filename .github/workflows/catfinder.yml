@@ -1,0 +1,52 @@
+name: Catfinder täglich
+
+on:
+  schedule:
+    - cron: "30 9 * * *"  # 11:30 Uhr CEST (Sommerzeit) / 10:30 Uhr CET (Winterzeit)
+  workflow_dispatch:       # Manuell auslösbar
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Abhängigkeiten installieren
+        run: pip install -r requirements.txt
+
+      - name: Catfinder ausführen
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python catfinder.py --no-browser
+
+      - name: State committen
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add state/seen_cats.json
+          git diff --cached --quiet || git commit -m "chore: state aktualisiert [skip ci]"
+          git push
+
+      - name: E-Mail senden
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "🐱 Catfinder – neue Katzen (${{ github.run_number }})"
+          to: ${{ secrets.GMAIL_USERNAME }}
+          from: "Catfinder <${{ secrets.GMAIL_USERNAME }}>"
+          html_body: file://reports/report.html

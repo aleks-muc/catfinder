@@ -668,11 +668,12 @@ def render_report(
     )
 
 
-def write_and_open_report(html_text: str) -> None:
+def write_and_open_report(html_text: str, no_browser: bool = False) -> None:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     REPORT_FILE.write_text(html_text, encoding="utf-8")
     print(f"\nReport geschrieben: {REPORT_FILE}")
-    webbrowser.open(REPORT_FILE.as_uri())
+    if not no_browser:
+        webbrowser.open(REPORT_FILE.as_uri())
 
 
 # ---------------------------------------------------------------------------
@@ -683,6 +684,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Catfinder — neue Katzen finden & auf Kindertauglichkeit bewerten.")
     parser.add_argument("--reset", action="store_true", help="State löschen, alles als neu behandeln.")
     parser.add_argument("--all", action="store_true", help="Alle aktuell gelisteten Katzen bewerten (ohne Diff).")
+    parser.add_argument("--no-browser", action="store_true", help="Browser nicht öffnen (z.B. für CI).")
     args = parser.parse_args()
 
     if not os.environ.get("ANTHROPIC_API_KEY"):
@@ -756,7 +758,7 @@ def main() -> int:
         html_text = render_report([], len(cats), listing_ages=la,
                                   still_known=_ratings_from_state(still_known),
                                   no_longer_listed=no_longer_listed)
-        write_and_open_report(html_text)
+        write_and_open_report(html_text, no_browser=args.no_browser)
         return 0
 
     print(f"\nLade {len(to_evaluate)} Steckbriefe …")
@@ -805,7 +807,7 @@ def main() -> int:
                               listing_ages=listing_ages,
                               still_known=_ratings_from_state(still_known),
                               no_longer_listed=no_longer_listed)
-    write_and_open_report(html_text)
+    write_and_open_report(html_text, no_browser=args.no_browser)
 
     # State: alle aktuell gelisteten Katzen eintragen, Bewertungen speichern.
     now_iso = datetime.now().isoformat(timespec="seconds")
