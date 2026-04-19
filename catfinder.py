@@ -772,10 +772,13 @@ def main() -> int:
             r = "unbekannt"
         no_longer_listed.append((c, CatRating(rating=r, reason=entry.get("reason", ""))))
 
+    def _age_months_with_fallback(cat_id: str, age_hint: str) -> int | None:
+        return age_hint_to_months(age_hint) or age_hint_to_months(state.get(cat_id, {}).get("age_hint", ""))
+
     if not to_evaluate:
         print("Keine neuen Katzen seit dem letzten Lauf.")
-        la = {c.cat_id: age_hint_to_months(c.age_hint) for c in still_known}
-        la.update({c.cat_id: age_hint_to_months(c.age_hint) for c, _ in no_longer_listed})
+        la = {c.cat_id: _age_months_with_fallback(c.cat_id, c.age_hint) for c in still_known}
+        la.update({c.cat_id: _age_months_with_fallback(c.cat_id, c.age_hint) for c, _ in no_longer_listed})
         html_text = render_report([], len(cats), listing_ages=la,
                                   still_known=_ratings_from_state(still_known),
                                   no_longer_listed=no_longer_listed)
@@ -817,8 +820,8 @@ def main() -> int:
     listing_ages: dict[str, int | None] = {
         cat.cat_id: age_hint_to_months(cat.age_hint) for cat in to_evaluate
     }
-    listing_ages.update({c.cat_id: age_hint_to_months(c.age_hint) for c in still_known})
-    listing_ages.update({c.cat_id: age_hint_to_months(c.age_hint) for c, _ in no_longer_listed})
+    listing_ages.update({c.cat_id: _age_months_with_fallback(c.cat_id, c.age_hint) for c in still_known})
+    listing_ages.update({c.cat_id: _age_months_with_fallback(c.cat_id, c.age_hint) for c, _ in no_longer_listed})
 
     print(f"\nBewerte {len(to_evaluate)} Katzen via Claude …")
     ratings = evaluate_all(to_evaluate, profile_texts)
