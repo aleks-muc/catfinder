@@ -2,36 +2,41 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>Catfinder — 19.04.2026 10:25</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catfinder — 19.04.2026 10:29</title>
 <style>
 * { box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; background: #fafafa; color: #222; }
-header { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 1.5rem 2rem; }
-header h1 { margin: 0 0 .3rem; font-size: 1.6rem; }
-header .stats { color: #666; font-size: .95rem; }
-main { max-width: 1600px; margin: 2rem auto; padding: 0 1rem; }
-.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+header { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 1rem 1.25rem; }
+header h1 { margin: 0 0 .3rem; font-size: 1.4rem; }
+header .stats { color: #666; font-size: .85rem; line-height: 1.5; }
+main { max-width: 1600px; margin: 1.5rem auto; padding: 0 1rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
 .card { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow: hidden; display: flex; flex-direction: column; border-left: 6px solid var(--accent); }
 .card img { width: 100%; height: 220px; object-fit: cover; display: block; background: #eee; }
 .card .body { padding: 1rem 1.1rem 1.2rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }
-.card h2 { margin: 0; font-size: 1.2rem; }
+.card h2 { margin: 0; font-size: 1.1rem; }
 .card .meta { color: #666; font-size: .85rem; }
 .card .rating { font-weight: 600; color: var(--accent); }
-.card .reason { font-size: .95rem; color: #333; flex: 1; }
-.card a.btn { margin-top: .5rem; display: inline-block; background: #1976d2; color: #fff; padding: .55rem .9rem; border-radius: 6px; text-decoration: none; text-align: center; font-weight: 500; }
+.card .reason { font-size: .9rem; color: #333; flex: 1; }
+.card a.btn { margin-top: .5rem; display: block; background: #1976d2; color: #fff; padding: .65rem .9rem; border-radius: 6px; text-decoration: none; text-align: center; font-weight: 500; font-size: .95rem; }
 .card a.btn:hover { background: #1565c0; }
 .empty { text-align: center; color: #666; padding: 4rem 1rem; }
 .badge-int { display: inline-block; background: #fff3e0; color: #e65100; font-size: .78rem; font-weight: 700; padding: .2rem .55rem; border-radius: 4px; letter-spacing: .01em; }
 .card .partner { font-size: .85rem; color: #1565c0; font-style: italic; }
 section + section { margin-top: 3rem; }
 section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd; padding-bottom: .4rem; margin-bottom: 1rem; }
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+  header h1 { font-size: 1.2rem; }
+}
 </style>
 </head>
 <body><div style="background:#1565c0;color:#fff;text-align:center;padding:12px;font-family:sans-serif;font-size:15px;"><a href="https://aleks-muc.github.io/catfinder/" style="color:#fff;font-weight:bold;text-decoration:none;">&#127760; Im Browser öffnen →</a></div>
 <header>
   <h1>🐈 Catfinder — Tierschutzverein München</h1>
   <div class="stats">
-    Lauf vom 19.04.2026 10:25 · 58 Katzen gelistet · <strong>0 neu bewertet</strong> · <span id="visibleCount">0</span> angezeigt
+    Lauf vom 19.04.2026 10:29 · 58 Katzen gelistet · <strong>0 neu bewertet</strong> · <span id="visibleCount">0</span> angezeigt
   </div>
 </header>
 <main>
@@ -46,7 +51,7 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
 #fitBtn.active{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32;}
 #pairBtn.active{background:#e3f2fd;border-color:#90caf9;color:#1565c0;}
 </style>
-<div id="filterBar" style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e0e0e0;padding:.9rem 2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+<div id="filterBar" style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e0e0e0;padding:.9rem 1rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
   <div style="display:flex;flex-direction:column;gap:.5rem;flex:1;min-width:220px;max-width:420px;">
     <div style="display:flex;justify-content:space-between;">
       <span style="font-size:.85rem;font-weight:500;color:#555;">Alter filtern</span>
