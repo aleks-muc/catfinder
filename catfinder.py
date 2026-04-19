@@ -680,6 +680,13 @@ def write_and_open_report(html_text: str, no_browser: bool = False) -> None:
 # Main
 # ---------------------------------------------------------------------------
 
+def _write_github_output(new_count: int) -> None:
+    path = os.environ.get("GITHUB_OUTPUT")
+    if path:
+        with open(path, "a") as f:
+            f.write(f"new_count={new_count}\n")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Catfinder — neue Katzen finden & auf Kindertauglichkeit bewerten.")
     parser.add_argument("--reset", action="store_true", help="State löschen, alles als neu behandeln.")
@@ -759,6 +766,7 @@ def main() -> int:
                                   still_known=_ratings_from_state(still_known),
                                   no_longer_listed=no_longer_listed)
         write_and_open_report(html_text, no_browser=args.no_browser)
+        _write_github_output(0)
         return 0
 
     print(f"\nLade {len(to_evaluate)} Steckbriefe …")
@@ -825,6 +833,7 @@ def main() -> int:
             state[cat.cat_id]["partner_name"] = cat.partner_name
     save_state(state)
     print(f"State aktualisiert: {len(state)} Katzen bekannt.")
+    _write_github_output(len(evaluated))
     return 0
 
 

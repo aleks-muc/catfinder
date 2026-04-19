@@ -26,6 +26,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Catfinder ausführen
+        id: catfinder
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python catfinder.py --no-browser
@@ -46,7 +47,7 @@ jobs:
           secure: true
           username: apikey
           password: ${{ secrets.SENDGRID_API_KEY }}
-          subject: "Catfinder – neue Katzen (${{ github.run_number }})"
+          subject: "Catfinder – ${{ steps.catfinder.outputs.new_count }} neue Katzen"
           to: ${{ secrets.MAIL_TO }}
           from: "Catfinder <${{ secrets.MAIL_FROM }}>"
           html_body: file://reports/report.html
