@@ -31,12 +31,28 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python catfinder.py --no-browser
 
+      - name: Report für GitHub Pages vorbereiten
+        run: |
+          mkdir -p docs
+          python3 - <<'EOF'
+          content = open("reports/report.html", encoding="utf-8").read()
+          banner = (
+            '<div style="background:#1565c0;color:#fff;text-align:center;padding:12px;font-family:sans-serif;font-size:15px;">'
+            '<a href="https://aleks-muc.github.io/catfinder/" '
+            'style="color:#fff;font-weight:bold;text-decoration:none;">&#127760; Im Browser öffnen →</a>'
+            '</div>'
+          )
+          content = content.replace("<body>", "<body>" + banner, 1)
+          open("reports/report.html", "w", encoding="utf-8").write(content)
+          open("docs/index.html", "w", encoding="utf-8").write(content)
+          EOF
+
       - name: State committen
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add state/seen_cats.json
-          git diff --cached --quiet || git commit -m "chore: state aktualisiert [skip ci]"
+          git add state/seen_cats.json docs/index.html
+          git diff --cached --quiet || git commit -m "chore: state & report aktualisiert [skip ci]"
           git push
 
       - name: E-Mail senden
