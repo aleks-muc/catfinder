@@ -278,6 +278,15 @@ def age_hint_to_months(age_hint: str) -> int | None:
     m = re.search(r'(\d+)\s*Monat', age_hint)
     if m:
         return int(m.group(1))
+    # Fallback: Geburtsdatum aus Snippet berechnen (z.B. "geb. 15.01.2026")
+    enriched = extract_age_hint(age_hint)
+    if enriched:
+        m = re.search(r'(\d+)\s*Jahr', enriched)
+        if m:
+            return int(m.group(1)) * 12
+        m = re.search(r'(\d+)\s*Monat', enriched)
+        if m:
+            return int(m.group(1))
     return None
 
 
@@ -555,8 +564,13 @@ def render_report(
             else '<div style="height:220px;background:#e0e0e0;display:flex;align-items:center;justify-content:center;color:#999;">kein Foto</div>'
         )
 
-    def _meta_line(cat: Cat) -> str:
-        bits = [b for b in (cat.breed, cat.sex, cat.age_hint) if b]
+    def _meta_line(cat: Cat, age_months: int | None = None) -> str:
+        if age_months is not None:
+            y, mo = divmod(age_months, 12)
+            age_str = f"{y} Jahr{'e' if y != 1 else ''}" if y else f"{mo} Monate"
+        else:
+            age_str = cat.age_hint
+        bits = [b for b in (cat.breed, cat.sex, age_str) if b]
         return " · ".join(html.escape(b) for b in bits) if bits else "&nbsp;"
 
     def _interested_badge(cat: Cat) -> str:
@@ -597,7 +611,7 @@ def render_report(
       {_img(cat)}
       <div class="body">
         <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
-        <div class="meta">{_meta_line(cat)}</div>
+        <div class="meta">{_meta_line(cat, age_months)}</div>
         {_partner_line(cat)}
         {_interested_badge(cat)}
         <div class="rating">{meta['emoji']} {meta['label']}</div>
@@ -625,7 +639,7 @@ def render_report(
       {_img(cat)}
       <div class="body">
         <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
-        <div class="meta">{_meta_line(cat)}</div>
+        <div class="meta">{_meta_line(cat, age_months)}</div>
         {_partner_line(cat)}
         {_interested_badge(cat)}
         <div class="rating">{meta['emoji']} {meta['label']}</div>
@@ -648,7 +662,7 @@ def render_report(
       {_img(cat)}
       <div class="body">
         <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
-        <div class="meta">{_meta_line(cat)}</div>
+        <div class="meta">{_meta_line(cat, age_months)}</div>
         {_partner_line(cat)}
         {_interested_badge(cat)}
         <div class="rating">{meta['emoji']} {meta['label']}</div>
