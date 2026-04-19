@@ -2,7 +2,7 @@ name: Catfinder täglich
 
 on:
   schedule:
-    - cron: "30 9 * * *"  # 11:30 Uhr CEST (Sommerzeit) / 10:30 Uhr CET (Winterzeit)
+    - cron: "0 14 * * *"  # 16:00 Uhr CEST (Sommerzeit) / 15:00 Uhr CET (Winterzeit)
   workflow_dispatch:       # Manuell auslösbar
 
 jobs:
