@@ -749,6 +749,21 @@
     "reason": "Größere Kinder ab etwa 16 Jahren sind in Ordnung, sofern sie einen ruhigen und respektvollen Umgang mit Tieren kennen.",
     "sex": ""
   },
+  "260700": {
+    "age_hint": "Alter: 5 Jahre",
+    "breed": "",
+    "cat_id": "260700",
+    "companion_count": 0,
+    "first_seen": "2026-04-21T15:03:30",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260700-1-134211438947226944.JPG",
+    "name": "BALOU",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260700",
+    "rating": "unbekannt",
+    "reason": "Bewertungsfehler: Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}, 'request_id': 'req_011CaH7vxmb6EDwfWQTT9dii'}",
+    "sex": ""
+  },
   "260723": {
     "age_hint": "Alter: 1 Jahre",
     "breed": "",
