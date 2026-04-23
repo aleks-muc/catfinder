@@ -26,19 +26,6 @@ jobs:
       - name: Abhängigkeiten installieren
         run: pip install -r requirements.txt
 
-      - name: API-Key-Fingerprint (Debug)
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          python3 - <<'EOF'
-          import os, hashlib
-          k = os.environ.get("ANTHROPIC_API_KEY", "")
-          print(f"Length     : {len(k)}")
-          print(f"Prefix     : {k[:15]}")
-          print(f"Suffix     : {k[-4:]}")
-          print(f"SHA256-8   : {hashlib.sha256(k.encode()).hexdigest()[:8]}")
-          EOF
-
       - name: Catfinder ausführen
         id: catfinder
         env:
