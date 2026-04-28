@@ -779,6 +779,21 @@
     "reason": "Bewertungsfehler: Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}, 'request_id': 'req_011CaH7vxmb6EDwfWQTT9dii'}",
     "sex": ""
   },
+  "260719": {
+    "age_hint": "1 Jahr alt",
+    "breed": "",
+    "cat_id": "260719",
+    "companion_count": 0,
+    "first_seen": "2026-04-28T09:13:18",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260719-1-134195187757665534.jpg",
+    "name": "MENDO",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260719",
+    "rating": "aeltere_kinder",
+    "reason": "Mendo eignet sich besonders gut für Familien mit größeren Kindern.",
+    "sex": ""
+  },
   "260723": {
     "age_hint": "Alter: 1 Jahre",
     "breed": "",
