@@ -824,6 +824,21 @@
     "reason": "Für ihn kommen größere Kinder infrage, die den respektvollen Umgang mit Tieren kennen.",
     "sex": ""
   },
+  "260778": {
+    "age_hint": "Alter: 2 Jahre",
+    "breed": "",
+    "cat_id": "260778",
+    "companion_count": 0,
+    "first_seen": "2026-04-28T16:03:41",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260778-1-134183213801829655.jpg",
+    "name": "DINERO",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260778",
+    "rating": "aeltere_kinder",
+    "reason": "Für Familien mit größeren Kindern ist er gut geeignet, da er den Kontakt sucht und gerne am Alltag teilnimmt.",
+    "sex": ""
+  },
   "260780": {
     "age_hint": "Alter: 2 Jahre",
     "breed": "",
