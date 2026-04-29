@@ -779,6 +779,21 @@
     "reason": "Bewertungsfehler: Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}, 'request_id': 'req_011CaH7vxmb6EDwfWQTT9dii'}",
     "sex": ""
   },
+  "260707": {
+    "age_hint": "Alter: 14 Jahre",
+    "breed": "",
+    "cat_id": "260707",
+    "companion_count": 0,
+    "first_seen": "2026-04-29T09:03:40",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260707-1-134219230711816625.jpg",
+    "name": "FLORI",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260707",
+    "rating": "aeltere_kinder",
+    "reason": "Flori sucht idealerweise bei einer Familie mit größeren Kindern, die Verständnis für seine anfängliche Schüchternheit haben.",
+    "sex": ""
+  },
   "260719": {
     "age_hint": "1 Jahr alt",
     "breed": "",
