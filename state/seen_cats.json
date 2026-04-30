@@ -899,6 +899,21 @@
     "reason": "Für Schneckerl suchen wir ein ruhiges Zuhause ohne Kinder, da sie mit Trubel und Unruhe nicht gut zurechtkommt.",
     "sex": ""
   },
+  "260917": {
+    "age_hint": "26 Jahre alt",
+    "breed": "",
+    "cat_id": "260917",
+    "companion_count": 0,
+    "first_seen": "2026-04-30T14:13:22",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260917-1-134220163969027555.JPG",
+    "name": "HOUDINI",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260917",
+    "rating": "aeltere_kinder",
+    "reason": "Für Houdini suchen wir ein ruhiges Zuhause mit verständnisvollen und katzenerfahrenen Menschen sowie größeren Kindern ab etwa 15 Jahren.",
+    "sex": ""
+  },
   "260935": {
     "age_hint": "Alter: 6 Jahre",
     "breed": "",
@@ -957,6 +972,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260981",
     "rating": "geeignet",
     "reason": "Sie eignen sich sehr gut für Familien mit Kindern und bringen viel Freude, Nähe und Leben ins Haus.",
+    "sex": ""
+  },
+  "261095": {
+    "age_hint": "26 Jahre alt",
+    "breed": "",
+    "cat_id": "261095",
+    "companion_count": 0,
+    "first_seen": "2026-04-30T14:13:22",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261095-1-134220162507882237.JPG",
+    "name": "RICKY",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261095",
+    "rating": "aeltere_kinder",
+    "reason": "Ein Zuhause mit größeren Kindern ab etwa 15 Jahren ist möglich.",
     "sex": ""
   }
 }
