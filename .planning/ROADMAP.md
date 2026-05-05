@@ -34,7 +34,7 @@
 **Plans:** 1 plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Delta-Erfassung, Hard-Purge im Save-Schritt (Haupt-Pfad + no-new-cats Early-Return), had_prior_state-Signal, Empty-State-Branch ("Seit dem letzten Lauf sind keine Katzen verschwunden. ✨"), Sektion bei Erstlauf/--reset komplett ausblenden
+- [x] 01-01-PLAN.md — Delta-Erfassung, Hard-Purge im Save-Schritt (Haupt-Pfad + no-new-cats Early-Return), had_prior_state-Signal, Empty-State-Branch ("Seit dem letzten Lauf sind keine Katzen verschwunden. ✨"), Sektion bei Erstlauf/--reset komplett ausblenden
 
 ### Phase 2: Filter-Reset-Button
 **Goal:** Nutzer:innen können mit einem Klick alle aktiven Filter (Bewertungs-Buttons, Alters-Slider, Toggle-Buttons) auf den Default zurücksetzen, ohne die Seite neu zu laden.
