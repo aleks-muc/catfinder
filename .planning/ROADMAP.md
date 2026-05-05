@@ -49,7 +49,7 @@ Plans:
 **UI hint:** yes
 
 Plans:
-- [ ] 02-01-PLAN.md — Filter-Reset-Button (4 Sub-Edits in `_build_filter_bar`: DEFAULT_LO/DEFAULT_HI-JS-Injection, Reset-Button-HTML mit margin-left:auto, #resetBtn-CSS-Link-Style, Click-Handler mit atomarem update())
+- [x] 02-01-PLAN.md — Filter-Reset-Button (4 Sub-Edits in `_build_filter_bar`: DEFAULT_LO/DEFAULT_HI-JS-Injection, Reset-Button-HTML mit margin-left:auto, #resetBtn-CSS-Link-Style, Click-Handler mit atomarem update())
 
 ## Progress
 
