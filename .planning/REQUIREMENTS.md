@@ -15,8 +15,8 @@ Anforderungen für diesen Milestone. Jede REQ-ID wird im Roadmap genau einer Pha
 
 ### Filter
 
-- [ ] **FILTER-01**: In der Filterleiste des Reports ist ein klar beschrifteter Button "Filter zurücksetzen" sichtbar.
-- [ ] **FILTER-02**: Ein Klick auf "Filter zurücksetzen" setzt alle aktiven Filter (Bewertungs-Buttons, Alters-Slider, Toggle-Buttons) auf ihren Default zurück und die angezeigten Karten reflektieren den ungefilterten Zustand sofort.
+- [x] **FILTER-01**: In der Filterleiste des Reports ist ein klar beschrifteter Button "Filter zurücksetzen" sichtbar.
+- [x] **FILTER-02**: Ein Klick auf "Filter zurücksetzen" setzt alle aktiven Filter (Bewertungs-Buttons, Alters-Slider, Toggle-Buttons) auf ihren Default zurück und die angezeigten Karten reflektieren den ungefilterten Zustand sofort.
 
 ## v2 Requirements
 
@@ -46,8 +46,8 @@ Welche Phase deckt welche Anforderung ab.
 | REPORT-01 | Phase 1 | ✓ Validated (2026-05-06) |
 | REPORT-02 | Phase 1 | ✓ Validated (2026-05-06) |
 | REPORT-03 | Phase 1 | ✓ Validated (2026-05-06) |
-| FILTER-01 | Phase 2 | Pending |
-| FILTER-02 | Phase 2 | Pending |
+| FILTER-01 | Phase 2 | ✓ Validated (2026-05-06) |
+| FILTER-02 | Phase 2 | ✓ Validated (2026-05-06) |
 
 **Coverage:**
 - v1 requirements: 5 total
@@ -56,4 +56,4 @@ Welche Phase deckt welche Anforderung ab.
 
 ---
 *Requirements defined: 2026-05-05*
-*Last updated: 2026-05-06 after Phase 1 completion (REPORT-01..03 validated)*
+*Last updated: 2026-05-06 after Phase 2 completion (alle 5 v1-Requirements validated; ready für v1.0 Milestone-Close)*
