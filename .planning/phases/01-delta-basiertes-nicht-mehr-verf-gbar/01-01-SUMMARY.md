@@ -2,8 +2,8 @@
 phase: 01-delta-basiertes-nicht-mehr-verf-gbar
 plan: 01
 subsystem: state + report renderer
-tags: [python, single-file, state-purge, delta-report, html-render, partial]
-status: partial-pending-uat
+tags: [python, single-file, state-purge, delta-report, html-render]
+status: complete
 requires: []
 provides: ["had_prior_state-Signal", "Inline-State-Purge", "Empty-State-Sektion im sect_gone", "save_state im Early-Return-Pfad"]
 affects: ["catfinder.py:main()", "catfinder.py:render_report()"]
@@ -19,19 +19,19 @@ decisions:
   - "Empty-State-Branch nutzt mehrzeilige Klammer-Concatenation statt Triple-Quoted-Style — hält Zeilen unter 100 Chars (PATTERNS.md Section 4 Analog B)."
 metrics:
   duration_minutes: ~6
-  tasks_completed: 2
-  tasks_pending: 1
+  tasks_completed: 3
+  tasks_pending: 0
   tasks_total: 3
-  completed_date: "2026-05-05"
+  completed_date: "2026-05-06"
 ---
 
-# Phase 01 Plan 01: Delta-basiertes "Nicht mehr verfügbar" — Summary (PARTIAL — UAT pending)
+# Phase 01 Plan 01: Delta-basiertes "Nicht mehr verfügbar" — Summary
 
-Inline-State-Purge in `main()` (Early-Return + Haupt-Pfad), `had_prior_state`-Signal von `main()` an `render_report()`, Empty-State-Branch im `sect_gone`-Block mit dem festgelegten deutschen Hinweistext. Tasks 1 + 2 implementiert und einzeln committet; Task 3 ist `checkpoint:human-verify` — UAT mit drei seeded Fixtures steht beim Nutzer aus.
+Inline-State-Purge in `main()` (Early-Return + Haupt-Pfad), `had_prior_state`-Signal von `main()` an `render_report()`, Empty-State-Branch im `sect_gone`-Block mit dem festgelegten deutschen Hinweistext. Alle drei Tasks abgeschlossen; UAT vom Nutzer gegen Live-Listing durchgeführt und „approved".
 
 ## Status
 
-**Tasks 1 + 2 complete, automated checks pass. Task 3 (UAT-Checkpoint, blocking) ist an den Orchestrator zurückgegeben — die finale Validierung gegen einen echten Lauf wird vom Nutzer durchgeführt.**
+**Tasks 1 + 2 + 3 complete. Automated checks pass. Drei UAT-Fixtures (seeded Phantome verschwinden / Folgelauf zeigt Empty-Hint / `--reset` blendet Sektion aus) wurden vom Nutzer am 2026-05-06 gegen das Live-Listing erfolgreich validiert.**
 
 ## Per-Task Result
 
@@ -144,9 +144,36 @@ def render_report(
 
 ### Task 3 — UAT (3 seeded Fixtures gegen reports/report.html)
 
-**Status:** ⏸ PENDING — `checkpoint:human-verify`-Task an den Orchestrator zurückgegeben.
+**Status:** ✓ APPROVED — alle drei Fixtures vom Nutzer am 2026-05-06 gegen das Live-Listing (43 Katzen) erfolgreich validiert.
 
-Die drei Fixtures (A: seeded Phantoms verschwinden, B: Folgelauf zeigt Empty-Hint, C: `--reset`/Erstlauf blendet Sektion aus) erfordern einen echten Lauf gegen das Live-Listing mit gültigem `ANTHROPIC_API_KEY` und Hand-Editing von `state/seen_cats.json`. Diese Schritte können nicht von einem Sub-Agenten autonom durchgeführt werden — der Nutzer muss sie ausführen und gegen die Erfolgskriterien aus REQ REPORT-01..03 abgleichen. Detail-Anweisungen stehen vollständig in `01-01-PLAN.md` Task 3 `<how-to-verify>`.
+**Vorbereitung:** Backup `state/seen_cats.json.bak.uat` angelegt; zwei Phantom-Einträge `99999991` (TestKatze X) und `99999992` (TestKatze Y) mit `first_seen: 2026-05-05T00:00:00` in den State injiziert (72 Cats vor Fixture A).
+
+**Fixture A — REPORT-01 (X, Y verschwinden):** ✓
+- `python catfinder.py --no-browser` ausgeführt.
+- TestKatze X + Y erscheinen in „Nicht mehr verfügbar"-Sektion im `reports/report.html` (`<h2>TestKatze X <span>#99999991</span></h2>` + entsprechend für Y).
+- Section-Header `Nicht mehr verfügbar (34)` — die 2 Phantome plus 32 echte Katzen, die seit dem letzten produktiven Lauf (4. Mai) aus dem Listing verschwunden waren. Plan Task 3 erlaubt dies explizit ("plus etwaige real verschwundene Katzen, was OK ist").
+- State danach 43 Cats, `99999991` + `99999992` + alle „TestKatze"-Strings gepurged.
+- `python -m json.tool state/seen_cats.json` exit 0 (Success Criterion 5).
+
+**Fixture B — REPORT-02 + REPORT-03 (Folgelauf, leeres Delta):** ✓
+- Direkt nach Fixture A nochmal `python catfinder.py --no-browser`.
+- `Seit dem letzten Lauf sind keine Katzen verschwunden. ✨` im Report sichtbar.
+- Section-Header `Nicht mehr verfügbar (0)` ✓.
+- TestKatze X + Y + Phantom-IDs nirgendwo (weder Report noch State) — REPORT-02 erfüllt.
+- 2× `<div class="empty">` im Report (existierender Neu-Empty-State + neuer Nicht-mehr-verfügbar-Empty-State) — `.empty`-Pattern korrekt wiederverwendet, keine neue CSS-Klasse.
+- State weiterhin 43 Cats, valides JSON.
+
+**Fixture C — D-07 (`--reset` Erstlauf):** ✓
+- `python catfinder.py --reset --no-browser`.
+- `grep -F "Nicht mehr verfügbar" reports/report.html` exit 1 — Sektion komplett ausgeblendet (kein Header, kein Hint).
+- `grep -F "Seit dem letzten Lauf sind keine Katzen verschwunden. ✨" reports/report.html` exit 1 — Hinweistext erscheint NICHT bei Erstlauf.
+- `grep -F "Erstlauf" reports/report.html` exit 0 — `scope_note` enthält wie erwartet "Erstlauf".
+- State frisch gefüllt (43 Cats, valides JSON), keine Phantom-Reste.
+
+**Sanity (Success Criterion 5):** ✓
+- `git status` zeigt nur `state/seen_cats.json` und `.planning/STATE.md` als modifiziert (catfinder.py-Edits sind in den Tasks 1+2-Commits) — keine neuen Tracked-Files.
+- `.github/workflows/catfinder.yml` unverändert; Bot-Commit-Message `chore: state & report aktualisiert` weiterhin im Workflow.
+- UAT-Backup nach Approval entfernt; State im neuen 43-Cat-Zustand belassen (kein Restore).
 
 ## Big-Bang-Erstlauf-Erwartung (D-04)
 
