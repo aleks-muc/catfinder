@@ -731,6 +731,7 @@ def main() -> int:
     print(f"  {len(cats)} Katzen gelistet.")
 
     state = load_state()
+    had_prior_state = bool(state)  # D-07: Erstlauf vs. regulärer Lauf — voriger State nicht-leer?
     known_ids = set(state.keys())
 
     if args.all or not state:
@@ -786,8 +787,15 @@ def main() -> int:
         la.update({c.cat_id: _age_months_with_fallback(c.cat_id, c.age_hint) for c, _ in no_longer_listed})
         html_text = render_report([], len(cats), listing_ages=la,
                                   still_known=_ratings_from_state(still_known),
-                                  no_longer_listed=no_longer_listed)
+                                  no_longer_listed=no_longer_listed,
+                                  had_prior_state=had_prior_state)
         write_and_open_report(html_text, no_browser=args.no_browser)
+        # Purge: nur Katzen aus dem aktuellen Listing bleiben im State (D-02).
+        for cid in list(state.keys()):
+            if cid not in current_ids:
+                del state[cid]
+        save_state(state)
+        print(f"State aktualisiert: {len(state)} Katzen bekannt.")
         _write_github_output(0)
         return 0
 
@@ -836,7 +844,8 @@ def main() -> int:
     html_text = render_report(evaluated, total_listed=len(cats), scope_note=scope_note,
                               listing_ages=listing_ages,
                               still_known=_ratings_from_state(still_known),
-                              no_longer_listed=no_longer_listed)
+                              no_longer_listed=no_longer_listed,
+                              had_prior_state=had_prior_state)
     write_and_open_report(html_text, no_browser=args.no_browser)
 
     # State: alle aktuell gelisteten Katzen eintragen, Bewertungen speichern.
@@ -853,6 +862,10 @@ def main() -> int:
             state[cat.cat_id]["has_interested"] = cat.has_interested
             state[cat.cat_id]["companion_count"] = cat.companion_count
             state[cat.cat_id]["partner_name"] = cat.partner_name
+    # Purge: nur Katzen aus dem aktuellen Listing bleiben im State (D-02).
+    for cid in list(state.keys()):
+        if cid not in current_ids:
+            del state[cid]
     save_state(state)
     print(f"State aktualisiert: {len(state)} Katzen bekannt.")
     _write_github_output(len(evaluated))
