@@ -31,7 +31,10 @@
   3. Wenn beim aktuellen Lauf keine Katze verschwunden ist, zeigt die "Nicht mehr verfügbar"-Sektion einen klar lesbaren Hinweistext (z.B. "Seit dem letzten Lauf sind keine Katzen verschwunden") — die Sektion ist sichtbar, nicht entfernt, nicht visuell leer.
   4. Ein bestehender Pre-Milestone-State mit "Zombie"-Einträgen (Katzen, die schon vor langer Zeit verschwunden sind) führt beim ersten neuen Lauf nicht zu einem aufgeblähten "Nicht mehr verfügbar" — entweder wird das Delta korrekt gegen den letzten beobachteten Lauf gebildet oder die Zombies werden sauber gepurged.
   5. Der CI-Lauf committet weiterhin nur `state/seen_cats.json` und `docs/index.html` mit der bisherigen Commit-Message; das State-File bleibt valide JSON nach dem Lauf.
-**Plans:** TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Delta-Erfassung, Hard-Purge im Save-Schritt (Haupt-Pfad + no-new-cats Early-Return), had_prior_state-Signal, Empty-State-Branch ("Seit dem letzten Lauf sind keine Katzen verschwunden. ✨"), Sektion bei Erstlauf/--reset komplett ausblenden
 
 ### Phase 2: Filter-Reset-Button
 **Goal:** Nutzer:innen können mit einem Klick alle aktiven Filter (Bewertungs-Buttons, Alters-Slider, Toggle-Buttons) auf den Default zurücksetzen, ohne die Seite neu zu laden.
