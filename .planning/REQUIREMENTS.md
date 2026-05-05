@@ -39,21 +39,21 @@ Explizite Ausschlüsse — verhindert Scope-Creep.
 
 ## Traceability
 
-Welche Phase deckt welche Anforderung ab. Wird beim Roadmap-Erstellen befüllt.
+Welche Phase deckt welche Anforderung ab.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REPORT-01 | TBD | Pending |
-| REPORT-02 | TBD | Pending |
-| REPORT-03 | TBD | Pending |
-| FILTER-01 | TBD | Pending |
-| FILTER-02 | TBD | Pending |
+| REPORT-01 | Phase 1 | Pending |
+| REPORT-02 | Phase 1 | Pending |
+| REPORT-03 | Phase 1 | Pending |
+| FILTER-01 | Phase 2 | Pending |
+| FILTER-02 | Phase 2 | Pending |
 
 **Coverage:**
 - v1 requirements: 5 total
-- Mapped to phases: 0 (wird durch Roadmapper befüllt)
-- Unmapped: 5 ⚠️
+- Mapped to phases: 5
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-05-05*
-*Last updated: 2026-05-05 after initialization*
+*Last updated: 2026-05-05 after roadmap creation*
