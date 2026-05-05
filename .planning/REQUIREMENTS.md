@@ -9,9 +9,9 @@ Anforderungen für diesen Milestone. Jede REQ-ID wird im Roadmap genau einer Pha
 
 ### Report
 
-- [ ] **REPORT-01**: Im HTML-Report listet die Sektion "Nicht mehr verfügbar" ausschließlich Katzen, die zwischen dem unmittelbar vorigen und dem aktuellen Lauf vom Listing verschwunden sind (Delta — nicht die gesamte Historie).
-- [ ] **REPORT-02**: Katzen, die in einem früheren Lauf bereits als verschwunden gemeldet wurden, sind danach aus `state/seen_cats.json` entfernt und tauchen in keinem zukünftigen Report mehr in der "Nicht mehr verfügbar"-Sektion auf — bis sie ggf. wieder neu auf dem Listing erscheinen.
-- [ ] **REPORT-03**: Wenn beim aktuellen Lauf keine Katze verschwunden ist, zeigt die Sektion "Nicht mehr verfügbar" einen klaren Hinweistext (z.B. "Seit dem letzten Lauf sind keine Katzen verschwunden") statt zu fehlen oder leer zu wirken.
+- [x] **REPORT-01**: Im HTML-Report listet die Sektion "Nicht mehr verfügbar" ausschließlich Katzen, die zwischen dem unmittelbar vorigen und dem aktuellen Lauf vom Listing verschwunden sind (Delta — nicht die gesamte Historie).
+- [x] **REPORT-02**: Katzen, die in einem früheren Lauf bereits als verschwunden gemeldet wurden, sind danach aus `state/seen_cats.json` entfernt und tauchen in keinem zukünftigen Report mehr in der "Nicht mehr verfügbar"-Sektion auf — bis sie ggf. wieder neu auf dem Listing erscheinen.
+- [x] **REPORT-03**: Wenn beim aktuellen Lauf keine Katze verschwunden ist, zeigt die Sektion "Nicht mehr verfügbar" einen klaren Hinweistext (z.B. "Seit dem letzten Lauf sind keine Katzen verschwunden") statt zu fehlen oder leer zu wirken.
 
 ### Filter
 
@@ -43,9 +43,9 @@ Welche Phase deckt welche Anforderung ab.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REPORT-01 | Phase 1 | Pending |
-| REPORT-02 | Phase 1 | Pending |
-| REPORT-03 | Phase 1 | Pending |
+| REPORT-01 | Phase 1 | ✓ Validated (2026-05-06) |
+| REPORT-02 | Phase 1 | ✓ Validated (2026-05-06) |
+| REPORT-03 | Phase 1 | ✓ Validated (2026-05-06) |
 | FILTER-01 | Phase 2 | Pending |
 | FILTER-02 | Phase 2 | Pending |
 
@@ -56,4 +56,4 @@ Welche Phase deckt welche Anforderung ab.
 
 ---
 *Requirements defined: 2026-05-05*
-*Last updated: 2026-05-05 after roadmap creation*
+*Last updated: 2026-05-06 after Phase 1 completion (REPORT-01..03 validated)*
