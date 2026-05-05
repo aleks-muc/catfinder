@@ -331,11 +331,14 @@ def _build_filter_bar(age_min: int, age_max: int, has_unknown: bool) -> str:
 #sorgBtn.hidden{{background:#ffebee;border-color:#ef9a9a;color:#c62828;}}
 #fitBtn.active{{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32;}}
 #pairBtn.active{{background:#e3f2fd;border-color:#90caf9;color:#1565c0;}}
+#resetBtn{{background:transparent;border:none;padding:.4rem .25rem;color:#666;cursor:pointer;font-size:.85rem;}}
+#resetBtn:hover{{color:#1976d2;}}
 </style>
 <div id="filterBar" style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e0e0e0;padding:.9rem 1rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">{slider}
   <button id="fitBtn" class="active">🟢 Nur geeignet</button>
   <button id="pairBtn" class="active">🐱🐱 Nur Pärchen (aktiv)</button>
   <button id="sorgBtn" class="hidden">🔴 Sorgenkinder einblenden</button>
+  <button id="resetBtn" style="margin-left:auto;">↺ Filter zurücksetzen</button>
 </div>
 <script>
 (function(){{
