@@ -31,7 +31,7 @@ Sobald eine geeignete Katze neu auf der Seite auftaucht, weiß die Familie es oh
 - [x] **REPORT-DELTA**: "Nicht mehr verfügbar"-Sektion zeigt nur Katzen, die *seit dem letzten Lauf* verschwunden sind (Delta-Modus statt Vollhistorie) — validated in Phase 1 (REPORT-01)
 - [x] **REPORT-DELTA-PURGE**: Katzen, die in früheren Läufen verschwunden sind, werden komplett aus `state/seen_cats.json` entfernt — keine Zombie-Einträge — validated in Phase 1 (REPORT-02)
 - [x] **REPORT-DELTA-EMPTY**: Wenn beim aktuellen Lauf keine Katze verschwunden ist, zeigt die Sektion einen Hinweis ("Seit dem letzten Lauf sind keine Katzen verschwunden") statt zu fehlen oder leer zu wirken — validated in Phase 1 (REPORT-03)
-- [ ] **FILTER-RESET**: Button "Filter zurücksetzen" in der Filterleiste, der mit einem Klick alle aktiven Filter (Bewertungs-Buttons, Alters-Slider, Toggle-Buttons) auf den Default zurücksetzt
+- [x] **FILTER-RESET**: Button "Filter zurücksetzen" in der Filterleiste, der mit einem Klick alle aktiven Filter (Bewertungs-Buttons, Alters-Slider, Toggle-Buttons) auf den Default zurücksetzt — validated in Phase 2 (FILTER-01, FILTER-02)
 
 ### Out of Scope
 
@@ -66,7 +66,7 @@ Sobald eine geeignete Katze neu auf der Seite auftaucht, weiß die Familie es oh
 |----------|-----------|---------|
 | "Nicht mehr verfügbar" wird zu Delta-only-Sektion | Vollhistorie wuchs unbegrenzt und war im Report nicht informativ — relevant ist "wer ist *gerade jetzt* weg, den ich kenne?" | — Pending |
 | Verschwundene Einträge werden komplett aus dem State entfernt (kein Zeitfenster, kein Soft-Delete) | Einfachster Mechanismus, passt zum privaten Use-Case (kein Reporting / keine Statistik nötig); Wieder-Auftauchen wird neu bewertet — akzeptabel | — Pending |
-| "Filter zurücksetzen" sitzt zentral in der Filterleiste und resettet alle Filter zugleich | Schnellster Pfad zurück zur Übersicht; pro-Kategorie-Resets wären UI-Overkill für so wenige Filter | — Pending |
+| "Filter zurücksetzen" sitzt zentral in der Filterleiste und resettet alle Filter zugleich | Schnellster Pfad zurück zur Übersicht; pro-Kategorie-Resets wären UI-Overkill für so wenige Filter | ✓ Phase 2 — Button rechts in der Leiste (margin-left:auto), Link-Stil mit ↺-Icon, atomarer Reset via single update()-Call |
 | Single-file `catfinder.py` bleibt unangetastet (keine Modularisierung in diesem Milestone) | Scope-Schutz — Änderungen sind klein und lokal, Refactor wäre Selbstzweck | — Pending |
 
 ## Evolution
@@ -87,4 +87,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-06 after Phase 1 completion (Delta-Report + State-Purge live)*
+*Last updated: 2026-05-06 after Phase 2 completion (Filter-Reset-Button live; alle Active-Items des Milestones validated)*
