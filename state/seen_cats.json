@@ -164,6 +164,21 @@
     "reason": "Er eignet sich grundsätzlich für Familien mit Kindern, benötigt jedoch ein eher ruhiges Zuhause.",
     "sex": ""
   },
+  "256198": {
+    "age_hint": "Alter: 16 Jahre",
+    "breed": "",
+    "cat_id": "256198",
+    "companion_count": 0,
+    "first_seen": "2026-05-05T15:27:47",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/256198-1-134224576954760810.jpg",
+    "name": "FRAU SCHLONZ",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256198",
+    "rating": "aeltere_kinder",
+    "reason": "Sie eignet sich gut für Familien mit größeren, verantwortungsbewussten Kindern.",
+    "sex": ""
+  },
   "256201": {
     "age_hint": "Alter: 11 Jahre",
     "breed": "",
@@ -177,6 +192,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256201",
     "rating": "aeltere_kinder",
     "reason": "Größere Kinder ab etwa 16 Jahren könnten im Haushalt leben, sofern sie einen ruhigen und respektvollen Umgang mit Katzen kennen.",
+    "sex": ""
+  },
+  "256296": {
+    "age_hint": "Alter: 10 Jahre",
+    "breed": "",
+    "cat_id": "256296",
+    "companion_count": 0,
+    "first_seen": "2026-05-05T15:27:47",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/256296-1-134224572259651900.jpg",
+    "name": "SCROOGE",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256296",
+    "rating": "nicht_geeignet",
+    "reason": "Scrooge sucht ein entspanntes Zuhause ohne Kinder.",
     "sex": ""
   },
   "256389": {
@@ -374,6 +404,21 @@
     "reason": "Sie eignen sich gut für Familien mit Kindern und bringen viel Freude und Leben in den Alltag.",
     "sex": ""
   },
+  "260326": {
+    "age_hint": "Alter: 12 Jahre",
+    "breed": "",
+    "cat_id": "260326",
+    "companion_count": 0,
+    "first_seen": "2026-05-05T15:27:47",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260326-1-134224582982633067.jpg",
+    "name": "LUKE",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260326",
+    "rating": "aeltere_kinder",
+    "reason": "Luke eignet sich für Familien mit größeren Kindern, die Verständnis für seine anfängliche Zurückhaltung haben.",
+    "sex": ""
+  },
   "260352": {
     "age_hint": "3 Monate alt",
     "breed": "",
@@ -537,6 +582,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260520",
     "rating": "nicht_geeignet",
     "reason": "Kinder sollten nicht in seinem neuen Zuhause leben, damit er die nötige Ruhe bekommt.",
+    "sex": ""
+  },
+  "260542": {
+    "age_hint": "Alter: 6 Jahre",
+    "breed": "",
+    "cat_id": "260542",
+    "companion_count": 0,
+    "first_seen": "2026-05-05T15:27:47",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260542-1-134224581273814739.jpg",
+    "name": "SAMANTHA",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260542",
+    "rating": "aeltere_kinder",
+    "reason": "Sie eignet sich für Familien mit Kindern ab 15 Jahren, die verständnisvoll mit ihrer zurückhaltenden Art umgehen.",
     "sex": ""
   },
   "260550": {
@@ -1047,6 +1107,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261153",
     "rating": "nicht_geeignet",
     "reason": "sollte daher in ein ruhiges, stabiles Zuhause ohne Kinder vermittelt werden",
+    "sex": ""
+  },
+  "261479": {
+    "age_hint": "Alter: 8 Jahre",
+    "breed": "",
+    "cat_id": "261479",
+    "companion_count": 0,
+    "first_seen": "2026-05-05T15:27:47",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261479-1-134157955062570092.jpg",
+    "name": "BRAUNIE",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479",
+    "rating": "aeltere_kinder",
+    "reason": "Braunie kann sich in einer Familie mit Kindern ab 10 Jahren sehr wohlfühlen.",
     "sex": ""
   }
 }
