@@ -552,6 +552,7 @@ def render_report(
     listing_ages: dict[str, int | None] | None = None,
     still_known: list[tuple[Cat, CatRating]] | None = None,
     no_longer_listed: list[tuple[Cat, CatRating]] | None = None,
+    had_prior_state: bool = False,
 ) -> str:
     still_known = still_known or []
     no_longer_listed = no_longer_listed or []
@@ -653,6 +654,14 @@ def render_report(
       </div>
     </div>""")
         sect_gone = f'<section><h2 class="group">🚫 Nicht mehr verfügbar ({len(no_longer_listed)})</h2><div class="grid">{"".join(cards)}</div></section>'
+    elif had_prior_state:
+        # D-05/D-06/D-07: voriger State nicht-leer, aber nichts verschwunden — Empty-State-Hint mit bestehendem .empty-Pattern.
+        sect_gone = (
+            '<section><h2 class="group">🚫 Nicht mehr verfügbar (0)</h2>'
+            '<div class="empty">Seit dem letzten Lauf sind keine Katzen verschwunden. ✨</div>'
+            '</section>'
+        )
+    # else: had_prior_state == False (Erstlauf / --reset / Cold-Start) — sect_gone bleibt "" (D-07: Sektion komplett ausblenden).
 
     # Sektion 3 — weiterhin verfügbare Katzen (mit gespeicherter Ampelbewertung)
     sect2 = ""
