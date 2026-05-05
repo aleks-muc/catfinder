@@ -28,9 +28,9 @@ Sobald eine geeignete Katze neu auf der Seite auftaucht, weiß die Familie es oh
 
 <!-- Current milestone scope. -->
 
-- [ ] **REPORT-DELTA**: "Nicht mehr verfügbar"-Sektion zeigt nur Katzen, die *seit dem letzten Lauf* verschwunden sind (Delta-Modus statt Vollhistorie)
-- [ ] **REPORT-DELTA-PURGE**: Katzen, die in früheren Läufen verschwunden sind, werden komplett aus `state/seen_cats.json` entfernt — keine Zombie-Einträge
-- [ ] **REPORT-DELTA-EMPTY**: Wenn beim aktuellen Lauf keine Katze verschwunden ist, zeigt die Sektion einen Hinweis ("Seit dem letzten Lauf sind keine Katzen verschwunden") statt zu fehlen oder leer zu wirken
+- [x] **REPORT-DELTA**: "Nicht mehr verfügbar"-Sektion zeigt nur Katzen, die *seit dem letzten Lauf* verschwunden sind (Delta-Modus statt Vollhistorie) — validated in Phase 1 (REPORT-01)
+- [x] **REPORT-DELTA-PURGE**: Katzen, die in früheren Läufen verschwunden sind, werden komplett aus `state/seen_cats.json` entfernt — keine Zombie-Einträge — validated in Phase 1 (REPORT-02)
+- [x] **REPORT-DELTA-EMPTY**: Wenn beim aktuellen Lauf keine Katze verschwunden ist, zeigt die Sektion einen Hinweis ("Seit dem letzten Lauf sind keine Katzen verschwunden") statt zu fehlen oder leer zu wirken — validated in Phase 1 (REPORT-03)
 - [ ] **FILTER-RESET**: Button "Filter zurücksetzen" in der Filterleiste, der mit einem Klick alle aktiven Filter (Bewertungs-Buttons, Alters-Slider, Toggle-Buttons) auf den Default zurücksetzt
 
 ### Out of Scope
@@ -87,4 +87,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-05 after initialization*
+*Last updated: 2026-05-06 after Phase 1 completion (Delta-Report + State-Purge live)*
