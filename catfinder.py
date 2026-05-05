@@ -740,7 +740,8 @@ def main() -> int:
     print(f"  {len(cats)} Katzen gelistet.")
 
     state = load_state()
-    had_prior_state = bool(state)  # D-07: Erstlauf vs. regulärer Lauf — voriger State nicht-leer?
+    # voriger State nicht-leer und kein --all? Bei --all behandeln wir den Lauf als frisch (kein Delta-Hint).
+    had_prior_state = bool(state) and not args.all
     known_ids = set(state.keys())
 
     if args.all or not state:
