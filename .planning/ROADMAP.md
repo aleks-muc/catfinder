@@ -45,8 +45,11 @@ Plans:
   2. Nach beliebigen Filter-Interaktionen (Bewertungs-Button gewählt, Alters-Slider verschoben, Pärchen-/Interessenten-Toggle aktiv) setzt ein Klick auf "Filter zurücksetzen" alle Controls atomar auf den Default zurück.
   3. Unmittelbar nach dem Klick zeigt die Karten-Liste im Report den ungefilterten Zustand — d.h. dieselben Karten wie nach Erstaufruf der Seite, ohne Reload.
   4. Der Button-Klick verändert keinen Server-/State-Zustand — die Filter bleiben weiterhin rein session-lokal im Browser.
-**Plans:** TBD
+**Plans:** 1 plan
 **UI hint:** yes
+
+Plans:
+- [ ] 02-01-PLAN.md — Filter-Reset-Button (4 Sub-Edits in `_build_filter_bar`: DEFAULT_LO/DEFAULT_HI-JS-Injection, Reset-Button-HTML mit margin-left:auto, #resetBtn-CSS-Link-Style, Click-Handler mit atomarem update())
 
 ## Progress
 
