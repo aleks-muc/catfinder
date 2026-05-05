@@ -389,6 +389,18 @@ def _build_filter_bar(age_min: int, age_max: int, has_unknown: bool) -> str:
     sorgBtn.classList.toggle('hidden',!showSorg);
     filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
   }});
+  resetBtn.addEventListener('click',function(){{
+    showSorg=false;showOnlyFit=true;showOnlyPair=true;
+    if(minR)minR.value=DEFAULT_LO;
+    if(maxR)maxR.value=DEFAULT_HI;
+    fitBtn.textContent='🟢 Nur geeignet';
+    fitBtn.classList.add('active');
+    pairBtn.textContent='🐱🐱 Nur Pärchen (aktiv)';
+    pairBtn.classList.add('active');
+    sorgBtn.textContent='🔴 Sorgenkinder einblenden';
+    sorgBtn.classList.add('hidden');
+    update();
+  }});
   if(minR)minR.addEventListener('input',update);
   if(maxR)maxR.addEventListener('input',update);
   document.addEventListener('DOMContentLoaded',update);
