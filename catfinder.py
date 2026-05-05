@@ -342,8 +342,8 @@ def _build_filter_bar(age_min: int, age_max: int, has_unknown: bool) -> str:
   var minR=document.getElementById('ageMin'),maxR=document.getElementById('ageMax'),
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
       sorgBtn=document.getElementById('sorgBtn'),fitBtn=document.getElementById('fitBtn'),
-      pairBtn=document.getElementById('pairBtn');
-  var LO={age_min},HI={age_max},showSorg=false,showOnlyFit=true,showOnlyPair=true;
+      pairBtn=document.getElementById('pairBtn'),resetBtn=document.getElementById('resetBtn');
+  var LO={age_min},HI={age_max},DEFAULT_LO={default_lo},DEFAULT_HI={default_hi},showSorg=false,showOnlyFit=true,showOnlyPair=true;
   function fmt(m){{if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}}
   function pct(v){{return HI>LO?(v-LO)/(HI-LO)*100:0;}}
   function update(){{
