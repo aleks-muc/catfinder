@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Catfinder — 05.05.2026 15:27</title>
+<title>Catfinder — 06.05.2026 09:14</title>
 <style>
 * { box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; background: #fafafa; color: #222; }
@@ -36,7 +36,7 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
 <header>
   <h1>🐈 Catfinder — Tierschutzverein München</h1>
   <div class="stats">
-    Lauf vom 05.05.2026 15:27 · 43 Katzen gelistet · <strong>5 neu bewertet</strong> · <span id="visibleCount">5</span> angezeigt
+    Lauf vom 06.05.2026 09:14 · 42 Katzen gelistet · <strong>0 neu bewertet</strong> · <span id="visibleCount">0</span> angezeigt
   </div>
 </header>
 <main>
@@ -50,6 +50,8 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
 #sorgBtn.hidden{background:#ffebee;border-color:#ef9a9a;color:#c62828;}
 #fitBtn.active{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32;}
 #pairBtn.active{background:#e3f2fd;border-color:#90caf9;color:#1565c0;}
+#resetBtn{background:transparent;border:none;padding:.4rem .25rem;color:#666;cursor:pointer;font-size:.85rem;}
+#resetBtn:hover{color:#1976d2;}
 </style>
 <div id="filterBar" style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e0e0e0;padding:.9rem 1rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
   <div style="display:flex;flex-direction:column;gap:.5rem;flex:1;min-width:220px;max-width:420px;">
@@ -66,14 +68,15 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
   <button id="fitBtn" class="active">🟢 Nur geeignet</button>
   <button id="pairBtn" class="active">🐱🐱 Nur Pärchen (aktiv)</button>
   <button id="sorgBtn" class="hidden">🔴 Sorgenkinder einblenden</button>
+  <button id="resetBtn" style="margin-left:auto;">↺ Filter zurücksetzen</button>
 </div>
 <script>
 (function(){
   var minR=document.getElementById('ageMin'),maxR=document.getElementById('ageMax'),
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
       sorgBtn=document.getElementById('sorgBtn'),fitBtn=document.getElementById('fitBtn'),
-      pairBtn=document.getElementById('pairBtn');
-  var LO=3,HI=312,showSorg=false,showOnlyFit=true,showOnlyPair=true;
+      pairBtn=document.getElementById('pairBtn'),resetBtn=document.getElementById('resetBtn');
+  var LO=3,HI=312,DEFAULT_LO=36,DEFAULT_HI=144,showSorg=false,showOnlyFit=true,showOnlyPair=true;
   function fmt(m){if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}
   function pct(v){return HI>LO?(v-LO)/(HI-LO)*100:0;}
   function update(){
@@ -116,72 +119,24 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
     sorgBtn.classList.toggle('hidden',!showSorg);
     filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
   });
+  resetBtn.addEventListener('click',function(){
+    showSorg=false;showOnlyFit=true;showOnlyPair=true;
+    if(minR)minR.value=DEFAULT_LO;
+    if(maxR)maxR.value=DEFAULT_HI;
+    fitBtn.textContent='🟢 Nur geeignet';
+    fitBtn.classList.add('active');
+    pairBtn.textContent='🐱🐱 Nur Pärchen (aktiv)';
+    pairBtn.classList.add('active');
+    sorgBtn.textContent='🔴 Sorgenkinder einblenden';
+    sorgBtn.classList.add('hidden');
+    update();
+  });
   if(minR)minR.addEventListener('input',update);
   if(maxR)maxR.addEventListener('input',update);
   document.addEventListener('DOMContentLoaded',update);
 })();
 </script>
-<section><h2 class="group">✨ Neu seit letztem Lauf (5)</h2><div class="grid">
-    <div class="card" style="--accent: #f9a825;" data-age-months="96" data-rating="aeltere_kinder" data-companions="0">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261479-1-134157955062570092.jpg" alt="BRAUNIE" loading="lazy">
-      <div class="body">
-        <h2>BRAUNIE <span style="color:#999;font-weight:400;font-size:.85rem;">#261479</span></h2>
-        <div class="meta">8 Jahre</div>
-        
-        
-        <div class="rating">🟡 Nur ältere Kinder</div>
-        <div class="reason">Braunie kann sich in einer Familie mit Kindern ab 10 Jahren sehr wohlfühlen.</div>
-        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479" target="_blank" rel="noopener">Steckbrief öffnen →</a>
-      </div>
-    </div>
-    <div class="card" style="--accent: #f9a825;" data-age-months="192" data-rating="aeltere_kinder" data-companions="0">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/256198-1-134224576954760810.jpg" alt="FRAU SCHLONZ" loading="lazy">
-      <div class="body">
-        <h2>FRAU SCHLONZ <span style="color:#999;font-weight:400;font-size:.85rem;">#256198</span></h2>
-        <div class="meta">16 Jahre</div>
-        
-        
-        <div class="rating">🟡 Nur ältere Kinder</div>
-        <div class="reason">Sie eignet sich gut für Familien mit größeren, verantwortungsbewussten Kindern.</div>
-        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256198" target="_blank" rel="noopener">Steckbrief öffnen →</a>
-      </div>
-    </div>
-    <div class="card" style="--accent: #f9a825;" data-age-months="144" data-rating="aeltere_kinder" data-companions="0">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260326-1-134224582982633067.jpg" alt="LUKE" loading="lazy">
-      <div class="body">
-        <h2>LUKE <span style="color:#999;font-weight:400;font-size:.85rem;">#260326</span></h2>
-        <div class="meta">12 Jahre</div>
-        
-        
-        <div class="rating">🟡 Nur ältere Kinder</div>
-        <div class="reason">Luke eignet sich für Familien mit größeren Kindern, die Verständnis für seine anfängliche Zurückhaltung haben.</div>
-        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260326" target="_blank" rel="noopener">Steckbrief öffnen →</a>
-      </div>
-    </div>
-    <div class="card" style="--accent: #f9a825;" data-age-months="72" data-rating="aeltere_kinder" data-companions="0">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260542-1-134224581273814739.jpg" alt="SAMANTHA" loading="lazy">
-      <div class="body">
-        <h2>SAMANTHA <span style="color:#999;font-weight:400;font-size:.85rem;">#260542</span></h2>
-        <div class="meta">6 Jahre</div>
-        
-        
-        <div class="rating">🟡 Nur ältere Kinder</div>
-        <div class="reason">Sie eignet sich für Familien mit Kindern ab 15 Jahren, die verständnisvoll mit ihrer zurückhaltenden Art umgehen.</div>
-        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260542" target="_blank" rel="noopener">Steckbrief öffnen →</a>
-      </div>
-    </div>
-    <div class="card" style="--accent: #c62828;" data-age-months="120" data-rating="nicht_geeignet" data-companions="0">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/256296-1-134224572259651900.jpg" alt="SCROOGE" loading="lazy">
-      <div class="body">
-        <h2>SCROOGE <span style="color:#999;font-weight:400;font-size:.85rem;">#256296</span></h2>
-        <div class="meta">10 Jahre</div>
-        
-        
-        <div class="rating">🔴 Nicht für Kinder</div>
-        <div class="reason">Scrooge sucht ein entspanntes Zuhause ohne Kinder.</div>
-        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256296" target="_blank" rel="noopener">Steckbrief öffnen →</a>
-      </div>
-    </div></div></section><section><h2 class="group">🚫 Nicht mehr verfügbar (32)</h2><div class="grid">
+<section><h2 class="group">✨ Neu seit letztem Lauf (0)</h2><div class="empty">Keine neuen Katzen seit dem letzten Lauf. 🎉</div></section><section><h2 class="group">🚫 Nicht mehr verfügbar (33)</h2><div class="grid">
     <div class="card" style="--accent: #2e7d32; opacity: .6;" data-age-months="3" data-rating="geeignet" data-companions="2">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260352-1-134208002373987567.jpg" alt="ANGELINA" loading="lazy">
       <div class="body">
@@ -386,6 +341,18 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
         <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260616" target="_blank" rel="noopener" style="background:#9e9e9e;">Steckbrief öffnen →</a>
       </div>
     </div>
+    <div class="card" style="--accent: #f9a825; opacity: .6;" data-age-months="24" data-rating="aeltere_kinder" data-companions="0">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260778-1-134183213801829655.jpg" alt="DINERO" loading="lazy">
+      <div class="body">
+        <h2>DINERO <span style="color:#999;font-weight:400;font-size:.85rem;">#260778</span></h2>
+        <div class="meta">2 Jahre</div>
+        
+        
+        <div class="rating">🟡 Nur ältere Kinder</div>
+        <div class="reason">Für Familien mit größeren Kindern ist er gut geeignet, da er den Kontakt sucht und gerne am Alltag teilnimmt.</div>
+        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260778" target="_blank" rel="noopener" style="background:#9e9e9e;">Steckbrief öffnen →</a>
+      </div>
+    </div>
     <div class="card" style="--accent: #f9a825; opacity: .6;" data-age-months="12" data-rating="aeltere_kinder" data-companions="0">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260255-1-134194106322074962.jpg" alt="KLEIN BOBO" loading="lazy">
       <div class="body">
@@ -565,7 +532,7 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
         <div class="reason">Sie mag keine Kinder und sucht daher ein ruhiges Zuhause, in dem sie sich sicher fühlen kann.</div>
         <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260436" target="_blank" rel="noopener" style="background:#9e9e9e;">Steckbrief öffnen →</a>
       </div>
-    </div></div></section><section><h2 class="group">📋 Weiterhin verfügbar (38)</h2><div class="grid">
+    </div></div></section><section><h2 class="group">📋 Weiterhin verfügbar (42)</h2><div class="grid">
     <div class="card" style="--accent: #2e7d32;" data-age-months="192" data-rating="geeignet" data-companions="0">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/252021-1-134135641963643178.jpg" alt="CHURRI" loading="lazy">
       <div class="body">
@@ -686,6 +653,18 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
         <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260615" target="_blank" rel="noopener">Steckbrief öffnen →</a>
       </div>
     </div>
+    <div class="card" style="--accent: #f9a825;" data-age-months="96" data-rating="aeltere_kinder" data-companions="0">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261479-1-134157955062570092.jpg" alt="BRAUNIE" loading="lazy">
+      <div class="body">
+        <h2>BRAUNIE <span style="color:#999;font-weight:400;font-size:.85rem;">#261479</span></h2>
+        <div class="meta">8 Jahre</div>
+        
+        
+        <div class="rating">🟡 Nur ältere Kinder</div>
+        <div class="reason">Braunie kann sich in einer Familie mit Kindern ab 10 Jahren sehr wohlfühlen.</div>
+        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479" target="_blank" rel="noopener">Steckbrief öffnen →</a>
+      </div>
+    </div>
     <div class="card" style="--accent: #f9a825;" data-age-months="48" data-rating="aeltere_kinder" data-companions="0">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261040-1-134223734592227466.JPG" alt="CINDERELLA" loading="lazy">
       <div class="body">
@@ -698,18 +677,6 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
         <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261040" target="_blank" rel="noopener">Steckbrief öffnen →</a>
       </div>
     </div>
-    <div class="card" style="--accent: #f9a825;" data-age-months="24" data-rating="aeltere_kinder" data-companions="0">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260778-1-134219207642927922.jpg" alt="DINERO" loading="lazy">
-      <div class="body">
-        <h2>DINERO <span style="color:#999;font-weight:400;font-size:.85rem;">#260778</span></h2>
-        <div class="meta">2 Jahre</div>
-        
-        
-        <div class="rating">🟡 Nur ältere Kinder</div>
-        <div class="reason">Für Familien mit größeren Kindern ist er gut geeignet, da er den Kontakt sucht und gerne am Alltag teilnimmt.</div>
-        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260778" target="_blank" rel="noopener">Steckbrief öffnen →</a>
-      </div>
-    </div>
     <div class="card" style="--accent: #f9a825;" data-age-months="168" data-rating="aeltere_kinder" data-companions="0">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260707-1-134219230711816625.jpg" alt="FLORI" loading="lazy">
       <div class="body">
@@ -720,6 +687,18 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
         <div class="rating">🟡 Nur ältere Kinder</div>
         <div class="reason">Flori sucht idealerweise bei einer Familie mit größeren Kindern, die Verständnis für seine anfängliche Schüchternheit haben.</div>
         <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260707" target="_blank" rel="noopener">Steckbrief öffnen →</a>
+      </div>
+    </div>
+    <div class="card" style="--accent: #f9a825;" data-age-months="192" data-rating="aeltere_kinder" data-companions="0">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/256198-1-134224576954760810.jpg" alt="FRAU SCHLONZ" loading="lazy">
+      <div class="body">
+        <h2>FRAU SCHLONZ <span style="color:#999;font-weight:400;font-size:.85rem;">#256198</span></h2>
+        <div class="meta">16 Jahre</div>
+        
+        
+        <div class="rating">🟡 Nur ältere Kinder</div>
+        <div class="reason">Sie eignet sich gut für Familien mit größeren, verantwortungsbewussten Kindern.</div>
+        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256198" target="_blank" rel="noopener">Steckbrief öffnen →</a>
       </div>
     </div>
     <div class="card" style="--accent: #f9a825;" data-age-months="312" data-rating="aeltere_kinder" data-companions="0">
@@ -744,6 +723,18 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
         <div class="rating">🟡 Nur ältere Kinder</div>
         <div class="reason">Lilli kann zu Familien mit größeren, verständnisvollen Kindern vermittelt werden.</div>
         <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260550" target="_blank" rel="noopener">Steckbrief öffnen →</a>
+      </div>
+    </div>
+    <div class="card" style="--accent: #f9a825;" data-age-months="144" data-rating="aeltere_kinder" data-companions="0">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260326-1-134224582982633067.jpg" alt="LUKE" loading="lazy">
+      <div class="body">
+        <h2>LUKE <span style="color:#999;font-weight:400;font-size:.85rem;">#260326</span></h2>
+        <div class="meta">12 Jahre</div>
+        
+        
+        <div class="rating">🟡 Nur ältere Kinder</div>
+        <div class="reason">Luke eignet sich für Familien mit größeren Kindern, die Verständnis für seine anfängliche Zurückhaltung haben.</div>
+        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260326" target="_blank" rel="noopener">Steckbrief öffnen →</a>
       </div>
     </div>
     <div class="card" style="--accent: #f9a825;" data-age-months="192" data-rating="aeltere_kinder" data-companions="0">
@@ -804,6 +795,18 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
         <div class="rating">🟡 Nur ältere Kinder</div>
         <div class="reason">Ein Zuhause mit größeren Kindern ab etwa 15 Jahren ist möglich.</div>
         <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261095" target="_blank" rel="noopener">Steckbrief öffnen →</a>
+      </div>
+    </div>
+    <div class="card" style="--accent: #f9a825;" data-age-months="72" data-rating="aeltere_kinder" data-companions="0">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260542-1-134224581273814739.jpg" alt="SAMANTHA" loading="lazy">
+      <div class="body">
+        <h2>SAMANTHA <span style="color:#999;font-weight:400;font-size:.85rem;">#260542</span></h2>
+        <div class="meta">6 Jahre</div>
+        
+        
+        <div class="rating">🟡 Nur ältere Kinder</div>
+        <div class="reason">Sie eignet sich für Familien mit Kindern ab 15 Jahren, die verständnisvoll mit ihrer zurückhaltenden Art umgehen.</div>
+        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260542" target="_blank" rel="noopener">Steckbrief öffnen →</a>
       </div>
     </div>
     <div class="card" style="--accent: #c62828;" data-age-months="12" data-rating="nicht_geeignet" data-companions="2">
@@ -960,6 +963,18 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
         <div class="rating">🔴 Nicht für Kinder</div>
         <div class="reason">Für Schneckerl suchen wir ein ruhiges Zuhause ohne Kinder, da sie mit Trubel und Unruhe nicht gut zurechtkommt.</div>
         <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260884" target="_blank" rel="noopener">Steckbrief öffnen →</a>
+      </div>
+    </div>
+    <div class="card" style="--accent: #c62828;" data-age-months="120" data-rating="nicht_geeignet" data-companions="0">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/256296-1-134224572259651900.jpg" alt="SCROOGE" loading="lazy">
+      <div class="body">
+        <h2>SCROOGE <span style="color:#999;font-weight:400;font-size:.85rem;">#256296</span></h2>
+        <div class="meta">10 Jahre</div>
+        
+        
+        <div class="rating">🔴 Nicht für Kinder</div>
+        <div class="reason">Scrooge sucht ein entspanntes Zuhause ohne Kinder.</div>
+        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256296" target="_blank" rel="noopener">Steckbrief öffnen →</a>
       </div>
     </div>
     <div class="card" style="--accent: #c62828;" data-age-months="48" data-rating="nicht_geeignet" data-companions="0">
