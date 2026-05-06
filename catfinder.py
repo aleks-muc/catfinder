@@ -338,7 +338,7 @@ def _build_filter_bar(age_min: int, age_max: int, has_unknown: bool) -> str:
   <button id="fitBtn" class="active">🟢 Nur geeignet</button>
   <button id="pairBtn" class="active">🐱🐱 Nur Pärchen (aktiv)</button>
   <button id="sorgBtn" class="hidden">🔴 Sorgenkinder einblenden</button>
-  <button id="resetBtn" style="margin-left:auto;">↺ Filter zurücksetzen</button>
+  <button id="resetBtn" style="margin-left:auto;">🌐 Alle Katzen zeigen</button>
 </div>
 <script>
 (function(){{
@@ -346,7 +346,7 @@ def _build_filter_bar(age_min: int, age_max: int, has_unknown: bool) -> str:
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
       sorgBtn=document.getElementById('sorgBtn'),fitBtn=document.getElementById('fitBtn'),
       pairBtn=document.getElementById('pairBtn'),resetBtn=document.getElementById('resetBtn');
-  var LO={age_min},HI={age_max},DEFAULT_LO={default_lo},DEFAULT_HI={default_hi},showSorg=false,showOnlyFit=true,showOnlyPair=true;
+  var LO={age_min},HI={age_max},showSorg=false,showOnlyFit=true,showOnlyPair=true;
   function fmt(m){{if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}}
   function pct(v){{return HI>LO?(v-LO)/(HI-LO)*100:0;}}
   function update(){{
@@ -390,15 +390,15 @@ def _build_filter_bar(age_min: int, age_max: int, has_unknown: bool) -> str:
     filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
   }});
   resetBtn.addEventListener('click',function(){{
-    showSorg=false;showOnlyFit=true;showOnlyPair=true;
-    if(minR)minR.value=DEFAULT_LO;
-    if(maxR)maxR.value=DEFAULT_HI;
+    showSorg=true;showOnlyFit=false;showOnlyPair=false;
+    if(minR)minR.value=LO;
+    if(maxR)maxR.value=HI;
     fitBtn.textContent='🟢 Nur geeignet';
-    fitBtn.classList.add('active');
-    pairBtn.textContent='🐱🐱 Nur Pärchen (aktiv)';
-    pairBtn.classList.add('active');
-    sorgBtn.textContent='🔴 Sorgenkinder einblenden';
-    sorgBtn.classList.add('hidden');
+    fitBtn.classList.remove('active');
+    pairBtn.textContent='🐱🐱 Nur Pärchen';
+    pairBtn.classList.remove('active');
+    sorgBtn.textContent='🔴 Sorgenkinder ausblenden';
+    sorgBtn.classList.remove('hidden');
     update();
   }});
   if(minR)minR.addEventListener('input',update);
