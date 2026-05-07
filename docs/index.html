@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Catfinder — 06.05.2026 15:56</title>
+<title>Catfinder — 07.05.2026 09:23</title>
 <style>
 * { box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; background: #fafafa; color: #222; }
@@ -36,7 +36,7 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
 <header>
   <h1>🐈 Catfinder — Tierschutzverein München</h1>
   <div class="stats">
-    Lauf vom 06.05.2026 15:56 · 39 Katzen gelistet · <strong>0 neu bewertet</strong> · <span id="visibleCount">0</span> angezeigt
+    Lauf vom 07.05.2026 09:23 · 39 Katzen gelistet · <strong>0 neu bewertet</strong> · <span id="visibleCount">0</span> angezeigt
   </div>
 </header>
 <main>
@@ -68,7 +68,7 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
   <button id="fitBtn" class="active">🟢 Nur geeignet</button>
   <button id="pairBtn" class="active">🐱🐱 Nur Pärchen (aktiv)</button>
   <button id="sorgBtn" class="hidden">🔴 Sorgenkinder einblenden</button>
-  <button id="resetBtn" style="margin-left:auto;">↺ Filter zurücksetzen</button>
+  <button id="resetBtn" style="margin-left:auto;">🌐 Alle Katzen zeigen</button>
 </div>
 <script>
 (function(){
@@ -76,7 +76,7 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
       sorgBtn=document.getElementById('sorgBtn'),fitBtn=document.getElementById('fitBtn'),
       pairBtn=document.getElementById('pairBtn'),resetBtn=document.getElementById('resetBtn');
-  var LO=9,HI=312,DEFAULT_LO=36,DEFAULT_HI=144,showSorg=false,showOnlyFit=true,showOnlyPair=true;
+  var LO=9,HI=312,showSorg=false,showOnlyFit=true,showOnlyPair=true;
   function fmt(m){if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}
   function pct(v){return HI>LO?(v-LO)/(HI-LO)*100:0;}
   function update(){
@@ -120,15 +120,15 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
     filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
   });
   resetBtn.addEventListener('click',function(){
-    showSorg=false;showOnlyFit=true;showOnlyPair=true;
-    if(minR)minR.value=DEFAULT_LO;
-    if(maxR)maxR.value=DEFAULT_HI;
+    showSorg=true;showOnlyFit=false;showOnlyPair=false;
+    if(minR)minR.value=LO;
+    if(maxR)maxR.value=HI;
     fitBtn.textContent='🟢 Nur geeignet';
-    fitBtn.classList.add('active');
-    pairBtn.textContent='🐱🐱 Nur Pärchen (aktiv)';
-    pairBtn.classList.add('active');
-    sorgBtn.textContent='🔴 Sorgenkinder einblenden';
-    sorgBtn.classList.add('hidden');
+    fitBtn.classList.remove('active');
+    pairBtn.textContent='🐱🐱 Nur Pärchen';
+    pairBtn.classList.remove('active');
+    sorgBtn.textContent='🔴 Sorgenkinder ausblenden';
+    sorgBtn.classList.remove('hidden');
     update();
   });
   if(minR)minR.addEventListener('input',update);
@@ -136,43 +136,7 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
   document.addEventListener('DOMContentLoaded',update);
 })();
 </script>
-<section><h2 class="group">✨ Neu seit letztem Lauf (0)</h2><div class="empty">Keine neuen Katzen seit dem letzten Lauf. 🎉</div></section><section><h2 class="group">🚫 Nicht mehr verfügbar (3)</h2><div class="grid">
-    <div class="card" style="--accent: #2e7d32; opacity: .6;" data-age-months="36" data-rating="geeignet" data-companions="0">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260981-1-134208119355292431.JPG" alt="PERIFEE" loading="lazy">
-      <div class="body">
-        <h2>PERIFEE <span style="color:#999;font-weight:400;font-size:.85rem;">#260981</span></h2>
-        <div class="meta">3 Jahre</div>
-        
-        
-        <div class="rating">🟢 Kinder geeignet</div>
-        <div class="reason">Sie eignen sich sehr gut für Familien mit Kindern und bringen viel Freude, Nähe und Leben ins Haus.</div>
-        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260981" target="_blank" rel="noopener" style="background:#9e9e9e;">Steckbrief öffnen →</a>
-      </div>
-    </div>
-    <div class="card" style="--accent: #2e7d32; opacity: .6;" data-age-months="48" data-rating="geeignet" data-companions="0">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260980-1-134208044165152331.JPG" alt="PONPON" loading="lazy">
-      <div class="body">
-        <h2>PONPON <span style="color:#999;font-weight:400;font-size:.85rem;">#260980</span></h2>
-        <div class="meta">4 Jahre</div>
-        
-        
-        <div class="rating">🟢 Kinder geeignet</div>
-        <div class="reason">Sie eignen sich sehr gut für Familien mit Kindern und bringen viel Freude, Nähe und Leben ins Haus.</div>
-        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260980" target="_blank" rel="noopener" style="background:#9e9e9e;">Steckbrief öffnen →</a>
-      </div>
-    </div>
-    <div class="card" style="--accent: #2e7d32; opacity: .6;" data-age-months="24" data-rating="geeignet" data-companions="0">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260979-1-134208118844161217.JPG" alt="SNOWY" loading="lazy">
-      <div class="body">
-        <h2>SNOWY <span style="color:#999;font-weight:400;font-size:.85rem;">#260979</span></h2>
-        <div class="meta">2 Jahre</div>
-        
-        
-        <div class="rating">🟢 Kinder geeignet</div>
-        <div class="reason">Sie eignen sich sehr gut für Familien mit Kindern und bringen viel Freude, Nähe und Leben ins Haus.</div>
-        <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260979" target="_blank" rel="noopener" style="background:#9e9e9e;">Steckbrief öffnen →</a>
-      </div>
-    </div></div></section><section><h2 class="group">📋 Weiterhin verfügbar (39)</h2><div class="grid">
+<section><h2 class="group">✨ Neu seit letztem Lauf (0)</h2><div class="empty">Keine neuen Katzen seit dem letzten Lauf. 🎉</div></section><section><h2 class="group">🚫 Nicht mehr verfügbar (0)</h2><div class="empty">Seit dem letzten Lauf sind keine Katzen verschwunden. ✨</div></section><section><h2 class="group">📋 Weiterhin verfügbar (39)</h2><div class="grid">
     <div class="card" style="--accent: #2e7d32;" data-age-months="192" data-rating="geeignet" data-companions="0">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/252021-1-134135641963643178.jpg" alt="CHURRI" loading="lazy">
       <div class="body">
@@ -305,11 +269,11 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
         <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256198" target="_blank" rel="noopener">Steckbrief öffnen →</a>
       </div>
     </div>
-    <div class="card" style="--accent: #f9a825;" data-age-months="312" data-rating="aeltere_kinder" data-companions="0">
+    <div class="card" style="--accent: #f9a825;" data-age-months="120" data-rating="aeltere_kinder" data-companions="0">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260917-1-134220163969027555.JPG" alt="HOUDINI" loading="lazy">
       <div class="body">
         <h2>HOUDINI <span style="color:#999;font-weight:400;font-size:.85rem;">#260917</span></h2>
-        <div class="meta">26 Jahre</div>
+        <div class="meta">10 Jahre</div>
         
         
         <div class="rating">🟡 Nur ältere Kinder</div>
@@ -533,11 +497,11 @@ section h2.group { font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd
         <a class="btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/255223" target="_blank" rel="noopener">Steckbrief öffnen →</a>
       </div>
     </div>
-    <div class="card" style="--accent: #c62828;" data-age-months="312" data-rating="nicht_geeignet" data-companions="0">
+    <div class="card" style="--accent: #c62828;" data-age-months="24" data-rating="nicht_geeignet" data-companions="0">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261153-1-134207282528579868.jpg" alt="RIGOLETTO" loading="lazy">
       <div class="body">
         <h2>RIGOLETTO <span style="color:#999;font-weight:400;font-size:.85rem;">#261153</span></h2>
-        <div class="meta">26 Jahre</div>
+        <div class="meta">2 Jahre</div>
         
         
         <div class="rating">🔴 Nicht für Kinder</div>
