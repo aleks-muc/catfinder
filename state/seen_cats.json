@@ -209,6 +209,36 @@
     "reason": "Mila benötigt ein sehr ruhiges und strukturiertes Zuhause ohne Kinder.",
     "sex": ""
   },
+  "260234": {
+    "age_hint": "Alter: 11 Jahre",
+    "breed": "",
+    "cat_id": "260234",
+    "companion_count": 2,
+    "first_seen": "2026-05-09T14:42:05",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260234-1-134202848517102329.JPG",
+    "name": "SVEN",
+    "partner_name": "PEACHIE",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260234",
+    "rating": "aeltere_kinder",
+    "reason": "Die beiden sind familiengeeignet, sodass auch Kinder im Haushalt leben können, sofern ein respektvoller Umgang mit den Tieren gewährleistet ist.",
+    "sex": ""
+  },
+  "260235": {
+    "age_hint": "9 Jahre alt",
+    "breed": "",
+    "cat_id": "260235",
+    "companion_count": 2,
+    "first_seen": "2026-05-09T14:42:05",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260235-1-134202855797144347.jpg",
+    "name": "PEACHIE",
+    "partner_name": "SVEN",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260235",
+    "rating": "aeltere_kinder",
+    "reason": "Die beiden sind familiengeeignet, sodass auch Kinder im Haushalt leben können, sofern ein respektvoller Umgang mit den Tieren gewährleistet ist.",
+    "sex": ""
+  },
   "260324": {
     "age_hint": "Alter: 11 Jahre",
     "breed": "",
@@ -252,21 +282,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260359",
     "rating": "geeignet",
     "reason": "Für Mimo wünschen wir uns ein liebevolles Zuhause gerne auch bei einer Familie mit Kindern.",
-    "sex": ""
-  },
-  "260504": {
-    "age_hint": "Alter: 9 Monate",
-    "breed": "",
-    "cat_id": "260504",
-    "companion_count": 0,
-    "first_seen": "2026-04-18T21:57:23",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260504-1-134187306493505763.jpg",
-    "name": "PUDDING",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260504",
-    "rating": "aeltere_kinder",
-    "reason": "Besonders gut eignet sie sich für Familien mit bereits größeren ruhigen Kindern die ihr die Zeit geben in ihrem eigenen Tempo anzukommen.",
     "sex": ""
   },
   "260519": {
@@ -432,21 +447,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260757",
     "rating": "aeltere_kinder",
     "reason": "Sie eignet sich gut für Familien mit Kindern ab 13 Jahren, da sie zwar sehr zutraulich und verschmust ist, aber auch ein lebhaftes und verspieltes Wesen hat.",
-    "sex": ""
-  },
-  "260843": {
-    "age_hint": "1 Jahr alt",
-    "breed": "",
-    "cat_id": "260843",
-    "companion_count": 0,
-    "first_seen": "2026-05-04T15:53:56",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260843-1-134223731406288341.jpg",
-    "name": "MAUSI",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260843",
-    "rating": "aeltere_kinder",
-    "reason": "Für sie wünschen wir uns eine Familie mit Kindern ab etwa 6 Jahren, die Freude daran hat, sich intensiv mit ihr zu beschäftigen.",
     "sex": ""
   },
   "260878": {
