@@ -179,21 +179,6 @@
     "reason": "Die beiden eignen sich für Familien mit Kindern ab 10 Jahren, die den respektvollen Umgang mit Tieren kennen und verstehen.",
     "sex": ""
   },
-  "260113": {
-    "age_hint": "1 Jahr alt",
-    "breed": "",
-    "cat_id": "260113",
-    "companion_count": 0,
-    "first_seen": "2026-04-18T21:57:23",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260113-1-134157253461613321.jpg",
-    "name": "MILA",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260113",
-    "rating": "nicht_geeignet",
-    "reason": "Mila benötigt ein sehr ruhiges und strukturiertes Zuhause ohne Kinder.",
-    "sex": ""
-  },
   "260234": {
     "age_hint": "Alter: 11 Jahre",
     "breed": "",
@@ -282,21 +267,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260520",
     "rating": "nicht_geeignet",
     "reason": "Kinder sollten nicht in seinem neuen Zuhause leben, damit er die nötige Ruhe bekommt.",
-    "sex": ""
-  },
-  "260542": {
-    "age_hint": "Alter: 6 Jahre",
-    "breed": "",
-    "cat_id": "260542",
-    "companion_count": 0,
-    "first_seen": "2026-05-05T15:27:47",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260542-1-134224581273814739.jpg",
-    "name": "SAMANTHA",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260542",
-    "rating": "aeltere_kinder",
-    "reason": "Sie eignet sich für Familien mit Kindern ab 15 Jahren, die verständnisvoll mit ihrer zurückhaltenden Art umgehen.",
     "sex": ""
   },
   "260550": {
