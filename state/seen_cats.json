@@ -314,36 +314,6 @@
     "reason": "Für Susi suchen wir ein ruhiges Zuhause ohne Kinder bei Menschen, die ihre klare Kommunikation verstehen und respektieren.",
     "sex": ""
   },
-  "260682": {
-    "age_hint": "Alter: 4 Jahre",
-    "breed": "",
-    "cat_id": "260682",
-    "companion_count": 2,
-    "first_seen": "2026-05-15T15:54:31",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260682-1-134233272488289754.jpg",
-    "name": "HANSI",
-    "partner_name": "NANNI",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260682",
-    "rating": "aeltere_kinder",
-    "reason": "Die beiden eignen sich für ruhige Familien mit verständnisvollen Kindern ab 12 Jahren.",
-    "sex": ""
-  },
-  "260683": {
-    "age_hint": "4 Monate alt",
-    "breed": "",
-    "cat_id": "260683",
-    "companion_count": 2,
-    "first_seen": "2026-05-15T15:54:31",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260683-1-134233273209187085.jpg",
-    "name": "NANNI",
-    "partner_name": "HANSI",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260683",
-    "rating": "aeltere_kinder",
-    "reason": "Die beiden eignen sich für ruhige Familien mit verständnisvollen Kindern ab 12 Jahren.",
-    "sex": ""
-  },
   "260700": {
     "age_hint": "Alter: 5 Jahre",
     "breed": "",
