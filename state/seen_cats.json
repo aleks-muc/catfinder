@@ -134,21 +134,6 @@
     "reason": "Die beiden eignen sich für Familien mit Kindern ab 10 Jahren, die den respektvollen Umgang mit Tieren kennen und verstehen.",
     "sex": ""
   },
-  "256198": {
-    "age_hint": "Alter: 16 Jahre",
-    "breed": "",
-    "cat_id": "256198",
-    "companion_count": 0,
-    "first_seen": "2026-05-05T15:27:47",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/256198-1-134224576954760810.jpg",
-    "name": "FRAU SCHLONZ",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256198",
-    "rating": "aeltere_kinder",
-    "reason": "Sie eignet sich gut für Familien mit größeren, verantwortungsbewussten Kindern.",
-    "sex": ""
-  },
   "256296": {
     "age_hint": "Alter: 10 Jahre",
     "breed": "",
@@ -252,21 +237,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260519",
     "rating": "nicht_geeignet",
     "reason": "Sassi sucht ein ruhiges Zuhause ohne Kinder, da sie bisher nur wenig Erfahrung mit Menschen hat und sich sehr unsicher und ängstlich zeigt.",
-    "sex": ""
-  },
-  "260520": {
-    "age_hint": "Alter: 2 Jahre",
-    "breed": "",
-    "cat_id": "260520",
-    "companion_count": 0,
-    "first_seen": "2026-04-18T21:57:23",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260520-1-134194223059978693.jpg",
-    "name": "MAMPFBERT",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260520",
-    "rating": "nicht_geeignet",
-    "reason": "Kinder sollten nicht in seinem neuen Zuhause leben, damit er die nötige Ruhe bekommt.",
     "sex": ""
   },
   "260550": {
@@ -492,36 +462,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260955",
     "rating": "nicht_geeignet",
     "reason": "Mimika braucht ein ruhiges Zuhause ohne Kinder.",
-    "sex": ""
-  },
-  "261087": {
-    "age_hint": "5 Jahre alt",
-    "breed": "",
-    "cat_id": "261087",
-    "companion_count": 0,
-    "first_seen": "2026-05-08T15:13:04",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261087-1-134227242963940337.jpg",
-    "name": "EDDIE",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261087",
-    "rating": "aeltere_kinder",
-    "reason": "Er eignet sich gut für Familien mit größeren Kindern ab 14 Jahren, da er anfangs etwas schüchtern sein kann und Zeit braucht, um Vertrauen zu fassen.",
-    "sex": ""
-  },
-  "261095": {
-    "age_hint": "26 Jahre alt",
-    "breed": "",
-    "cat_id": "261095",
-    "companion_count": 0,
-    "first_seen": "2026-04-30T14:13:22",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261095-1-134220162507882237.JPG",
-    "name": "RICKY",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261095",
-    "rating": "aeltere_kinder",
-    "reason": "Ein Zuhause mit größeren Kindern ab etwa 15 Jahren ist möglich.",
     "sex": ""
   },
   "261153": {
