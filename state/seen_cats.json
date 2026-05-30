@@ -284,21 +284,6 @@
     "reason": "Für Susi suchen wir ein ruhiges Zuhause ohne Kinder bei Menschen, die ihre klare Kommunikation verstehen und respektieren.",
     "sex": ""
   },
-  "260700": {
-    "age_hint": "Alter: 5 Jahre",
-    "breed": "",
-    "cat_id": "260700",
-    "companion_count": 0,
-    "first_seen": "2026-04-21T15:03:30",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260700-1-134211438947226944.JPG",
-    "name": "BALOU",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260700",
-    "rating": "unbekannt",
-    "reason": "Bewertungsfehler: Error code: 401 - {'type': 'error', 'error': {'type': 'authentication_error', 'message': 'invalid x-api-key'}, 'request_id': 'req_011CaH7vxmb6EDwfWQTT9dii'}",
-    "sex": ""
-  },
   "260723": {
     "age_hint": "Alter: 1 Jahre",
     "breed": "",
@@ -462,36 +447,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260955",
     "rating": "nicht_geeignet",
     "reason": "Mimika braucht ein ruhiges Zuhause ohne Kinder.",
-    "sex": ""
-  },
-  "261153": {
-    "age_hint": "26 Jahre alt",
-    "breed": "",
-    "cat_id": "261153",
-    "companion_count": 0,
-    "first_seen": "2026-05-04T15:53:56",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261153-1-134207282528579868.jpg",
-    "name": "RIGOLETTO",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261153",
-    "rating": "nicht_geeignet",
-    "reason": "sollte daher in ein ruhiges, stabiles Zuhause ohne Kinder vermittelt werden",
-    "sex": ""
-  },
-  "261397": {
-    "age_hint": "Alter: 8 Jahre",
-    "breed": "",
-    "cat_id": "261397",
-    "companion_count": 0,
-    "first_seen": "2026-05-23T14:52:52",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261397-1-134229830610032107.JPG",
-    "name": "HARI",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261397",
-    "rating": "geeignet",
-    "reason": "Sie ist familiengeeignet und kann auch zu Kindern vermittelt werden.",
     "sex": ""
   },
   "261479": {
