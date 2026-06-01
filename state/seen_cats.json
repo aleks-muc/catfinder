@@ -239,21 +239,6 @@
     "reason": "Sassi sucht ein ruhiges Zuhause ohne Kinder, da sie bisher nur wenig Erfahrung mit Menschen hat und sich sehr unsicher und ängstlich zeigt.",
     "sex": ""
   },
-  "260556": {
-    "age_hint": "Alter: 2 Jahre",
-    "breed": "",
-    "cat_id": "260556",
-    "companion_count": 0,
-    "first_seen": "2026-04-18T21:57:23",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260556-1-134203702190818884.jpeg",
-    "name": "MINKA",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260556",
-    "rating": "aeltere_kinder",
-    "reason": "Minka kann zu Familien mit größeren, verständnisvollen Kindern vermittelt werden.",
-    "sex": ""
-  },
   "260680": {
     "age_hint": "6 Jahre alt",
     "breed": "",
@@ -267,6 +252,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260680",
     "rating": "nicht_geeignet",
     "reason": "Für Susi suchen wir ein ruhiges Zuhause ohne Kinder bei Menschen, die ihre klare Kommunikation verstehen und respektieren.",
+    "sex": ""
+  },
+  "260684": {
+    "age_hint": "1 Jahr alt",
+    "breed": "",
+    "cat_id": "260684",
+    "companion_count": 0,
+    "first_seen": "2026-06-01T12:26:30",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260684-1-134236557779290298.jpg",
+    "name": "MIMI",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260684",
+    "rating": "aeltere_kinder",
+    "reason": "Für Mimi wird ein Zuhause mit größeren Kindern gewünscht, die bereits verstehen, wie man respektvoll mit einer Katze umgeht.",
     "sex": ""
   },
   "260723": {
