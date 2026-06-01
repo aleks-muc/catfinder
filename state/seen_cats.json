@@ -329,6 +329,36 @@
     "reason": "Sie eignet sich gut für Familien mit Kindern ab 13 Jahren, da sie zwar sehr zutraulich und verschmust ist, aber auch ein lebhaftes und verspieltes Wesen hat.",
     "sex": ""
   },
+  "260758": {
+    "age_hint": "Alter: 5 Jahre",
+    "breed": "",
+    "cat_id": "260758",
+    "companion_count": 2,
+    "first_seen": "2026-06-01T19:15:10",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260758-2-134191706526351482.jpg",
+    "name": "CALZIFER",
+    "partner_name": "PONYO",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260758",
+    "rating": "aeltere_kinder",
+    "reason": "Sie eignen sich gut für Familien mit größeren Kindern, die den respektvollen Umgang mit Katzen kennen.",
+    "sex": ""
+  },
+  "260760": {
+    "age_hint": "Alter: 5 Jahre",
+    "breed": "",
+    "cat_id": "260760",
+    "companion_count": 2,
+    "first_seen": "2026-06-01T19:15:10",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260760-2-134191698438234259.jpg",
+    "name": "PONYO",
+    "partner_name": "CALZIFER",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260760",
+    "rating": "aeltere_kinder",
+    "reason": "Sie eignen sich gut für Familien mit größeren Kindern, die den respektvollen Umgang mit Katzen kennen.",
+    "sex": ""
+  },
   "260841": {
     "age_hint": "2 Monate alt",
     "breed": "",
@@ -387,21 +417,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260884",
     "rating": "nicht_geeignet",
     "reason": "Für Schneckerl suchen wir ein ruhiges Zuhause ohne Kinder, da sie mit Trubel und Unruhe nicht gut zurechtkommt.",
-    "sex": ""
-  },
-  "260917": {
-    "age_hint": "26 Jahre alt",
-    "breed": "",
-    "cat_id": "260917",
-    "companion_count": 0,
-    "first_seen": "2026-04-30T14:13:22",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260917-1-134220163969027555.JPG",
-    "name": "HOUDINI",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260917",
-    "rating": "aeltere_kinder",
-    "reason": "Für Houdini suchen wir ein ruhiges Zuhause mit verständnisvollen und katzenerfahrenen Menschen sowie größeren Kindern ab etwa 15 Jahren.",
     "sex": ""
   },
   "260935": {
