@@ -404,6 +404,21 @@
     "reason": "Für Schneckerl suchen wir ein ruhiges Zuhause ohne Kinder, da sie mit Trubel und Unruhe nicht gut zurechtkommt.",
     "sex": ""
   },
+  "260919": {
+    "age_hint": "Alter: 7 Monate",
+    "breed": "",
+    "cat_id": "260919",
+    "companion_count": 2,
+    "first_seen": "2026-06-03T11:49:03",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260919-1-134248839975085796.JPG",
+    "name": "BENNI",
+    "partner_name": "NORA",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260919",
+    "rating": "aeltere_kinder",
+    "reason": "Die beiden eignen sich gut für Familien mit Kindern ab 10 Jahren, die den respektvollen Umgang mit Tieren kennen.",
+    "sex": ""
+  },
   "260921": {
     "age_hint": "4 Jahre alt",
     "breed": "",
@@ -417,6 +432,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260921",
     "rating": "aeltere_kinder",
     "reason": "Für Batman wird ein ruhiges Zuhause bei einer Familie mit größeren Kindern oder bei einfühlsamen Erwachsenen gesucht.",
+    "sex": ""
+  },
+  "260922": {
+    "age_hint": "Alter: 7 Monate",
+    "breed": "",
+    "cat_id": "260922",
+    "companion_count": 2,
+    "first_seen": "2026-06-03T11:49:03",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260922-1-134248841123267244.JPG",
+    "name": "NORA",
+    "partner_name": "BENNI",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260922",
+    "rating": "aeltere_kinder",
+    "reason": "Die beiden eignen sich gut für Familien mit Kindern ab 10 Jahren, die den respektvollen Umgang mit Tieren kennen.",
     "sex": ""
   },
   "260935": {
@@ -462,6 +492,36 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479",
     "rating": "aeltere_kinder",
     "reason": "Braunie kann sich in einer Familie mit Kindern ab 10 Jahren sehr wohlfühlen.",
+    "sex": ""
+  },
+  "261628": {
+    "age_hint": "Alter: 2 Jahre",
+    "breed": "",
+    "cat_id": "261628",
+    "companion_count": 0,
+    "first_seen": "2026-06-03T11:49:03",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261628-1-134248831959925090.JPG",
+    "name": "PABLO",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261628",
+    "rating": "aeltere_kinder",
+    "reason": "Pablo ist für Familien mit größeren Kindern ab 12 Jahren geeignet, sofern diese einen ruhigen und respektvollen Umgang mit Katzen kennen.",
+    "sex": ""
+  },
+  "261644": {
+    "age_hint": "Alter: 5 Jahre",
+    "breed": "",
+    "cat_id": "261644",
+    "companion_count": 0,
+    "first_seen": "2026-06-03T11:49:03",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261644-1-134248832399257047.JPG",
+    "name": "PABLINA",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261644",
+    "rating": "nicht_geeignet",
+    "reason": "Pablina sucht ein ruhiges Zuhause ohne Kinder, in dem man ihr die nötige Zeit gibt, anzukommen.",
     "sex": ""
   }
 }
