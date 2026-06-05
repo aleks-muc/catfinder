@@ -269,36 +269,6 @@
     "reason": "Er ist geeignet für Familien mit sehr ruhigen Kindern ab 14 Jahren, sofern diese Katzenerfahrung haben.",
     "sex": ""
   },
-  "260754": {
-    "age_hint": "9 Jahre alt",
-    "breed": "",
-    "cat_id": "260754",
-    "companion_count": 2,
-    "first_seen": "2026-05-15T15:54:31",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260754-1-134233270010224517.jpg",
-    "name": "LILLI",
-    "partner_name": "CHARLY",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260754",
-    "rating": "aeltere_kinder",
-    "reason": "Sie eignen sich für Familien mit größeren Kindern, die respektvoll mit den beiden umgehen können.",
-    "sex": ""
-  },
-  "260755": {
-    "age_hint": "6 Jahre alt",
-    "breed": "",
-    "cat_id": "260755",
-    "companion_count": 2,
-    "first_seen": "2026-05-15T15:54:31",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260755-1-134233269466685106.jpg",
-    "name": "CHARLY",
-    "partner_name": "LILLI",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260755",
-    "rating": "aeltere_kinder",
-    "reason": "Sie eignen sich für Familien mit größeren Kindern, die respektvoll mit den beiden umgehen können.",
-    "sex": ""
-  },
   "260757": {
     "age_hint": "Alter: 4 Jahre",
     "breed": "",
@@ -462,21 +432,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260935",
     "rating": "nicht_geeignet",
     "reason": "Hubsi benötigt ein ruhiges Zuhause ohne Kinder.",
-    "sex": ""
-  },
-  "260955": {
-    "age_hint": "13 Jahre alt",
-    "breed": "",
-    "cat_id": "260955",
-    "companion_count": 0,
-    "first_seen": "2026-05-08T15:13:04",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260955-1-134227241384265928.jpg",
-    "name": "MIMIKA",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260955",
-    "rating": "nicht_geeignet",
-    "reason": "Mimika braucht ein ruhiges Zuhause ohne Kinder.",
     "sex": ""
   },
   "261479": {
