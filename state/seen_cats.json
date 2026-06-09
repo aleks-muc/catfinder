@@ -254,21 +254,6 @@
     "reason": "Für Susi suchen wir ein ruhiges Zuhause ohne Kinder bei Menschen, die ihre klare Kommunikation verstehen und respektieren.",
     "sex": ""
   },
-  "260684": {
-    "age_hint": "1 Jahr alt",
-    "breed": "",
-    "cat_id": "260684",
-    "companion_count": 0,
-    "first_seen": "2026-06-01T12:26:30",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260684-1-134236557779290298.jpg",
-    "name": "MIMI",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260684",
-    "rating": "aeltere_kinder",
-    "reason": "Für Mimi wird ein Zuhause mit größeren Kindern gewünscht, die bereits verstehen, wie man respektvoll mit einer Katze umgeht.",
-    "sex": ""
-  },
   "260723": {
     "age_hint": "Alter: 1 Jahre",
     "breed": "",
@@ -582,6 +567,51 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261735",
     "rating": "aeltere_kinder",
     "reason": "Größere Kinder können im Haushalt leben, sollten jedoch respektvoll mit ihm umgehen und seine Rückzugsmöglichkeiten akzeptieren.",
+    "sex": ""
+  },
+  "261788": {
+    "age_hint": "2 Jahre alt",
+    "breed": "",
+    "cat_id": "261788",
+    "companion_count": 0,
+    "first_seen": "2026-06-09T16:24:10",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261788-1-134254722384438361.jpg",
+    "name": "MILA",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261788",
+    "rating": "geeignet",
+    "reason": "Sie eignet sich gut für Familien mit Kindern und zeigt sich insgesamt offen und freundlich im Umgang mit Menschen.",
+    "sex": ""
+  },
+  "261890": {
+    "age_hint": "5 Jahre alt",
+    "breed": "",
+    "cat_id": "261890",
+    "companion_count": 2,
+    "first_seen": "2026-06-09T16:24:10",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261890-1-134254776815839271.jpg",
+    "name": "SIMBALA",
+    "partner_name": "MILAN",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261890",
+    "rating": "aeltere_kinder",
+    "reason": "Sie können gerne in einen Haushalt mit größeren, verständigen Kindern ziehen.",
+    "sex": ""
+  },
+  "261893": {
+    "age_hint": "Alter: 6 Jahre",
+    "breed": "",
+    "cat_id": "261893",
+    "companion_count": 2,
+    "first_seen": "2026-06-09T16:24:10",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261893-1-134254778396940496.jpg",
+    "name": "MILAN",
+    "partner_name": "SIMBALA",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261893",
+    "rating": "aeltere_kinder",
+    "reason": "können gerne in einen Haushalt mit größeren, verständigen Kindern ziehen",
     "sex": ""
   },
   "261932": {
