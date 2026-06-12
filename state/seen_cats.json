@@ -479,21 +479,6 @@
     "reason": "Sie eignet sich auch für Familien mit Kindern.",
     "sex": ""
   },
-  "261422": {
-    "age_hint": "Alter: 3 Jahre",
-    "breed": "",
-    "cat_id": "261422",
-    "companion_count": 0,
-    "first_seen": "2026-06-09T10:26:02",
-    "has_interested": true,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261422-1-134253987146929595.jpg",
-    "name": "BAILEYS",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261422",
-    "rating": "aeltere_kinder",
-    "reason": "Für Familien mit Kindern eignet sie sich ab einem etwas größeren Alter.",
-    "sex": ""
-  },
   "261479": {
     "age_hint": "Alter: 8 Jahre",
     "breed": "",
@@ -597,36 +582,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261893",
     "rating": "aeltere_kinder",
     "reason": "können gerne in einen Haushalt mit größeren, verständigen Kindern ziehen",
-    "sex": ""
-  },
-  "261932": {
-    "age_hint": "4 Jahre alt",
-    "breed": "",
-    "cat_id": "261932",
-    "companion_count": 2,
-    "first_seen": "2026-06-09T10:26:02",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261932-1-134254024558482540.jpg",
-    "name": "FRIDA",
-    "partner_name": "PABLO",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261932",
-    "rating": "aeltere_kinder",
-    "reason": "Frida und Pablo eignen sich gut für Familien mit Kindern, sofern diese einen respektvollen Umgang mit Katzen kennen.",
-    "sex": ""
-  },
-  "261933": {
-    "age_hint": "4 Jahre alt",
-    "breed": "",
-    "cat_id": "261933",
-    "companion_count": 2,
-    "first_seen": "2026-06-09T10:26:02",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261933-1-134254025125234766.jpg",
-    "name": "PABLO",
-    "partner_name": "FRIDA",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261933",
-    "rating": "aeltere_kinder",
-    "reason": "Frida und Pablo eignen sich gut für Familien mit Kindern, sofern diese einen respektvollen Umgang mit Katzen kennen.",
     "sex": ""
   },
   "261948": {
