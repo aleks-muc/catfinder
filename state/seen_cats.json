@@ -224,21 +224,6 @@
     "reason": "Die beiden sind familiengeeignet, sodass auch Kinder im Haushalt leben können, sofern ein respektvoller Umgang mit den Tieren gewährleistet ist.",
     "sex": ""
   },
-  "260326": {
-    "age_hint": "Alter: 12 Jahre",
-    "breed": "",
-    "cat_id": "260326",
-    "companion_count": 0,
-    "first_seen": "2026-05-05T15:27:47",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260326-1-134224582982633067.jpg",
-    "name": "LUKE",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260326",
-    "rating": "aeltere_kinder",
-    "reason": "Luke eignet sich für Familien mit größeren Kindern, die Verständnis für seine anfängliche Zurückhaltung haben.",
-    "sex": ""
-  },
   "260680": {
     "age_hint": "6 Jahre alt",
     "breed": "",
@@ -252,21 +237,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260680",
     "rating": "nicht_geeignet",
     "reason": "Für Susi suchen wir ein ruhiges Zuhause ohne Kinder bei Menschen, die ihre klare Kommunikation verstehen und respektieren.",
-    "sex": ""
-  },
-  "260723": {
-    "age_hint": "Alter: 1 Jahre",
-    "breed": "",
-    "cat_id": "260723",
-    "companion_count": 0,
-    "first_seen": "2026-04-18T21:57:23",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260723-1-134194101504468125.jpg",
-    "name": "AMEOS",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260723",
-    "rating": "aeltere_kinder",
-    "reason": "Er ist geeignet für Familien mit sehr ruhigen Kindern ab 14 Jahren, sofern diese Katzenerfahrung haben.",
     "sex": ""
   },
   "260757": {
