@@ -68,6 +68,7 @@ Keine.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260506-lu3 | Filter-Reset-Button: Semantik-Umkehrung von "auf Default zurücksetzen" zu "alle Filter ausschalten" | 2026-05-06 | bb3dc6c | [260506-lu3-filter-reset-button-semantik-umkehrung-z](./quick/260506-lu3-filter-reset-button-semantik-umkehrung-z/) |
+| 260618-u6l | ntfy-Push statt SendGrid-E-Mail im GitHub-Actions-Workflow | 2026-06-18 | 1974a6b | [260618-u6l-ntfy-push-statt-e-mail-im-workflow](./quick/260618-u6l-ntfy-push-statt-e-mail-im-workflow/) |
 
 ## Session Continuity
 
