@@ -359,6 +359,21 @@
     "reason": "Hubsi benötigt ein ruhiges Zuhause ohne Kinder.",
     "sex": ""
   },
+  "260966": {
+    "age_hint": "Alter: 8 Jahre",
+    "breed": "",
+    "cat_id": "260966",
+    "companion_count": 0,
+    "first_seen": "2026-06-18T16:49:34",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260966-1-134262600206727907.jpg",
+    "name": "URSULA",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260966",
+    "rating": "aeltere_kinder",
+    "reason": "Größere, verständige Kinder ab etwa 14 bis 15 Jahren sind für sie gut vorstellbar.",
+    "sex": ""
+  },
   "261102": {
     "age_hint": "Alter: 16 Jahre",
     "breed": "",
