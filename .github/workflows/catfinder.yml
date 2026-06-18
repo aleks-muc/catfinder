@@ -56,15 +56,16 @@ jobs:
           git diff --cached --quiet || git commit -m "chore: state & report aktualisiert [skip ci]"
           git push
 
-      - name: E-Mail senden
-        uses: dawidd6/action-send-mail@v16
-        with:
-          server_address: smtp.sendgrid.net
-          server_port: 465
-          secure: true
-          username: apikey
-          password: ${{ secrets.SENDGRID_API_KEY }}
-          subject: "Catfinder – ${{ steps.catfinder.outputs.new_count }} neue Katzen"
-          to: ${{ secrets.MAIL_TO }}
-          from: "Catfinder <${{ secrets.MAIL_FROM }}>"
-          html_body: file://reports/report.html
+      - name: Push-Benachrichtigung senden
+        if: steps.catfinder.outputs.new_count > 0
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          NEW_COUNT: ${{ steps.catfinder.outputs.new_count }}
+        run: |
+          curl -fsS \
+            -H "Title: ${NEW_COUNT} neue Katze(n)" \
+            -H "Priority: high" \
+            -H "Tags: cat" \
+            -H "Click: https://aleks-muc.github.io/catfinder/" \
+            -d "Neue Treffer im Tierschutzverein München – tippen zum Report." \
+            "https://ntfy.sh/${NTFY_TOPIC}"
