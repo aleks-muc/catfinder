@@ -494,21 +494,6 @@
     "reason": "Für Familien mit Kindern eignet er sich nicht.",
     "sex": ""
   },
-  "261637": {
-    "age_hint": "Alter: 11 Monate",
-    "breed": "",
-    "cat_id": "261637",
-    "companion_count": 0,
-    "first_seen": "2026-06-09T10:26:02",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261637-1-134254013030348671.jpg",
-    "name": "GRAULI",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261637",
-    "rating": "geeignet",
-    "reason": "Sie kann sich auch ein Zusammenleben mit Kindern vorstellen.",
-    "sex": ""
-  },
   "261890": {
     "age_hint": "5 Jahre alt",
     "breed": "",
@@ -567,6 +552,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261949",
     "rating": "aeltere_kinder",
     "reason": "Sie eignen sich gut für Familien mit Kindern ab 6 Jahren, die bereits verstehen, wie man respektvoll mit Tieren umgeht.",
+    "sex": ""
+  },
+  "262011": {
+    "age_hint": "Alter: 2 Jahre",
+    "breed": "",
+    "cat_id": "262011",
+    "companion_count": 0,
+    "first_seen": "2026-06-19T16:26:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262011-1-134262601765143669.jpg",
+    "name": "LADY",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262011",
+    "rating": "aeltere_kinder",
+    "reason": "Aufgrund ihres freundlichen Wesens kann sie sich ein Zusammenleben mit verständigen Kindern gut vorstellen.",
     "sex": ""
   }
 }
