@@ -179,6 +179,21 @@
     "reason": "Die beiden eignen sich für Familien mit Kindern ab 10 Jahren, die den respektvollen Umgang mit Tieren kennen und verstehen.",
     "sex": ""
   },
+  "256432": {
+    "age_hint": "Alter: 11 Jahre",
+    "breed": "",
+    "cat_id": "256432",
+    "companion_count": 0,
+    "first_seen": "2026-06-20T15:27:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/256432-1-134264218701559875.jpg",
+    "name": "PIDO",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256432",
+    "rating": "aeltere_kinder",
+    "reason": "Größere, verständige Kinder ab etwa 12 Jahren können wir uns vorstellen, sofern sie seine Ruhephasen respektieren.",
+    "sex": ""
+  },
   "260035": {
     "age_hint": "Alter: 14 Jahre",
     "breed": "",
@@ -419,6 +434,21 @@
     "reason": "Fuchur sucht ein ruhiges und verständnisvolles Zuhause ohne Kinder.",
     "sex": ""
   },
+  "261139": {
+    "age_hint": "13 Jahre alt",
+    "breed": "",
+    "cat_id": "261139",
+    "companion_count": 0,
+    "first_seen": "2026-06-20T15:27:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261139-1-134264208512052838.jpg",
+    "name": "MARIECHEN",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261139",
+    "rating": "aeltere_kinder",
+    "reason": "Mariechen ist geeignet für Familien mit größeren Kindern ab etwa 12 Jahren, sofern ein respektvoller Umgang mit Tieren gewährleistet ist.",
+    "sex": ""
+  },
   "261304": {
     "age_hint": "Alter: 8 Jahre",
     "breed": "",
@@ -449,6 +479,21 @@
     "reason": "Für Familien mit Kindern eignen sie sich ab einem Alter von etwa 15 Jahren.",
     "sex": ""
   },
+  "261442": {
+    "age_hint": "Alter: 1 Jahre",
+    "breed": "",
+    "cat_id": "261442",
+    "companion_count": 0,
+    "first_seen": "2026-06-20T15:27:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261442-1-134264210467224873.jpg",
+    "name": "MIKADO",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261442",
+    "rating": "aeltere_kinder",
+    "reason": "Kinder sollten jedoch bereits etwas älter sein, etwa ab 12 Jahren, und den respektvollen Umgang mit Tieren kennen.",
+    "sex": ""
+  },
   "261479": {
     "age_hint": "Alter: 8 Jahre",
     "breed": "",
@@ -477,6 +522,66 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261635",
     "rating": "nicht_geeignet",
     "reason": "Für Familien mit Kindern eignet er sich nicht.",
+    "sex": ""
+  },
+  "261650": {
+    "age_hint": "5 Jahre alt",
+    "breed": "",
+    "cat_id": "261650",
+    "companion_count": 0,
+    "first_seen": "2026-06-20T15:27:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261650-1-134264288374075276.jpg",
+    "name": "KUMRU",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261650",
+    "rating": "aeltere_kinder",
+    "reason": "Kinder im neuen Zuhause sollten bereits älter sein. Verständige Jugendliche ab etwa 13 bis 14 Jahren können wir uns nach einem entsprechenden Kennenlernen gut vorstellen.",
+    "sex": ""
+  },
+  "261843": {
+    "age_hint": "3 Jahre alt",
+    "breed": "",
+    "cat_id": "261843",
+    "companion_count": 0,
+    "first_seen": "2026-06-20T15:27:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261843-1-134264202313281093.jpg",
+    "name": "PAMI",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261843",
+    "rating": "aeltere_kinder",
+    "reason": "Aufgrund ihres freundlichen Wesens können wir uns Pami gut in einer Familie mit verständigen Kindern vorstellen.",
+    "sex": ""
+  },
+  "261879": {
+    "age_hint": "8 Jahre alt",
+    "breed": "",
+    "cat_id": "261879",
+    "companion_count": 2,
+    "first_seen": "2026-06-20T15:27:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261879-1-134264226993650995.jpg",
+    "name": "MAXI",
+    "partner_name": "TOMMY",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261879",
+    "rating": "aeltere_kinder",
+    "reason": "größere, verständige Kinder frühestens ab etwa 15 bis 16 Jahren infrage kommen.",
+    "sex": ""
+  },
+  "261880": {
+    "age_hint": "11 Jahre alt",
+    "breed": "",
+    "cat_id": "261880",
+    "companion_count": 2,
+    "first_seen": "2026-06-20T15:27:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261880-1-134264222784310229.jpg",
+    "name": "TOMMY",
+    "partner_name": "MAXI",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261880",
+    "rating": "aeltere_kinder",
+    "reason": "größere, verständige Kinder frühestens ab etwa 15 bis 16 Jahren infrage kommen",
     "sex": ""
   },
   "261890": {
@@ -539,6 +644,21 @@
     "reason": "Sie eignen sich gut für Familien mit Kindern ab 6 Jahren, die bereits verstehen, wie man respektvoll mit Tieren umgeht.",
     "sex": ""
   },
+  "261950": {
+    "age_hint": "Alter: 1 Jahre",
+    "breed": "",
+    "cat_id": "261950",
+    "companion_count": 0,
+    "first_seen": "2026-06-20T15:27:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261950-1-134243559146893854.jpg",
+    "name": "HE-MAN",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261950",
+    "rating": "aeltere_kinder",
+    "reason": "He-Man eignet sich für ein Zuhause mit verständigen Kindern ab etwa 10 Jahren, die den respektvollen Umgang mit Tieren kennen und seine Bedürfnisse berücksichtigen.",
+    "sex": ""
+  },
   "262011": {
     "age_hint": "Alter: 2 Jahre",
     "breed": "",
@@ -552,6 +672,36 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262011",
     "rating": "aeltere_kinder",
     "reason": "Aufgrund ihres freundlichen Wesens kann sie sich ein Zusammenleben mit verständigen Kindern gut vorstellen.",
+    "sex": ""
+  },
+  "262056": {
+    "age_hint": "1 Jahr alt",
+    "breed": "",
+    "cat_id": "262056",
+    "companion_count": 2,
+    "first_seen": "2026-06-20T15:27:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262056-1-134264274976644688.jpg",
+    "name": "MILANESE",
+    "partner_name": "MONI",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262056",
+    "rating": "nicht_geeignet",
+    "reason": "Moni und Milanese wünschen sich ein ruhiges Zuhause ohne Kinder.",
+    "sex": ""
+  },
+  "262057": {
+    "age_hint": "1 Jahr alt",
+    "breed": "",
+    "cat_id": "262057",
+    "companion_count": 2,
+    "first_seen": "2026-06-20T15:27:45",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262057-1-134264273814348210.jpg",
+    "name": "MONI",
+    "partner_name": "MILANESE",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262057",
+    "rating": "nicht_geeignet",
+    "reason": "Moni und Milanese wünschen sich ein ruhiges Zuhause ohne Kinder.",
     "sex": ""
   }
 }
