@@ -536,6 +536,7 @@ main {{ max-width: 1600px; margin: 1.5rem auto; padding: 0 1rem; }}
 .empty {{ text-align: center; color: #666; padding: 4rem 1rem; }}
 .badge-int {{ display: inline-block; background: #fff3e0; color: #e65100; font-size: .78rem; font-weight: 700; padding: .2rem .55rem; border-radius: 4px; letter-spacing: .01em; }}
 .card .partner {{ font-size: .85rem; color: #1565c0; font-style: italic; }}
+.card .listed {{ font-size: .85rem; color: #888; }}
 section + section {{ margin-top: 3rem; }}
 section h2.group {{ font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd; padding-bottom: .4rem; margin-bottom: 1rem; }}
 @media (max-width: 480px) {{
@@ -568,6 +569,7 @@ def render_report(
     still_known: list[tuple[Cat, CatRating]] | None = None,
     no_longer_listed: list[tuple[Cat, CatRating]] | None = None,
     had_prior_state: bool = False,
+    first_seen_map: dict[str, str] | None = None,
 ) -> str:
     still_known = still_known or []
     no_longer_listed = no_longer_listed or []
@@ -577,6 +579,26 @@ def render_report(
         if listing_ages is not None:
             return listing_ages.get(cat_id)
         return age_hint_to_months(hint)
+
+    def get_listed_days(cat_id: str) -> int:
+        fs = first_seen_map.get(cat_id) if first_seen_map else None
+        if not fs:
+            return 0
+        try:
+            seen = datetime.fromisoformat(fs).date()
+        except ValueError:
+            return 0
+        return max(0, (date.today() - seen).days)
+
+    def _listed_line(cat: Cat) -> str:
+        days = get_listed_days(cat.cat_id)
+        if days == 0:
+            txt = "seit heute gelistet"
+        elif days == 1:
+            txt = "seit 1 Tag gelistet"
+        else:
+            txt = f"seit {days} Tagen gelistet"
+        return f'<div class="listed">📅 {txt}</div>'
 
     def _img(cat: Cat) -> str:
         return (
@@ -615,6 +637,7 @@ def render_report(
       <div class="body">
         <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
         <div class="meta">{_meta_line(cat, age_months)}</div>
+        {"" if dimmed else _listed_line(cat)}
         {_partner_line(cat)}
         {_interested_badge(cat)}
         <div class="rating">{meta['emoji']} {meta['label']}</div>
@@ -774,7 +797,8 @@ def main() -> int:
         html_text = render_report([], len(cats), listing_ages=la,
                                   still_known=_ratings_from_state(still_known),
                                   no_longer_listed=no_longer_listed,
-                                  had_prior_state=had_prior_state)
+                                  had_prior_state=had_prior_state,
+                                  first_seen_map={cid: state[cid].get("first_seen", "") for cid in state})
         write_and_open_report(html_text, no_browser=args.no_browser)
         # Purge: nur Katzen aus dem aktuellen Listing bleiben im State (D-02).
         for cid in list(state.keys()):
@@ -831,7 +855,8 @@ def main() -> int:
                               listing_ages=listing_ages,
                               still_known=_ratings_from_state(still_known),
                               no_longer_listed=no_longer_listed,
-                              had_prior_state=had_prior_state)
+                              had_prior_state=had_prior_state,
+                              first_seen_map={cid: state[cid].get("first_seen", "") for cid in state})
     write_and_open_report(html_text, no_browser=args.no_browser)
 
     # State: alle aktuell gelisteten Katzen eintragen, Bewertungen speichern.
