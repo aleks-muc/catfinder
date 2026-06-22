@@ -16,7 +16,7 @@ progress:
 
 **Last updated:** 2026-06-22
 
-**Last activity:** 2026-06-22 — Completed quick task 260622-sd4: restliche ponytail-Audit-Punkte aufgeräumt (has_unknown, _pair_attr, detect_interested, Rating-Whitelist).
+**Last activity:** 2026-06-22 — Completed quick task 260622-toz: Failure-ntfy im CI (B) + "seit X Tagen gelistet" im Report (C) aus /improve next.
 
 ## Project Reference
 
@@ -71,6 +71,7 @@ Keine.
 | 260618-u6l | ntfy-Push statt SendGrid-E-Mail im GitHub-Actions-Workflow | 2026-06-18 | 1974a6b | [260618-u6l-ntfy-push-statt-e-mail-im-workflow](./quick/260618-u6l-ntfy-push-statt-e-mail-im-workflow/) |
 | 260622-s6i | Card-Render-Blöcke zu _render_card-Helper zusammenführen (ponytail-Audit) | 2026-06-22 | adfe769 | [260622-s6i-card-render-bl-cke-zu-render-card-helper](./quick/260622-s6i-card-render-bl-cke-zu-render-card-helper/) |
 | 260622-sd4 | Restliche ponytail-Audit-Punkte aufräumen (has_unknown, _pair_attr, detect_interested, Rating-Whitelist) | 2026-06-22 | eb0118e | [260622-sd4-restliche-ponytail-audit-punkte-has-unkn](./quick/260622-sd4-restliche-ponytail-audit-punkte-has-unkn/) |
+| 260622-toz | Alert-Verlässlichkeit: Failure-ntfy im CI (B) + "seit X Tagen gelistet" im Report (C) | 2026-06-22 | 5b8d6bc | [260622-toz-alert-verlaesslichkeit-failure-ntfy-im-w](./quick/260622-toz-alert-verlaesslichkeit-failure-ntfy-im-w/) |
 
 ## Session Continuity
 
