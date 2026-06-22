@@ -133,6 +133,11 @@ def load_state() -> dict[str, dict]:
         return {}
 
 
+def _safe_rating(value: str) -> str:
+    """Klemmt einen aus dem State gelesenen Rating-Wert auf eine gültige Kategorie."""
+    return value if value in ("geeignet", "aeltere_kinder", "nicht_geeignet", "unbekannt") else "unbekannt"
+
+
 def save_state(state: dict[str, dict]) -> None:
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(state, ensure_ascii=False, indent=2, sort_keys=True)
@@ -230,11 +235,6 @@ def _pick(haystack: str, needles: list[str]) -> str:
     return ""
 
 
-def detect_interested(text: str) -> bool:
-    """True wenn der Steckbrief-Text Interessenten-Hinweise enthält."""
-    return bool(INTERESTED_PATTERN.search(text))
-
-
 def find_companion_names(profile_text: str, all_names: list[str]) -> set[str]:
     """Gibt die Menge der Katzennamen aus dem Listing zurück, die im Steckbrief vorkommen.
 
@@ -294,7 +294,7 @@ DEFAULT_AGE_LO = 36   # 3 Jahre in Monaten
 DEFAULT_AGE_HI = 144  # 12 Jahre in Monaten
 
 
-def _build_filter_bar(age_min: int, age_max: int, has_unknown: bool) -> str:
+def _build_filter_bar(age_min: int, age_max: int) -> str:
     """Baut den HTML/CSS/JS-Block für Altersfilter und Sorgenkinder-Toggle."""
     def fmt(m: int) -> str:
         if m < 12:
@@ -597,9 +597,6 @@ def render_report(
     def _interested_badge(cat: Cat) -> str:
         return '<div class="badge-int">👥 Interessenten vorhanden</div>' if cat.has_interested else ""
 
-    def _pair_attr(cat: Cat) -> str:
-        return str(cat.companion_count)
-
     def _partner_line(cat: Cat) -> str:
         if cat.companion_count == 2 and cat.partner_name:
             return f'<div class="partner">🐱 Pärchen mit <strong>{html.escape(cat.partner_name)}</strong></div>'
@@ -613,7 +610,7 @@ def render_report(
         card_style = f"--accent: {meta['color']}; opacity: .6;" if dimmed else f"--accent: {meta['color']};"
         btn_style = ' style="background:#9e9e9e;"' if dimmed else ""
         return f"""
-    <div class="card" style="{card_style}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{_pair_attr(cat)}">
+    <div class="card" style="{card_style}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}">
       {_img(cat)}
       <div class="body">
         <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
@@ -633,7 +630,7 @@ def render_report(
     known_ages = [a for a in all_ages if a is not None]
     age_min = min(known_ages) if known_ages else 0
     age_max = max(known_ages) if known_ages else 0
-    filter_bar = _build_filter_bar(age_min, age_max, False) if (evaluated_sorted or still_known) else ""
+    filter_bar = _build_filter_bar(age_min, age_max) if (evaluated_sorted or still_known) else ""
 
     two_sections = bool(still_known or no_longer_listed)
 
@@ -740,9 +737,7 @@ def main() -> int:
         result = []
         for c in cat_list:
             entry = state.get(c.cat_id, {})
-            r = entry.get("rating", "unbekannt")
-            if r not in ("geeignet", "aeltere_kinder", "nicht_geeignet", "unbekannt"):
-                r = "unbekannt"
+            r = _safe_rating(entry.get("rating", "unbekannt"))
             c.has_interested = entry.get("has_interested", False)
             c.companion_count = entry.get("companion_count", 0)
             c.partner_name = entry.get("partner_name", "")
@@ -766,9 +761,7 @@ def main() -> int:
             companion_count=entry.get("companion_count", 0),
             partner_name=entry.get("partner_name", ""),
         )
-        r = entry.get("rating", "unbekannt")
-        if r not in ("geeignet", "aeltere_kinder", "nicht_geeignet", "unbekannt"):
-            r = "unbekannt"
+        r = _safe_rating(entry.get("rating", "unbekannt"))
         no_longer_listed.append((c, CatRating(rating=r, reason=entry.get("reason", ""))))
 
     def _age_months_with_fallback(cat_id: str, age_hint: str) -> int | None:
@@ -806,7 +799,7 @@ def main() -> int:
     # Interessenten- und Pärchen-Status aus Steckbrief-Text erkennen
     for cat in to_evaluate:
         text = profile_texts.get(cat.cat_id, "")
-        cat.has_interested = detect_interested(text)
+        cat.has_interested = bool(INTERESTED_PATTERN.search(text))
         companions = find_companion_names(text, all_cat_names)
         if len(companions) == 2:
             cat.companion_count = 2
