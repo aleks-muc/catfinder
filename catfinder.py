@@ -605,6 +605,27 @@ def render_report(
             return f'<div class="partner">🐱 Pärchen mit <strong>{html.escape(cat.partner_name)}</strong></div>'
         return ""
 
+    def _render_card(cat: Cat, rating: CatRating, *, dimmed: bool = False) -> str:
+        """Erzeugt das HTML-Markup für eine Katzen-Card; dimmed=True für nicht mehr verfügbare Katzen."""
+        meta = RATING_META[rating.rating]
+        age_months = get_age(cat.cat_id, cat.age_hint)
+        age_data = str(age_months) if age_months is not None else "unknown"
+        card_style = f"--accent: {meta['color']}; opacity: .6;" if dimmed else f"--accent: {meta['color']};"
+        btn_style = ' style="background:#9e9e9e;"' if dimmed else ""
+        return f"""
+    <div class="card" style="{card_style}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{_pair_attr(cat)}">
+      {_img(cat)}
+      <div class="body">
+        <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
+        <div class="meta">{_meta_line(cat, age_months)}</div>
+        {_partner_line(cat)}
+        {_interested_badge(cat)}
+        <div class="rating">{meta['emoji']} {meta['label']}</div>
+        <div class="reason">{html.escape(rating.reason)}</div>
+        <a class="btn" href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener"{btn_style}>Steckbrief öffnen →</a>
+      </div>
+    </div>"""
+
     # Slider-Grenzen aus allen angezeigten Katzen berechnen
     all_ages = [get_age(c.cat_id, c.age_hint) for c, _ in evaluated_sorted]
     all_ages += [get_age(c.cat_id, c.age_hint) for c, _ in still_known]
@@ -620,26 +641,7 @@ def render_report(
     if not evaluated_sorted:
         sect1_inner = '<div class="empty">Keine neuen Katzen seit dem letzten Lauf. 🎉</div>'
     else:
-        cards = []
-        for (cat, rating), age_months in zip(
-            evaluated_sorted,
-            [get_age(c.cat_id, c.age_hint) for c, _ in evaluated_sorted],
-        ):
-            meta = RATING_META[rating.rating]
-            age_data = str(age_months) if age_months is not None else "unknown"
-            cards.append(f"""
-    <div class="card" style="--accent: {meta['color']};" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{_pair_attr(cat)}">
-      {_img(cat)}
-      <div class="body">
-        <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
-        <div class="meta">{_meta_line(cat, age_months)}</div>
-        {_partner_line(cat)}
-        {_interested_badge(cat)}
-        <div class="rating">{meta['emoji']} {meta['label']}</div>
-        <div class="reason">{html.escape(rating.reason)}</div>
-        <a class="btn" href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener">Steckbrief öffnen →</a>
-      </div>
-    </div>""")
+        cards = [_render_card(cat, rating) for cat, rating in evaluated_sorted]
         sect1_inner = f'<div class="grid">{"".join(cards)}</div>'
 
     if two_sections:
@@ -650,24 +652,7 @@ def render_report(
     # Sektion 2 — nicht mehr verfügbare Katzen
     sect_gone = ""
     if no_longer_listed:
-        cards = []
-        for cat, rating in sorted(no_longer_listed, key=_card_sort_key):
-            meta = RATING_META[rating.rating]
-            age_months = get_age(cat.cat_id, cat.age_hint)
-            age_data = str(age_months) if age_months is not None else "unknown"
-            cards.append(f"""
-    <div class="card" style="--accent: {meta['color']}; opacity: .6;" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{_pair_attr(cat)}">
-      {_img(cat)}
-      <div class="body">
-        <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
-        <div class="meta">{_meta_line(cat, age_months)}</div>
-        {_partner_line(cat)}
-        {_interested_badge(cat)}
-        <div class="rating">{meta['emoji']} {meta['label']}</div>
-        <div class="reason">{html.escape(rating.reason)}</div>
-        <a class="btn" href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener" style="background:#9e9e9e;">Steckbrief öffnen →</a>
-      </div>
-    </div>""")
+        cards = [_render_card(cat, rating, dimmed=True) for cat, rating in sorted(no_longer_listed, key=_card_sort_key)]
         sect_gone = f'<section><h2 class="group">🚫 Nicht mehr verfügbar ({len(no_longer_listed)})</h2><div class="grid">{"".join(cards)}</div></section>'
     elif had_prior_state:
         # D-05/D-06/D-07: voriger State nicht-leer, aber nichts verschwunden — Empty-State-Hint mit bestehendem .empty-Pattern.
@@ -681,24 +666,7 @@ def render_report(
     # Sektion 3 — weiterhin verfügbare Katzen (mit gespeicherter Ampelbewertung)
     sect2 = ""
     if still_known:
-        cards = []
-        for cat, rating in sorted(still_known, key=_card_sort_key):
-            meta = RATING_META[rating.rating]
-            age_months = get_age(cat.cat_id, cat.age_hint)
-            age_data = str(age_months) if age_months is not None else "unknown"
-            cards.append(f"""
-    <div class="card" style="--accent: {meta['color']};" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{_pair_attr(cat)}">
-      {_img(cat)}
-      <div class="body">
-        <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
-        <div class="meta">{_meta_line(cat, age_months)}</div>
-        {_partner_line(cat)}
-        {_interested_badge(cat)}
-        <div class="rating">{meta['emoji']} {meta['label']}</div>
-        <div class="reason">{html.escape(rating.reason)}</div>
-        <a class="btn" href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener">Steckbrief öffnen →</a>
-      </div>
-    </div>""")
+        cards = [_render_card(cat, rating) for cat, rating in sorted(still_known, key=_card_sort_key)]
         sect2 = f'<section><h2 class="group">📋 Weiterhin verfügbar ({len(still_known)})</h2><div class="grid">{"".join(cards)}</div></section>'
 
     return HTML_TEMPLATE.format(
