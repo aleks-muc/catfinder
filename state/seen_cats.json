@@ -209,6 +209,21 @@
     "reason": "Größere Kinder ab ca. 16 können gerne im Haushalt leben, sollten jedoch respektvoll mit seinem Bedürfnis nach Rückzug umgehen.",
     "sex": ""
   },
+  "260113": {
+    "age_hint": "Alter: 2 Jahre",
+    "breed": "",
+    "cat_id": "260113",
+    "companion_count": 0,
+    "first_seen": "2026-06-22T18:08:17",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260113-1-134266085757288891.JPG",
+    "name": "SISSY-AMALIE-EUGENIE",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260113",
+    "rating": "nicht_geeignet",
+    "reason": "Sie sucht ein ruhiges Zuhause ohne Kinder, in dem ihre Bedürfnisse respektiert werden.",
+    "sex": ""
+  },
   "260234": {
     "age_hint": "Alter: 11 Jahre",
     "breed": "",
@@ -449,6 +464,21 @@
     "reason": "Für Familien mit Kindern eignen sie sich ab einem Alter von etwa 15 Jahren.",
     "sex": ""
   },
+  "261407": {
+    "age_hint": "9 Monate alt",
+    "breed": "",
+    "cat_id": "261407",
+    "companion_count": 0,
+    "first_seen": "2026-06-22T18:08:17",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261407-1-134266083210180539.jpg",
+    "name": "CONSTANTIN CHRISOMANOS",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261407",
+    "rating": "geeignet",
+    "reason": "Aufgrund seines liebevollen Wesens eignet er sich auch gut für Familien mit Kindern.",
+    "sex": ""
+  },
   "261442": {
     "age_hint": "Alter: 1 Jahre",
     "breed": "",
@@ -672,6 +702,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262057",
     "rating": "nicht_geeignet",
     "reason": "Moni und Milanese wünschen sich ein ruhiges Zuhause ohne Kinder.",
+    "sex": ""
+  },
+  "262397": {
+    "age_hint": "5 Jahre alt",
+    "breed": "",
+    "cat_id": "262397",
+    "companion_count": 0,
+    "first_seen": "2026-06-22T18:08:17",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262397-1-133910145507961140.jpg",
+    "name": "ZERO",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262397",
+    "rating": "nicht_geeignet",
+    "reason": "auch Kinder sollten nicht in seinem neuen Zuhause leben",
     "sex": ""
   }
 }
