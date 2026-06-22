@@ -69,3 +69,16 @@ jobs:
             -H "Click: https://aleks-muc.github.io/catfinder/" \
             -d "Neue Treffer im Tierschutzverein München – tippen zum Report." \
             "https://ntfy.sh/${NTFY_TOPIC}"
+
+      - name: Fehler-Benachrichtigung senden
+        if: failure()
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: |
+          curl -fsS \
+            -H "Title: Catfinder-Lauf fehlgeschlagen" \
+            -H "Priority: high" \
+            -H "Tags: warning" \
+            -H "Click: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            -d "Der geplante Lauf ist fehlgeschlagen — Listing-Layout, API oder Netz prüfen." \
+            "https://ntfy.sh/${NTFY_TOPIC}"
