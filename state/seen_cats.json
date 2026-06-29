@@ -149,21 +149,6 @@
     "reason": "Er kann sich gut eine Familie mit größeren Kindern vorstellen, die Freude daran haben, sich mit ihm zu beschäftigen und ihm die Aufmerksamkeit zu schenken, die er braucht.",
     "sex": ""
   },
-  "256296": {
-    "age_hint": "Alter: 10 Jahre",
-    "breed": "",
-    "cat_id": "256296",
-    "companion_count": 0,
-    "first_seen": "2026-05-05T15:27:47",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/256296-1-134224572259651900.jpg",
-    "name": "SCROOGE",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256296",
-    "rating": "nicht_geeignet",
-    "reason": "Scrooge sucht ein entspanntes Zuhause ohne Kinder.",
-    "sex": ""
-  },
   "256395": {
     "age_hint": "9 Monate alt",
     "breed": "",
@@ -417,21 +402,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261108",
     "rating": "nicht_geeignet",
     "reason": "Fuchur sucht ein ruhiges und verständnisvolles Zuhause ohne Kinder.",
-    "sex": ""
-  },
-  "261139": {
-    "age_hint": "13 Jahre alt",
-    "breed": "",
-    "cat_id": "261139",
-    "companion_count": 0,
-    "first_seen": "2026-06-20T15:27:45",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261139-1-134264208512052838.jpg",
-    "name": "MARIECHEN",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261139",
-    "rating": "aeltere_kinder",
-    "reason": "Mariechen ist geeignet für Familien mit größeren Kindern ab etwa 12 Jahren, sofern ein respektvoller Umgang mit Tieren gewährleistet ist.",
     "sex": ""
   },
   "261304": {
