@@ -254,6 +254,36 @@
     "reason": "Für Susi suchen wir ein ruhiges Zuhause ohne Kinder bei Menschen, die ihre klare Kommunikation verstehen und respektieren.",
     "sex": ""
   },
+  "260682": {
+    "age_hint": "Alter: 4 Jahre",
+    "breed": "",
+    "cat_id": "260682",
+    "companion_count": 2,
+    "first_seen": "2026-06-29T16:48:28",
+    "has_interested": true,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260682-1-134236464148390770.jpg",
+    "name": "HANSI",
+    "partner_name": "NANNI",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260682",
+    "rating": "aeltere_kinder",
+    "reason": "Die beiden eignen sich für ruhige Familien mit verständnisvollen Kindern ab 12 Jahren.",
+    "sex": ""
+  },
+  "260683": {
+    "age_hint": "1 Jahr alt",
+    "breed": "",
+    "cat_id": "260683",
+    "companion_count": 2,
+    "first_seen": "2026-06-29T16:48:28",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260683-1-134233273209187085.jpg",
+    "name": "NANNI",
+    "partner_name": "HANSI",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260683",
+    "rating": "aeltere_kinder",
+    "reason": "Die beiden eignen sich für ruhige Familien mit verständnisvollen Kindern ab 12 Jahren.",
+    "sex": ""
+  },
   "260757": {
     "age_hint": "Alter: 4 Jahre",
     "breed": "",
@@ -492,6 +522,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261635",
     "rating": "nicht_geeignet",
     "reason": "Für Familien mit Kindern eignet er sich nicht.",
+    "sex": ""
+  },
+  "261736": {
+    "age_hint": "Alter: 3 Jahre",
+    "breed": "",
+    "cat_id": "261736",
+    "companion_count": 0,
+    "first_seen": "2026-06-29T16:48:28",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261736-1-134272148707303278.JPG",
+    "name": "LIZ",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261736",
+    "rating": "aeltere_kinder",
+    "reason": "Größere, ruhige Kinder ab etwa 11 Jahren dürfen gerne im Haushalt leben, sofern sie bereits etwas Katzenerfahrung mitbringen und ihre Bedürfnisse respektieren.",
     "sex": ""
   },
   "261843": {
