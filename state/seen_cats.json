@@ -224,6 +224,21 @@
     "reason": "Die beiden sind familiengeeignet, sodass auch Kinder im Haushalt leben können, sofern ein respektvoller Umgang mit den Tieren gewährleistet ist.",
     "sex": ""
   },
+  "260610": {
+    "age_hint": "Alter: 9 Jahre",
+    "breed": "",
+    "cat_id": "260610",
+    "companion_count": 0,
+    "first_seen": "2026-07-03T09:47:34",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260610-1-134263307357842721.jpg",
+    "name": "KIM",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260610",
+    "rating": "aeltere_kinder",
+    "reason": "Er eignet sich für Familien und könnte auch mit verständigen Kindern zusammenleben.",
+    "sex": ""
+  },
   "260680": {
     "age_hint": "6 Jahre alt",
     "breed": "",
@@ -522,21 +537,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261843",
     "rating": "aeltere_kinder",
     "reason": "Aufgrund ihres freundlichen Wesens können wir uns Pami gut in einer Familie mit verständigen Kindern vorstellen.",
-    "sex": ""
-  },
-  "261880": {
-    "age_hint": "11 Jahre alt",
-    "breed": "",
-    "cat_id": "261880",
-    "companion_count": 2,
-    "first_seen": "2026-06-20T15:27:45",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261880-1-134264222784310229.jpg",
-    "name": "TOMMY",
-    "partner_name": "MAXI",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261880",
-    "rating": "aeltere_kinder",
-    "reason": "größere, verständige Kinder frühestens ab etwa 15 bis 16 Jahren infrage kommen",
     "sex": ""
   },
   "261890": {
