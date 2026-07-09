@@ -44,21 +44,6 @@
     "reason": "Teddy mag keine Kinder und ist mit Artgenossen unverträglich, weshalb er als Einzelkatze in einem ruhigen Zuhause am besten aufgehoben ist.",
     "sex": ""
   },
-  "253615": {
-    "age_hint": "Alter: 16 Jahre",
-    "breed": "",
-    "cat_id": "253615",
-    "companion_count": 0,
-    "first_seen": "2026-04-18T21:57:23",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/253615-1-134133802071372314.jpg",
-    "name": "MALIKA",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/253615",
-    "rating": "aeltere_kinder",
-    "reason": "Malika sucht ein ruhiges Zuhause mit größeren Kindern ab etwa 15/16 Jahren, da ihr zu viel Trubel schnell Stress bereitet.",
-    "sex": ""
-  },
   "254390": {
     "age_hint": "2 Jahre alt",
     "breed": "",
@@ -177,6 +162,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256395",
     "rating": "aeltere_kinder",
     "reason": "Die beiden eignen sich für Familien mit Kindern ab 10 Jahren, die den respektvollen Umgang mit Tieren kennen und verstehen.",
+    "sex": ""
+  },
+  "256408": {
+    "age_hint": "Alter: 8 Jahre",
+    "breed": "",
+    "cat_id": "256408",
+    "companion_count": 0,
+    "first_seen": "2026-07-09T16:20:27",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/256408-1-134280767698304906.JPG",
+    "name": "MINI",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256408",
+    "rating": "aeltere_kinder",
+    "reason": "Aufgrund ihrer anfänglichen Unsicherheit und ihrer Geräuschempfindlichkeit sollten Kinder im Haushalt bereits größer und verständnisvoll sein.",
     "sex": ""
   },
   "260035": {
@@ -552,6 +552,36 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261893",
     "rating": "aeltere_kinder",
     "reason": "können gerne in einen Haushalt mit größeren, verständigen Kindern ziehen",
+    "sex": ""
+  },
+  "261932": {
+    "age_hint": "4 Jahre alt",
+    "breed": "",
+    "cat_id": "261932",
+    "companion_count": 2,
+    "first_seen": "2026-07-09T16:20:27",
+    "has_interested": true,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261932-1-134254024558482540.jpg",
+    "name": "FRIDA",
+    "partner_name": "PABLO",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261932",
+    "rating": "aeltere_kinder",
+    "reason": "Frida und Pablo eignen sich gut für Familien mit Kindern, sofern diese einen respektvollen Umgang mit Katzen kennen.",
+    "sex": ""
+  },
+  "261933": {
+    "age_hint": "4 Jahre alt",
+    "breed": "",
+    "cat_id": "261933",
+    "companion_count": 2,
+    "first_seen": "2026-07-09T16:20:27",
+    "has_interested": true,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261933-1-134254025125234766.jpg",
+    "name": "PABLO",
+    "partner_name": "FRIDA",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261933",
+    "rating": "aeltere_kinder",
+    "reason": "Frida und Pablo eignen sich gut für Familien mit Kindern, sofern diese einen respektvollen Umgang mit Katzen kennen.",
     "sex": ""
   },
   "261948": {
