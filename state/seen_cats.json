@@ -194,21 +194,6 @@
     "reason": "Größere Kinder ab ca. 16 können gerne im Haushalt leben, sollten jedoch respektvoll mit seinem Bedürfnis nach Rückzug umgehen.",
     "sex": ""
   },
-  "260113": {
-    "age_hint": "Alter: 2 Jahre",
-    "breed": "",
-    "cat_id": "260113",
-    "companion_count": 0,
-    "first_seen": "2026-06-22T18:08:17",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260113-1-134266085757288891.JPG",
-    "name": "SISSY-AMALIE-EUGENIE",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260113",
-    "rating": "nicht_geeignet",
-    "reason": "Sie sucht ein ruhiges Zuhause ohne Kinder, in dem ihre Bedürfnisse respektiert werden.",
-    "sex": ""
-  },
   "260234": {
     "age_hint": "Alter: 12 Jahre",
     "breed": "",
@@ -267,36 +252,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260680",
     "rating": "nicht_geeignet",
     "reason": "Für Susi suchen wir ein ruhiges Zuhause ohne Kinder bei Menschen, die ihre klare Kommunikation verstehen und respektieren.",
-    "sex": ""
-  },
-  "260682": {
-    "age_hint": "Alter: 4 Jahre",
-    "breed": "",
-    "cat_id": "260682",
-    "companion_count": 2,
-    "first_seen": "2026-06-29T16:48:28",
-    "has_interested": true,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260682-1-134236464148390770.jpg",
-    "name": "HANSI",
-    "partner_name": "NANNI",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260682",
-    "rating": "aeltere_kinder",
-    "reason": "Die beiden eignen sich für ruhige Familien mit verständnisvollen Kindern ab 12 Jahren.",
-    "sex": ""
-  },
-  "260683": {
-    "age_hint": "1 Jahr alt",
-    "breed": "",
-    "cat_id": "260683",
-    "companion_count": 2,
-    "first_seen": "2026-06-29T16:48:28",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260683-1-134233273209187085.jpg",
-    "name": "NANNI",
-    "partner_name": "HANSI",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260683",
-    "rating": "aeltere_kinder",
-    "reason": "Die beiden eignen sich für ruhige Familien mit verständnisvollen Kindern ab 12 Jahren.",
     "sex": ""
   },
   "260757": {
