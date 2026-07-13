@@ -254,6 +254,21 @@
     "reason": "Für Susi suchen wir ein ruhiges Zuhause ohne Kinder bei Menschen, die ihre klare Kommunikation verstehen und respektieren.",
     "sex": ""
   },
+  "260723": {
+    "age_hint": "Alter: 1 Jahre",
+    "breed": "",
+    "cat_id": "260723",
+    "companion_count": 0,
+    "first_seen": "2026-07-13T10:13:51",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260723-1-134211671340005978.jpg",
+    "name": "AMEOS",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260723",
+    "rating": "aeltere_kinder",
+    "reason": "Er ist geeignet für Familien mit sehr ruhigen Kindern ab 14 Jahren, sofern diese Katzenerfahrung haben.",
+    "sex": ""
+  },
   "260757": {
     "age_hint": "Alter: 4 Jahre",
     "breed": "",
