@@ -584,21 +584,6 @@
     "reason": "Sie eignen sich für Familien mit Kindern ab 10 Jahren.",
     "sex": ""
   },
-  "262011": {
-    "age_hint": "Alter: 2 Jahre",
-    "breed": "",
-    "cat_id": "262011",
-    "companion_count": 0,
-    "first_seen": "2026-06-19T16:26:45",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262011-1-134262601765143669.jpg",
-    "name": "LADY",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262011",
-    "rating": "aeltere_kinder",
-    "reason": "Aufgrund ihres freundlichen Wesens kann sie sich ein Zusammenleben mit verständigen Kindern gut vorstellen.",
-    "sex": ""
-  },
   "262056": {
     "age_hint": "1 Jahr alt",
     "breed": "",
@@ -659,6 +644,21 @@
     "reason": "Der Steckbrief nennt keine Aussage zur Eignung für Kinder; es wird nur erwähnt, dass Vivaldi ein sehr schüchterner und ängstlicher Kater ist, der ein ruhiges Zuhause braucht.",
     "sex": ""
   },
+  "262182": {
+    "age_hint": "Alter: 10 Monate",
+    "breed": "",
+    "cat_id": "262182",
+    "companion_count": 2,
+    "first_seen": "2026-07-15T15:15:51",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262182-1-134285735936627824.jpg",
+    "name": "LISANN",
+    "partner_name": "TINO",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262182",
+    "rating": "aeltere_kinder",
+    "reason": "Die beiden eignen sich gut für Familien und können auch mit verständigen Kindern ab etwa sieben Jahren zusammenleben.",
+    "sex": ""
+  },
   "262183": {
     "age_hint": "Alter: 10 Monate",
     "breed": "",
@@ -672,6 +672,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262183",
     "rating": "aeltere_kinder",
     "reason": "Die beiden eignen sich gut für Familien und können auch mit verständigen Kindern ab etwa sieben Jahren zusammenleben.",
+    "sex": ""
+  },
+  "262238": {
+    "age_hint": "6 Jahre alt",
+    "breed": "",
+    "cat_id": "262238",
+    "companion_count": 0,
+    "first_seen": "2026-07-15T15:15:51",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262238-1-134285734399457130.jpg",
+    "name": "INCI",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262238",
+    "rating": "nicht_geeignet",
+    "reason": "Für Inci suchen wir ein ruhiges Zuhause ohne Kinder.",
     "sex": ""
   },
   "262397": {
