@@ -389,6 +389,21 @@
     "reason": "Für Familien mit Kindern eignen sie sich ab einem etwas größeren Alter.",
     "sex": ""
   },
+  "261288": {
+    "age_hint": "Alter: 5 Jahre",
+    "breed": "",
+    "cat_id": "261288",
+    "companion_count": 2,
+    "first_seen": "2026-07-16T15:23:49",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261288-1-134286609201272646.jpg",
+    "name": "ARTHUR",
+    "partner_name": "WASTL",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261288",
+    "rating": "aeltere_kinder",
+    "reason": "Für Wastl und Arthur suchen wir ein liebevolles Zuhause – gerne auch in einer Familie mit größeren, verständigen Kindern.",
+    "sex": ""
+  },
   "261304": {
     "age_hint": "Alter: 8 Jahre",
     "breed": "",
@@ -567,36 +582,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261989",
     "rating": "aeltere_kinder",
     "reason": "Sie eignen sich für Familien mit Kindern ab 10 Jahren.",
-    "sex": ""
-  },
-  "262056": {
-    "age_hint": "1 Jahr alt",
-    "breed": "",
-    "cat_id": "262056",
-    "companion_count": 2,
-    "first_seen": "2026-06-20T15:27:45",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262056-1-134264274976644688.jpg",
-    "name": "MILANESE",
-    "partner_name": "MONI",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262056",
-    "rating": "nicht_geeignet",
-    "reason": "Moni und Milanese wünschen sich ein ruhiges Zuhause ohne Kinder.",
-    "sex": ""
-  },
-  "262057": {
-    "age_hint": "1 Jahr alt",
-    "breed": "",
-    "cat_id": "262057",
-    "companion_count": 2,
-    "first_seen": "2026-06-20T15:27:45",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262057-1-134264273814348210.jpg",
-    "name": "MONI",
-    "partner_name": "MILANESE",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262057",
-    "rating": "nicht_geeignet",
-    "reason": "Moni und Milanese wünschen sich ein ruhiges Zuhause ohne Kinder.",
     "sex": ""
   },
   "262106": {
