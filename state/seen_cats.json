@@ -584,6 +584,21 @@
     "reason": "Sie eignen sich für Familien mit Kindern ab 10 Jahren.",
     "sex": ""
   },
+  "262041": {
+    "age_hint": "Alter: 2 Jahre",
+    "breed": "",
+    "cat_id": "262041",
+    "companion_count": 0,
+    "first_seen": "2026-07-17T09:01:38",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262041-1-134286651245296439.JPG",
+    "name": "EUPHORBIA",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262041",
+    "rating": "aeltere_kinder",
+    "reason": "Sie eignet sich gut für Familien mit größeren Kindern, da sie ein ruhiges und geduldiges Umfeld bevorzugt.",
+    "sex": ""
+  },
   "262106": {
     "age_hint": "1 Jahr alt",
     "breed": "",
