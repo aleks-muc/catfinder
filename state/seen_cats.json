@@ -179,21 +179,6 @@
     "reason": "Aufgrund ihrer anfänglichen Unsicherheit und ihrer Geräuschempfindlichkeit sollten Kinder im Haushalt bereits größer und verständnisvoll sein.",
     "sex": ""
   },
-  "260035": {
-    "age_hint": "Alter: 14 Jahre",
-    "breed": "",
-    "cat_id": "260035",
-    "companion_count": 0,
-    "first_seen": "2026-06-09T10:26:02",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260035-1-134253814378793054.jpg",
-    "name": "BEPPI",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260035",
-    "rating": "aeltere_kinder",
-    "reason": "Größere Kinder ab ca. 16 können gerne im Haushalt leben, sollten jedoch respektvoll mit seinem Bedürfnis nach Rückzug umgehen.",
-    "sex": ""
-  },
   "260234": {
     "age_hint": "Alter: 12 Jahre",
     "breed": "",
@@ -612,36 +597,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262138",
     "rating": "unbekannt",
     "reason": "Der Steckbrief nennt keine Aussage zur Eignung für Kinder; es wird nur erwähnt, dass Vivaldi ein sehr schüchterner und ängstlicher Kater ist, der ein ruhiges Zuhause braucht.",
-    "sex": ""
-  },
-  "262182": {
-    "age_hint": "Alter: 10 Monate",
-    "breed": "",
-    "cat_id": "262182",
-    "companion_count": 2,
-    "first_seen": "2026-07-15T15:15:51",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262182-1-134285735936627824.jpg",
-    "name": "LISANN",
-    "partner_name": "TINO",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262182",
-    "rating": "aeltere_kinder",
-    "reason": "Die beiden eignen sich gut für Familien und können auch mit verständigen Kindern ab etwa sieben Jahren zusammenleben.",
-    "sex": ""
-  },
-  "262183": {
-    "age_hint": "Alter: 10 Monate",
-    "breed": "",
-    "cat_id": "262183",
-    "companion_count": 0,
-    "first_seen": "2026-07-15T09:02:43",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262183-1-134285735433249908.jpg",
-    "name": "TINO",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262183",
-    "rating": "aeltere_kinder",
-    "reason": "Die beiden eignen sich gut für Familien und können auch mit verständigen Kindern ab etwa sieben Jahren zusammenleben.",
     "sex": ""
   },
   "262238": {
