@@ -389,36 +389,6 @@
     "reason": "Für Wastl und Arthur suchen wir ein liebevolles Zuhause – gerne auch in einer Familie mit größeren, verständigen Kindern.",
     "sex": ""
   },
-  "261304": {
-    "age_hint": "Alter: 8 Jahre",
-    "breed": "",
-    "cat_id": "261304",
-    "companion_count": 2,
-    "first_seen": "2026-06-08T17:00:08",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261304-1-134249514705213529.JPG",
-    "name": "FRIDA",
-    "partner_name": "FRITZ",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261304",
-    "rating": "aeltere_kinder",
-    "reason": "Für Familien mit Kindern eignen sie sich ab einem Alter von etwa 15 Jahren.",
-    "sex": ""
-  },
-  "261305": {
-    "age_hint": "Alter: 8 Jahre",
-    "breed": "",
-    "cat_id": "261305",
-    "companion_count": 2,
-    "first_seen": "2026-06-08T17:00:08",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261305-1-134249514121937380.JPG",
-    "name": "FRITZ",
-    "partner_name": "FRIDA",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261305",
-    "rating": "aeltere_kinder",
-    "reason": "Für Familien mit Kindern eignen sie sich ab einem Alter von etwa 15 Jahren.",
-    "sex": ""
-  },
   "261407": {
     "age_hint": "9 Monate alt",
     "breed": "",
@@ -447,6 +417,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479",
     "rating": "aeltere_kinder",
     "reason": "Braunie kann sich in einer Familie mit Kindern ab 10 Jahren sehr wohlfühlen.",
+    "sex": ""
+  },
+  "261622": {
+    "age_hint": "Alter: 7 Jahre",
+    "breed": "",
+    "cat_id": "261622",
+    "companion_count": 0,
+    "first_seen": "2026-07-21T09:20:24",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261622-1-134290142675045551.jpg",
+    "name": "CARMEN",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261622",
+    "rating": "aeltere_kinder",
+    "reason": "Carmen kann gerne zu Familien mit verantwortungsbewussten Kindern ziehen.",
     "sex": ""
   },
   "261843": {
@@ -582,6 +567,36 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262106",
     "rating": "aeltere_kinder",
     "reason": "Sie können sich gut eine Familie mit größeren Kindern vorstellen, die Freude daran hat, sich mit ihnen zu beschäftigen.",
+    "sex": ""
+  },
+  "262133": {
+    "age_hint": "26 Jahre alt",
+    "breed": "",
+    "cat_id": "262133",
+    "companion_count": 2,
+    "first_seen": "2026-07-21T09:20:24",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262133-1-134290924559922694.jpg",
+    "name": "FORTUNA",
+    "partner_name": "QUINTA",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262133",
+    "rating": "aeltere_kinder",
+    "reason": "Können gerne zu Familien mit verantwortungsbewussten Kindern ziehen.",
+    "sex": ""
+  },
+  "262134": {
+    "age_hint": "26 Jahre alt",
+    "breed": "",
+    "cat_id": "262134",
+    "companion_count": 2,
+    "first_seen": "2026-07-21T09:20:24",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262134-1-134290927690432015.jpg",
+    "name": "QUINTA",
+    "partner_name": "FORTUNA",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262134",
+    "rating": "aeltere_kinder",
+    "reason": "Quinta und Fortuna können gerne zu Familien mit verantwortungsbewussten Kindern ziehen.",
     "sex": ""
   },
   "262138": {
