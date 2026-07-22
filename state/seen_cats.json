@@ -194,21 +194,6 @@
     "reason": "Die beiden eignen sich gut für Familien und können auch mit verständigen Kindern zusammenleben, sofern ein respektvoller Umgang mit den Tieren gewährleistet ist.",
     "sex": ""
   },
-  "260235": {
-    "age_hint": "9 Jahre alt",
-    "breed": "",
-    "cat_id": "260235",
-    "companion_count": 2,
-    "first_seen": "2026-05-09T14:42:05",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260235-1-134202855797144347.jpg",
-    "name": "PEACHIE",
-    "partner_name": "SVEN",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260235",
-    "rating": "aeltere_kinder",
-    "reason": "Die beiden sind familiengeeignet, sodass auch Kinder im Haushalt leben können, sofern ein respektvoller Umgang mit den Tieren gewährleistet ist.",
-    "sex": ""
-  },
   "260610": {
     "age_hint": "Alter: 9 Jahre",
     "breed": "",
@@ -464,6 +449,21 @@
     "reason": "Carmen kann gerne zu Familien mit verantwortungsbewussten Kindern ziehen.",
     "sex": ""
   },
+  "261683": {
+    "age_hint": "2 Monate alt",
+    "breed": "",
+    "cat_id": "261683",
+    "companion_count": 2,
+    "first_seen": "2026-07-22T15:24:40",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261683-1-134291864451387241.jpg",
+    "name": "AMPHIEBA",
+    "partner_name": "LURCHI",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261683",
+    "rating": "aeltere_kinder",
+    "reason": "Kinder ab etwa zwölf Jahren dürfen gerne im neuen Zuhause leben, sofern sie den beiden mit Ruhe und Verständnis begegnen.",
+    "sex": ""
+  },
   "261684": {
     "age_hint": "2 Monate alt",
     "breed": "",
@@ -477,6 +477,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261684",
     "rating": "aeltere_kinder",
     "reason": "Kinder ab etwa 10 Jahren dürfen gerne im neuen Zuhause leben, wenn sie den beiden mit Ruhe und Rücksicht begegnen.",
+    "sex": ""
+  },
+  "261685": {
+    "age_hint": "2 Monate alt",
+    "breed": "",
+    "cat_id": "261685",
+    "companion_count": 2,
+    "first_seen": "2026-07-22T15:24:40",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261685-1-134291864451387241.jpg",
+    "name": "LURCHI",
+    "partner_name": "AMPHIEBA",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261685",
+    "rating": "aeltere_kinder",
+    "reason": "Kinder ab etwa zwölf Jahren dürfen gerne im neuen Zuhause leben, sofern sie den beiden mit Ruhe und Verständnis begegnen.",
     "sex": ""
   },
   "261686": {
