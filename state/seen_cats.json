@@ -584,6 +584,21 @@
     "reason": "können gerne in einen Haushalt mit größeren, verständigen Kindern ziehen",
     "sex": ""
   },
+  "261947": {
+    "age_hint": "Alter: 11 Monate",
+    "breed": "",
+    "cat_id": "261947",
+    "companion_count": 2,
+    "first_seen": "2026-07-25T08:53:11",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261947-1-134294404363251324.jpg",
+    "name": "PETULA",
+    "partner_name": "AMEOS",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261947",
+    "rating": "aeltere_kinder",
+    "reason": "Sie eignen sich für Familien mit Kindern ab 13 Jahren und wünschen sich ein ruhiges Umfeld.",
+    "sex": ""
+  },
   "261948": {
     "age_hint": "3 Jahre alt",
     "breed": "",
