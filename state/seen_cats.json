@@ -179,6 +179,21 @@
     "reason": "Aufgrund ihrer anfänglichen Unsicherheit und ihrer Geräuschempfindlichkeit sollten Kinder im Haushalt bereits größer und verständnisvoll sein.",
     "sex": ""
   },
+  "260205": {
+    "age_hint": "8 Jahre alt",
+    "breed": "",
+    "cat_id": "260205",
+    "companion_count": 0,
+    "first_seen": "2026-07-28T09:29:12",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260205-1-134183842916671148.JPG",
+    "name": "BAZI",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260205",
+    "rating": "aeltere_kinder",
+    "reason": "Größere Kinder ab 16 Jahren sind für sie in Ordnung, sofern sie einen ruhigen Umgang mit Tieren gewohnt sind.",
+    "sex": ""
+  },
   "260234": {
     "age_hint": "Alter: 12 Jahre",
     "breed": "",
@@ -252,6 +267,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260757",
     "rating": "aeltere_kinder",
     "reason": "Sie eignet sich gut für Familien mit Kindern ab 13 Jahren, da sie zwar sehr zutraulich und verschmust ist, aber auch ein lebhaftes und verspieltes Wesen hat.",
+    "sex": ""
+  },
+  "260813": {
+    "age_hint": "Alter: 7 Monate",
+    "breed": "",
+    "cat_id": "260813",
+    "companion_count": 0,
+    "first_seen": "2026-07-28T09:29:12",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260813-1-134297009918308921.jpg",
+    "name": "MATILDA",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260813",
+    "rating": "aeltere_kinder",
+    "reason": "Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.",
     "sex": ""
   },
   "260834": {
