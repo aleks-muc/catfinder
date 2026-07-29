@@ -659,36 +659,6 @@
     "reason": "Sie eignen sich gut für Familien mit Kindern ab 6 Jahren, die bereits verstehen, wie man respektvoll mit Tieren umgeht.",
     "sex": ""
   },
-  "261988": {
-    "age_hint": "2 Monate alt",
-    "breed": "",
-    "cat_id": "261988",
-    "companion_count": 2,
-    "first_seen": "2026-07-15T09:02:43",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261988-1-134285732111211413.jpg",
-    "name": "KAPNA",
-    "partner_name": "CRETE",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261988",
-    "rating": "aeltere_kinder",
-    "reason": "Sie eignen sich für Familien mit Kindern ab 10 Jahren.",
-    "sex": ""
-  },
-  "261989": {
-    "age_hint": "2 Monate alt",
-    "breed": "",
-    "cat_id": "261989",
-    "companion_count": 2,
-    "first_seen": "2026-07-15T09:02:43",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261989-1-134285732111211413.jpg",
-    "name": "CRETE",
-    "partner_name": "KAPNA",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261989",
-    "rating": "aeltere_kinder",
-    "reason": "Sie eignen sich für Familien mit Kindern ab 10 Jahren.",
-    "sex": ""
-  },
   "262041": {
     "age_hint": "Alter: 2 Jahre",
     "breed": "",
