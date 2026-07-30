@@ -659,21 +659,6 @@
     "reason": "Sie eignen sich gut für Familien mit Kindern ab 6 Jahren, die bereits verstehen, wie man respektvoll mit Tieren umgeht.",
     "sex": ""
   },
-  "262041": {
-    "age_hint": "Alter: 2 Jahre",
-    "breed": "",
-    "cat_id": "262041",
-    "companion_count": 0,
-    "first_seen": "2026-07-17T09:01:38",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262041-1-134286651245296439.JPG",
-    "name": "EUPHORBIA",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262041",
-    "rating": "aeltere_kinder",
-    "reason": "Sie eignet sich gut für Familien mit größeren Kindern, da sie ein ruhiges und geduldiges Umfeld bevorzugt.",
-    "sex": ""
-  },
   "262106": {
     "age_hint": "1 Jahr alt",
     "breed": "",
@@ -734,6 +719,21 @@
     "reason": "Der Steckbrief nennt keine Aussage zur Eignung für Kinder; es wird nur erwähnt, dass Vivaldi ein sehr schüchterner und ängstlicher Kater ist, der ein ruhiges Zuhause braucht.",
     "sex": ""
   },
+  "262187": {
+    "age_hint": "Alter: 6 Jahre",
+    "breed": "",
+    "cat_id": "262187",
+    "companion_count": 0,
+    "first_seen": "2026-07-30T09:23:22",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262187-1-134298737615515883.jpg",
+    "name": "VERONA",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262187",
+    "rating": "aeltere_kinder",
+    "reason": "Größere Kinder ab etwa zwölf Jahren können sich die Betreuer gut an ihrer Seite vorstellen.",
+    "sex": ""
+  },
   "262238": {
     "age_hint": "6 Jahre alt",
     "breed": "",
@@ -749,6 +749,21 @@
     "reason": "Für Inci suchen wir ein ruhiges Zuhause ohne Kinder.",
     "sex": ""
   },
+  "262244": {
+    "age_hint": "Alter: 5 Jahre",
+    "breed": "",
+    "cat_id": "262244",
+    "companion_count": 0,
+    "first_seen": "2026-07-30T09:23:22",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262244-1-134298740996201986.jpg",
+    "name": "RUDI",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262244",
+    "rating": "geeignet",
+    "reason": "Durch sein freundliches Wesen können wir uns Rudi auch gut in einer Familie vorstellen.",
+    "sex": ""
+  },
   "262397": {
     "age_hint": "5 Jahre alt",
     "breed": "",
@@ -762,6 +777,21 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262397",
     "rating": "nicht_geeignet",
     "reason": "auch Kinder sollten nicht in seinem neuen Zuhause leben",
+    "sex": ""
+  },
+  "262505": {
+    "age_hint": "3 Jahre alt",
+    "breed": "",
+    "cat_id": "262505",
+    "companion_count": 0,
+    "first_seen": "2026-07-30T09:23:22",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262505-1-134298745959123309.jpg",
+    "name": "LOUIS",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262505",
+    "rating": "aeltere_kinder",
+    "reason": "Kinder ab etwa zehn Jahren können gerne in seinem neuen Zuhause leben.",
     "sex": ""
   },
   "262827": {
