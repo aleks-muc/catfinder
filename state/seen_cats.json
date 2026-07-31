@@ -179,6 +179,21 @@
     "reason": "Aufgrund ihrer anfänglichen Unsicherheit und ihrer Geräuschempfindlichkeit sollten Kinder im Haushalt bereits größer und verständnisvoll sein.",
     "sex": ""
   },
+  "260188": {
+    "age_hint": "Alter: 3 Jahre",
+    "breed": "",
+    "cat_id": "260188",
+    "companion_count": 0,
+    "first_seen": "2026-07-31T09:35:17",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260188-1-134286609903331173.jpg",
+    "name": "SASCHA",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260188",
+    "rating": "aeltere_kinder",
+    "reason": "In seinem neuen Zuhause dürfen gerne größere Kinder ab etwa 8 Jahren leben, sofern ein respektvoller und verständnisvoller Umgang mit ihm gewährleistet ist.",
+    "sex": ""
+  },
   "260205": {
     "age_hint": "8 Jahre alt",
     "breed": "",
@@ -567,21 +582,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261780",
     "rating": "geeignet",
     "reason": "Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.",
-    "sex": ""
-  },
-  "261843": {
-    "age_hint": "3 Jahre alt",
-    "breed": "",
-    "cat_id": "261843",
-    "companion_count": 0,
-    "first_seen": "2026-06-20T15:27:45",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261843-1-134264202313281093.jpg",
-    "name": "PAMI",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261843",
-    "rating": "aeltere_kinder",
-    "reason": "Aufgrund ihres freundlichen Wesens können wir uns Pami gut in einer Familie mit verständigen Kindern vorstellen.",
     "sex": ""
   },
   "261890": {
