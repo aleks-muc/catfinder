@@ -674,6 +674,21 @@
     "reason": "Sie können sich gut eine Familie mit größeren Kindern vorstellen, die Freude daran hat, sich mit ihnen zu beschäftigen.",
     "sex": ""
   },
+  "262125": {
+    "age_hint": "7 Jahre alt",
+    "breed": "",
+    "cat_id": "262125",
+    "companion_count": 0,
+    "first_seen": "2026-07-31T15:52:08",
+    "has_interested": false,
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262125-1-134299749020658376.jpg",
+    "name": "MILKA",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262125",
+    "rating": "nicht_geeignet",
+    "reason": "Ein ruhiges Zuhause ohne Kinder ist für Milka wichtig, da es im vorherigen Zuhause aufgrund ihres Verhaltens gegenüber dem dort lebenden Kind zu Problemen kam.",
+    "sex": ""
+  },
   "262133": {
     "age_hint": "26 Jahre alt",
     "breed": "",
