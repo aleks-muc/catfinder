@@ -2,13 +2,13 @@
 quick_id: 260807-wnv
 description: Krankheits-/Pflegeaufwand-Feld — Claude-Klassifikation, Card-Marker, Filter
 date: 2026-08-07
-status: incomplete
-commits: [df1731f]
+status: complete
+commits: [df1731f, 9b40c87, ce9ee0c, f502f1f]
 ---
 
 # Quick Task 260807-wnv — Summary
 
-Code vollständig, **Backfill offen** (siehe unten).
+Abgeschlossen. Vier Commits: Feature, zwei Prompt-Korrekturen, Backfill-State.
 
 ## Umgesetzt (Commit `df1731f`, `catfinder.py`)
 
@@ -56,17 +56,67 @@ anfühlt.
   `.card .health` im Output vorhanden.
 - `health_note` wird escaped (`<script>` → `&lt;script&gt;`).
 
-## Offen: Backfill
+## Prompt-Korrekturen nach dem ersten Backfill
 
-`python catfinder.py --all --no-browser` ist **noch nicht gelaufen** —
-`ANTHROPIC_API_KEY` ist weder in der Arbeits-Shell noch im Login-Profil
-(`zsh -lic`) gesetzt.
+Der erste `--all`-Lauf stufte **39 von 47** Katzen als gesundheitlich
+auffällig ein. Drei Fehlerklassen, in zwei Runden behoben:
 
-Bis der Lauf erfolgt, stehen alle 38 State-Einträge auf `health: unbekannt`
-und zeigen keinen Marker. Der reguläre CI-Lauf holt das **nicht** nach: er
-bewertet nur neu aufgetauchte Katzen, die bestehenden 38 blieben ohne
-Health-Wert, bis sie einmal aus dem Listing verschwinden und neu erscheinen.
+**Runde 1 (`9b40c87`).** Ausstehende Kastration („Kastration muss nachgeholt
+werden", „noch zu jung") wurde als Befund gelesen — der Prompt schloss nur
+`Kastriert: Ja` aus. Verhalten und Entwicklung (Unsauberkeit bei Jungtieren,
+Hyperaktivität, Beißvorfälle, Anknabbern) landete als Erkrankung im Report.
+Allgemeine Rassehinweise ohne Befund ebenfalls. Prompt führt seitdem mit dem
+positiven Kriterium statt mit einer Verbotsliste.
 
-State-Backup vor dem geplanten Lauf liegt im Scratchpad
-(`state_vorher.json`), da der Scratchpad session-gebunden ist bei Bedarf
-vorher neu ziehen.
+**Runde 2 (`ce9ee0c`)**, nach Prüflauf 12/16:
+
+- *GIZMO* trug weiter Pashas Nierenwerte — sein `Besonderheiten`-Abschnitt
+  handelt ausschließlich von der Partnerkatze. Nicht am Prompt gelöst,
+  sondern an den Daten: `cat.partner_name` ist zum Bewertungszeitpunkt
+  bereits gefüllt (`main` setzt es vor `evaluate_all`) und wird jetzt in den
+  User-Prompt injiziert.
+- *BILL-KAUL-QUAPPI* blieb trotz nahezu wörtlicher Ausschlussregel auf
+  `erwaehnt`. Das Modell liest die Existenz eines `Besonderheiten`-Abschnitts
+  selbst als Befund → steht jetzt explizit dagegen.
+- *SUCUK* begründete `erwaehnt` selbst mit „aber keine diagnostizierte
+  Erkrankung". Neue Schlussprüfung bindet die Kategorie an die Notiz: ohne
+  benennbaren körperlichen Befund ist es `keine`.
+
+**Falsche Testerwartung, kein Bug:** KIM war als `keine` erwartet, ist aber
+korrekt `erwaehnt` — Svens Medikation ist verschwunden, übrig bleibt Kims
+eigenes Übergewicht. Das ist dieselbe Begründung, mit der PFU als Kontrolle
+auf `erwaehnt` steht.
+
+## Backfill-Ergebnis (`f502f1f`)
+
+Prüflauf 16/16, danach `--all` über alle 47 Katzen.
+
+| | vor dem Fix | nach dem Fix |
+|---|---|---|
+| `keine` | 8 | 20 |
+| `erwaehnt` | 21 | 12 |
+| `dauerbehandlung` | 18 | 15 |
+
+Gegenchecks: null Rest-Kontamination (keine Notiz nennt noch den
+Partnernamen), keine Kategorie ohne Notiz, kein `unbekannt`. Pärchen sind
+jetzt korrekt asymmetrisch — PAMUK `keine` / DUMAN `dauerbehandlung`,
+GIZMO `keine` / PASHA `erwaehnt`, SVEN `dauerbehandlung` / KIM `erwaehnt`.
+
+**Nebenbefund:** WASTL wechselte beim Kinder-Rating von `nicht_geeignet` zu
+`aeltere_kinder`. Gegen den Steckbrief geprüft („gerne auch in einer Familie
+mit größeren, verständigen Kindern") — die neue Einstufung ist korrekt, die
+alte war falsch. Der überarbeitete Prompt hat also eine Bestands-Fehl-
+klassifikation mitkorrigiert, und zwar in die Richtung, die zählt: eine
+Katze, die fälschlich aussortiert war.
+
+**Grenzfall bewusst so belassen:** INCI (`erwaehnt`, „rassetypische
+Veranlagung … in tierärztlicher Abklärung") gegenüber RUDI (`keine`,
+allgemeiner Rassehinweis). Die Trennung ist gewollt.
+
+## Verifikations-Skript
+
+Der Prüflauf über die 16 kritischen Fälle liegt bewusst **nicht** im Repo
+(Scratchpad, session-gebunden). Er braucht einen API-Key und war ein
+Einmal-Werkzeug für diese Prompt-Iteration. Falls der Health-Prompt nochmal
+angefasst wird: er prüft zehn Muss-Kipper, drei Pärchen auf Partnername in
+der Notiz und sechs Kontrollen, die sich nicht ändern dürfen.
