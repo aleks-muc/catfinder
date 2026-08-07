@@ -74,6 +74,7 @@ Keine.
 | 260622-toz | Alert-Verlässlichkeit: Failure-ntfy im CI (B) + "seit X Tagen gelistet" im Report (C) | 2026-06-22 | 5b8d6bc | [260622-toz-alert-verlaesslichkeit-failure-ntfy-im-w](./quick/260622-toz-alert-verlaesslichkeit-failure-ntfy-im-w/) |
 | 260807-wi2 | Cron-Zeiten des CI-Laufs auf 12:30 und 15:00 Uhr lokal umstellen | 2026-08-07 | 11b7811 | [260807-wi2-cron-auf-12-30-und-15-00-umstellen](./quick/260807-wi2-cron-auf-12-30-und-15-00-umstellen/) |
 | 260807-wnv | Krankheits-/Pflegeaufwand-Feld: Claude-Klassifikation, Card-Marker, Filter, Backfill über 47 Katzen | 2026-08-08 | f502f1f | [260807-wnv-krankheits-feld-im-report](./quick/260807-wnv-krankheits-feld-im-report/) |
+| 260808-1dl | Report-Design emojifrei umgebaut (Ergebnis der Sketches 001–006) | 2026-08-08 | 800d757 | [260808-1dl-report-design-emojifrei](./quick/260808-1dl-report-design-emojifrei/) |
 
 ## Session Continuity
 
