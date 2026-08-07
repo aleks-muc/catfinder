@@ -140,21 +140,36 @@ Kategorien für 'rating':
 
 Gib als Begründung einen knappen Satz, bevorzugt ein wörtliches Zitat aus dem Text.
 
-Zweite Aufgabe: Bewerte über 'health', welchen gesundheitlichen Pflegeaufwand die Katze verursacht.
+Zweite Aufgabe: Bewerte über 'health' den gesundheitlichen Pflegeaufwand GENAU DIESER Katze.
 Die Angaben stehen meist im Abschnitt "Besonderheiten".
 
+Es zählt ausschließlich ein diagnostizierter körperlicher Befund oder ein dauerhafter
+Versorgungsbedarf. Alles andere ist "keine" — auch wenn der Text es ausführlich erwähnt.
+
 Kategorien für 'health':
-- "keine": Der Text nennt keine gesundheitliche Einschränkung.
-- "erwaehnt": Eine Einschränkung ist genannt, erfordert aber keine dauerhafte Behandlung (z.B. Übergewicht, ausgeheilte Verletzung, "auf Veränderungen achten").
-- "dauerbehandlung": Die Katze braucht dauerhaft Medikamente, Spezialfutter oder Gaben zu festen Zeiten (z.B. "zweimal täglich Medikamente", "benötigt Spezialfutter").
+- "keine": Kein körperlicher Befund genannt.
+- "erwaehnt": Befund genannt, aber ohne dauerhafte Behandlung (ausgeheilte Verletzung, Übergewicht, Wert unter Beobachtung).
+- "dauerbehandlung": Braucht dauerhaft Medikamente, Spezialfutter oder Gaben zu festen Zeiten.
 - "unbekannt": Es liegt kein Steckbrieftext vor.
 
-WICHTIG, sonst wird jede Katze als krank eingestuft:
-- "Kastriert: Ja", Impfungen und Chippen sind Routine-Angaben und stehen bei praktisch jeder Katze — das ist KEINE Erkrankung.
-- "Sorgentier" und "Nur für erfahrene Halter" sind Verhaltens- und Vermittlungsmarker, KEINE Gesundheitsangaben.
-- Scheu, ängstlich oder unverträglich mit Artgenossen ist Verhalten, keine Erkrankung.
+NICHT als Erkrankung werten — das sind die häufigsten Fehlerquellen:
+- Kastration, Impfung, Chippen. Auch dann nicht, wenn sie noch ausstehen: "noch nicht
+  kastriert", "Kastration muss nachgeholt werden", "noch zu jung für die Kastration".
+  Das ist Routine bei jedem Vermittlungstier, kein Befund.
+- Verhalten und Entwicklung: Unsauberkeit bei Jungtieren ("altersbedingt ab und zu noch
+  etwas unsauber"), Hyperaktivität, Beißvorfälle, Anknabbern von Gegenständen, Scheu,
+  Unverträglichkeit mit Artgenossen. Auch dann nicht, wenn der Text ausdrücklich sagt,
+  dass die medizinische Untersuchung ohne Befund blieb.
+- "Sorgentier" und "Nur für erfahrene Halter" sind Vermittlungsmarker, keine Diagnose.
+- Allgemeine Rassehinweise ohne konkreten Befund ("als British Kurzhaar besteht ein
+  erhöhtes Risiko für rassetypische Erkrankungen").
 
-'health_note': die Erkrankung in max. einem Halbsatz, bevorzugt wörtlich. Bei "keine" und "unbekannt" leer lassen.
+Pärchen-Steckbriefe beschreiben BEIDE Katzen im selben Text. Bewerte ausschließlich die
+Katze, deren Name im Steckbrief-Kopf steht. Hat nur die Partnerkatze einen Befund, ist
+'health' für diese Katze "keine" — übernimm den fremden Befund nicht.
+
+'health_note': der Befund DIESER Katze in max. einem Halbsatz, bevorzugt wörtlich.
+Bei "keine" und "unbekannt" leer lassen.
 """
 
 
@@ -504,7 +519,8 @@ def evaluate_cat(client: Anthropic, cat: Cat, profile_text: str) -> CatRating:
     user_prompt = (
         f"Steckbrief von {cat.name} (ID {cat.cat_id}):\n\n"
         f"{profile_text}\n\n"
-        "Bewerte die Kindertauglichkeit dieser Katze nach dem oben definierten Schema."
+        f"Bewerte Kindertauglichkeit und Gesundheit nach dem oben definierten Schema. "
+        f"Bewertet wird ausschließlich {cat.name} — nicht eine im Text miterwähnte Partnerkatze."
     )
 
     last_exc: Exception | None = None
