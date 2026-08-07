@@ -1,0 +1,37 @@
+/* Catfinder — Sketch-Theme "ruhig & redaktionell"
+   Gedeckte Papierfarben, Serif-Überschriften aus dem System-Stack (kein Webfont,
+   damit es im Report ohne Build-Step und ohne externe Requests funktioniert). */
+
+:root {
+  /* Flächen */
+  --paper:      #faf9f7;
+  --surface:    #ffffff;
+  --hairline:   #e4e0d9;
+  --hairline-2: #d6d1c7;
+
+  /* Text */
+  --ink:        #1d1b18;
+  --ink-soft:   #55524c;
+  --ink-mute:   #8a857c;
+
+  /* Bewertung — gedeckt statt Ampel */
+  --moss:       #4a6741;   /* geeignet */
+  --ochre:      #96742a;   /* nur ältere Kinder */
+  --clay:       #a04e38;   /* nicht für Kinder */
+  --stone:      #8a857c;   /* keine Angabe */
+
+  /* Gesundheit */
+  --health-1:   #96742a;   /* erwähnt */
+  --health-2:   #a04e38;   /* Dauerbehandlung */
+
+  /* Interaktion */
+  --link:       #3f5e6b;
+
+  /* Typo */
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans:  -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Rhythmus */
+  --gap:   1.25rem;
+  --gap-l: 2.5rem;
+}

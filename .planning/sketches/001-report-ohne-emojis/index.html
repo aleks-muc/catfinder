@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sketch 001 — Report ohne Emojis</title>
+<link rel="stylesheet" href="../themes/default.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+     -webkit-font-smoothing:antialiased}
+
+/* ---- Sketch-Rahmenwerk (gehört nicht zum Design) ---- */
+.sk-tabs{position:sticky;top:0;z-index:200;display:flex;gap:.25rem;padding:.6rem 1rem;
+         background:#1d1b18;border-bottom:1px solid #000}
+.sk-tabs button{background:transparent;border:1px solid #4a463f;color:#cfc9be;
+                padding:.4rem .9rem;border-radius:2px;font:inherit;font-size:.82rem;cursor:pointer}
+.sk-tabs button.on{background:#faf9f7;color:#1d1b18;border-color:#faf9f7}
+.sk-tabs .sk-hint{margin-left:auto;color:#8a857c;font-size:.78rem;align-self:center}
+.sk-pane{display:none}.sk-pane.on{display:block}
+.sk-caption{max-width:1500px;margin:1.5rem auto 0;padding:0 1.5rem;color:var(--ink-mute);
+            font-size:.85rem;line-height:1.6;max-width:46rem}
+.sk-caption strong{color:var(--ink-soft)}
+
+/* ============ VARIANTE A — Haarlinien & Kapitälchen ============ */
+.a-wrap{max-width:1500px;margin:0 auto;padding:0 1.5rem 5rem}
+.a-head{padding:3.5rem 0 1.75rem;border-bottom:1px solid var(--hairline-2)}
+.a-head h1{font-family:var(--serif);font-weight:400;font-size:2.6rem;margin:0 0 .5rem;
+           letter-spacing:-.015em}
+.a-head .a-sub{color:var(--ink-mute);font-size:.85rem;letter-spacing:.02em}
+.a-bar{display:flex;align-items:center;gap:1.75rem;flex-wrap:wrap;padding:1.1rem 0;
+       border-bottom:1px solid var(--hairline);position:sticky;top:0;background:var(--paper);z-index:100}
+.a-slider{display:flex;align-items:center;gap:.6rem}
+.a-slabel,.a-svalue{font-size:.76rem;color:var(--ink-mute);letter-spacing:.08em;text-transform:uppercase}
+.a-track{width:130px;height:1px;background:var(--hairline-2);position:relative;display:block}
+.a-fill{position:absolute;left:12%;right:18%;top:-1px;height:3px;background:var(--ink-soft)}
+.a-btn{background:none;border:none;padding:.15rem 0;font:inherit;font-size:.76rem;
+       letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);cursor:pointer;
+       border-bottom:1px solid transparent}
+.a-btn.is-active{color:var(--ink);border-bottom-color:var(--ink)}
+.a-reset{margin-left:auto;background:none;border:none;font:inherit;font-size:.76rem;
+         letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);cursor:pointer;
+         text-decoration:underline;text-underline-offset:3px}
+.a-sect{margin-top:3.5rem}
+.a-sect h2{font-family:var(--serif);font-weight:400;font-size:1.05rem;letter-spacing:.14em;
+           text-transform:uppercase;color:var(--ink-soft);margin:0 0 1.75rem}
+.a-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:3rem 2.25rem}
+.a-card img{width:100%;height:220px;object-fit:cover;display:block;background:#eceae5;
+            filter:saturate(.92)}
+.a-card h3{font-family:var(--serif);font-weight:400;font-size:1.35rem;margin:1rem 0 .1rem;
+           display:flex;align-items:baseline;gap:.5rem}
+.a-id{font-family:var(--sans);font-size:.72rem;color:var(--ink-mute);letter-spacing:.05em}
+.a-meta{margin:0 0 .9rem;font-size:.82rem;color:var(--ink-mute)}
+.a-rating{margin:0 0 .5rem;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;
+          color:var(--rc);display:flex;align-items:center;gap:.55rem}
+.a-rule{width:22px;height:2px;background:var(--rc);display:inline-block}
+.a-health{margin:0 0 .5rem;font-size:.82rem;color:var(--hc);padding-left:.75rem;
+          border-left:2px solid var(--hc);line-height:1.45}
+.a-partner{margin:0 0 .4rem;font-size:.82rem;color:var(--link);font-style:italic}
+.a-int{margin:0 0 .4rem;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--clay)}
+.a-reason{margin:.5rem 0 1rem;font-size:.9rem;line-height:1.6;color:var(--ink-soft)}
+.a-foot{margin:0;padding-top:.85rem;border-top:1px solid var(--hairline);display:flex;
+        justify-content:space-between;align-items:baseline;font-size:.78rem}
+.a-listed{color:var(--ink-mute)}
+.a-foot a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink-soft)}
+.a-foot a:hover{color:var(--link);border-color:var(--link)}
+
+/* ============ VARIANTE B — Stiller Rahmen ============ */
+.b-wrap{max-width:1500px;margin:0 auto;padding:0 1.5rem 5rem}
+.b-head{padding:3rem 0 1.5rem}
+.b-head h1{font-family:var(--serif);font-weight:400;font-size:2.2rem;margin:0 0 .4rem}
+.b-head .b-sub{color:var(--ink-mute);font-size:.85rem}
+.b-bar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding:.85rem 1rem;
+       background:var(--surface);border:1px solid var(--hairline);position:sticky;top:0;z-index:100}
+.b-slider{display:flex;align-items:center;gap:.55rem;margin-right:.75rem}
+.b-slabel,.b-svalue{font-size:.8rem;color:var(--ink-mute)}
+.b-track{width:120px;height:2px;background:var(--hairline-2);position:relative;display:block}
+.b-fill{position:absolute;left:12%;right:18%;top:0;height:2px;background:var(--ink-soft)}
+.b-btn{background:var(--paper);border:1px solid var(--hairline-2);color:var(--ink-soft);
+       padding:.35rem .8rem;font:inherit;font-size:.82rem;cursor:pointer;border-radius:2px}
+.b-btn.is-active{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.b-reset{margin-left:auto;background:none;border:none;color:var(--ink-mute);font:inherit;
+         font-size:.82rem;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.b-sect{margin-top:2.75rem}
+.b-sect h2{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);
+           margin:0 0 1.1rem;font-weight:600}
+.b-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.b-card{background:var(--surface);border:1px solid var(--hairline);display:flex;
+        flex-direction:column;overflow:hidden}
+.b-card img{width:100%;height:220px;object-fit:cover;display:block;background:#eceae5}
+.b-body{padding:1.1rem 1.15rem 1.2rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
+.b-card h3{font-family:var(--serif);font-weight:400;font-size:1.25rem;margin:0;
+           display:flex;align-items:baseline;gap:.5rem}
+.b-id{font-family:var(--sans);font-size:.72rem;color:var(--ink-mute)}
+.b-meta{margin:0;font-size:.82rem;color:var(--ink-mute)}
+.b-chips{display:flex;flex-wrap:wrap;gap:.35rem}
+.b-chip{font-size:.74rem;letter-spacing:.02em;padding:.2rem .55rem;border-radius:2px;
+        color:var(--cc);border:1px solid var(--cc);background:transparent}
+.b-chip-int{color:var(--clay);border-color:var(--clay);background:#fbf2ef}
+.b-note{margin:0;font-size:.82rem;color:var(--ink-soft);line-height:1.45}
+.b-partner{margin:0;font-size:.82rem;color:var(--link);font-style:italic}
+.b-reason{margin:0;font-size:.88rem;line-height:1.55;color:var(--ink-soft);flex:1}
+.b-foot{margin:0;font-size:.78rem;color:var(--ink-mute)}
+.b-btn2{}
+.b-card a.b-btn{display:block;text-align:center;text-decoration:none;background:var(--ink);
+                color:var(--paper);padding:.6rem;font-size:.85rem;border-radius:2px}
+.b-card a.b-btn:hover{background:var(--link)}
+
+/* ============ VARIANTE C — Farbkante ============ */
+.c-wrap{max-width:1500px;margin:0 auto;padding:0 1.5rem 5rem}
+.c-head{padding:3rem 0 1.4rem;border-bottom:2px solid var(--ink)}
+.c-head h1{font-family:var(--serif);font-weight:400;font-size:2.4rem;margin:0 0 .35rem}
+.c-head .c-sub{color:var(--ink-mute);font-size:.85rem}
+.c-bar{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;padding:1rem 0;
+       border-bottom:1px solid var(--hairline);position:sticky;top:0;background:var(--paper);z-index:100}
+.c-slider{display:flex;align-items:center;gap:.55rem}
+.c-slabel,.c-svalue{font-size:.8rem;color:var(--ink-mute)}
+.c-track{width:120px;height:1px;background:var(--hairline-2);position:relative;display:block}
+.c-fill{position:absolute;left:12%;right:18%;top:-1px;height:3px;background:var(--ink)}
+.c-btn{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;
+       color:var(--ink-mute);cursor:pointer;border-bottom:2px solid transparent}
+.c-btn.is-active{color:var(--ink);border-bottom-color:var(--ink)}
+.c-reset{margin-left:auto;background:none;border:none;font:inherit;font-size:.85rem;
+         color:var(--ink-mute);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.c-sect{margin-top:3rem}
+.c-sect h2{font-family:var(--serif);font-weight:400;font-size:1.4rem;margin:0 0 1.4rem;
+           color:var(--ink-soft)}
+.c-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem 1.75rem}
+.c-card{background:var(--surface);border-left:3px solid var(--rc);display:flex;flex-direction:column}
+.c-card img{width:100%;height:220px;object-fit:cover;display:block;background:#eceae5}
+.c-body{padding:1rem 1.1rem 1.1rem;display:flex;flex-direction:column;gap:.45rem;flex:1}
+.c-card h3{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:0}
+.c-id{font-family:var(--sans);font-size:.72rem;color:var(--ink-mute)}
+.c-meta{margin:0;font-size:.82rem;color:var(--ink-mute)}
+.c-partner{display:block;color:var(--link);font-style:italic;margin-top:.15rem}
+.c-rating{margin:.2rem 0 0;font-size:.88rem;font-weight:600;color:var(--rc)}
+.c-health{margin:0;font-size:.82rem;color:var(--ink-soft);line-height:1.45}
+.c-int{margin:0;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--clay)}
+.c-reason{margin:.15rem 0 .6rem;font-size:.88rem;line-height:1.55;color:var(--ink-soft);flex:1}
+.c-foot{margin:0;padding-top:.7rem;border-top:1px solid var(--hairline);display:flex;
+        justify-content:space-between;align-items:baseline;font-size:.78rem;color:var(--ink-mute)}
+.c-foot a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink-soft)}
+
+@media (max-width:520px){
+  .a-grid,.b-grid,.c-grid{grid-template-columns:1fr}
+  .a-head h1,.c-head h1{font-size:1.9rem}
+}
+</style>
+</head>
+<body>
+<nav class="sk-tabs">
+  <button data-p="a" class="on">A — Haarlinien</button>
+  <button data-p="b">B — Stiller Rahmen</button>
+  <button data-p="c">C — Farbkante</button>
+  <span class="sk-hint">Sketch 001 · echte Daten aus state/seen_cats.json · Tasten 1/2/3</span>
+</nav>
+
+  <div class="sk-pane" id="pane-a">
+    <div class="sk-caption"><strong>Variante A — Haarlinien &amp; Kapitälchen.</strong> Keine Karten, keine Schatten: die Einträge stehen frei auf dem Papier, getrennt nur durch Weißraum und feine Linien. Bewertung als gesperrte Versalzeile mit kurzem Farbstrich, Gesundheit als eingerückte Notiz. Filterleiste rein typografisch, aktiver Zustand durch Unterstreichung. Am weitesten weg vom heutigen Report — am ruhigsten, aber die Bewertung ist leiser.</div>
+    <div class="a-wrap">
+      <header class="a-head">
+        <h1>Catfinder</h1>
+        <div class="a-sub">Lauf vom 08.08.2026, 00:22 · 47 Katzen gelistet · 4 neu bewertet · 12 angezeigt</div>
+      </header>
+      
+    <div class="a-bar">
+      <div class="a-slider">
+        <span class="a-slabel">Alter</span>
+        <span class="a-track"><span class="a-fill"></span></span>
+        <span class="a-svalue">3 Mon. – 13 J.</span>
+      </div>
+      <button class="a-btn is-active">Nur geeignet</button>
+      <button class="a-btn is-active">Nur Pärchen</button>
+      <button class="a-btn">Sorgenkinder einblenden</button>
+      <button class="a-btn">Dauerbehandlung ausblenden</button>
+      <button class="a-reset">Alle Katzen zeigen</button>
+    </div>
+      <section class="a-sect"><h2>Neu seit letztem Lauf (4)</h2><div class="a-grid">
+      <article class="a-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261779-1-134291782260993560.jpg" alt="KEVIN" loading="lazy">
+        <h3>KEVIN<span class="a-id">261779</span></h3>
+        <p class="a-meta">3 Monate alt</p>
+        <p class="a-rating" style="--rc:var(--moss)"><span class="a-rule"></span>Kinder geeignet</p>
+        <p class="a-partner">Pärchen mit HILDEGARD</p><p class="a-int">Interessenten vorhanden</p>
+        <p class="a-reason">Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.</p>
+        <p class="a-foot"><span class="a-listed">seit heute gelistet</span>
+           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261779">Steckbrief &rarr;</a></p>
+      </article>
+      <article class="a-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261780-1-134291783787982501.jpg" alt="HILDEGARD" loading="lazy">
+        <h3>HILDEGARD<span class="a-id">261780</span></h3>
+        <p class="a-meta">3 Monate alt</p>
+        <p class="a-rating" style="--rc:var(--moss)"><span class="a-rule"></span>Kinder geeignet</p>
+        <p class="a-partner">Pärchen mit KEVIN</p><p class="a-int">Interessenten vorhanden</p>
+        <p class="a-reason">Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.</p>
+        <p class="a-foot"><span class="a-listed">seit heute gelistet</span>
+           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261780">Steckbrief &rarr;</a></p>
+      </article>
+      <article class="a-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260813-1-134297009918308921.jpg" alt="MATILDA" loading="lazy">
+        <h3>MATILDA<span class="a-id">260813</span></h3>
+        <p class="a-meta">Alter: 7 Monate</p>
+        <p class="a-rating" style="--rc:var(--ochre)"><span class="a-rule"></span>Nur ältere Kinder</p>
+        <p class="a-health" style="--hc:var(--health-2)">Dauerbehandlung nötig · Futtermittelallergie mit Spezialfutter (Monoprotein Büffel, Hypoallergenic), drei Beine, neigt zu Ohrenproblemen bei ungeeignetem Futter.</p><p class="a-partner">Pärchen mit CONSTANTIN CHRISTOMANOS</p>
+        <p class="a-reason">Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.</p>
+        <p class="a-foot"><span class="a-listed">seit heute gelistet</span>
+           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260813">Steckbrief &rarr;</a></p>
+      </article>
+      <article class="a-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261407-1-134297009918308921.jpg" alt="CONSTANTIN CHRISTOMANOS" loading="lazy">
+        <h3>CONSTANTIN CHRISTOMANOS<span class="a-id">261407</span></h3>
+        <p class="a-meta">11 Monate alt</p>
+        <p class="a-rating" style="--rc:var(--ochre)"><span class="a-rule"></span>Nur ältere Kinder</p>
+        <p class="a-health" style="--hc:var(--health-2)">Dauerbehandlung nötig · Futtermittelallergie, benötigt spezielles Monoprotein Büffel- und Hypoallergenic Futter; hatte längere Zeit mit Magen-Darm-Beschwerden zu kämpfen, deren Ursache noch abgeklärt wird.</p><p class="a-partner">Pärchen mit MATILDA</p>
+        <p class="a-reason">Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.</p>
+        <p class="a-foot"><span class="a-listed">seit heute gelistet</span>
+           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261407">Steckbrief &rarr;</a></p>
+      </article></div></section>
+      <section class="a-sect"><h2>Weiterhin verfügbar (4)</h2><div class="a-grid">
+      <article class="a-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261479-1-134157955062570092.jpg" alt="BRAUNIE" loading="lazy">
+        <h3>BRAUNIE<span class="a-id">261479</span></h3>
+        <p class="a-meta">Alter: 8 Jahre</p>
+        <p class="a-rating" style="--rc:var(--ochre)"><span class="a-rule"></span>Nur ältere Kinder</p>
+        <p class="a-health" style="--hc:var(--health-2)">Dauerbehandlung nötig · Diabetes, benötigt regelmäßig Insulin</p><p class="a-int">Interessenten vorhanden</p>
+        <p class="a-reason">sich sowohl in einer Familie mit Kindern ab 10 Jahren als auch in einem ruhigen Zuhause bei Einzelpersonen sehr wohlfühlen kann</p>
+        <p class="a-foot"><span class="a-listed">seit 94 Tagen gelistet</span>
+           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479">Steckbrief &rarr;</a></p>
+      </article>
+      <article class="a-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261102-1-134254023256819094.jpg" alt="GIZMO" loading="lazy">
+        <h3>GIZMO<span class="a-id">261102</span></h3>
+        <p class="a-meta">Alter: 16 Jahre</p>
+        <p class="a-rating" style="--rc:var(--ochre)"><span class="a-rule"></span>Nur ältere Kinder</p>
+        <p class="a-partner">Pärchen mit PASHA</p>
+        <p class="a-reason">Für Familien mit Kindern eignen sie sich ab einem etwas größeren Alter.</p>
+        <p class="a-foot"><span class="a-listed">seit 59 Tagen gelistet</span>
+           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261102">Steckbrief &rarr;</a></p>
+      </article>
+      <article class="a-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/251280-1-134135615024050821.JPG" alt="WALLACE" loading="lazy">
+        <h3>WALLACE<span class="a-id">251280</span></h3>
+        <p class="a-meta">Alter: 13 Jahre</p>
+        <p class="a-rating" style="--rc:var(--clay)"><span class="a-rule"></span>Nicht für Kinder</p>
+        <p class="a-health" style="--hc:var(--health-2)">Dauerbehandlung nötig · Futtermittelallergie mit Spezialfutter und Bluthochdruck, täglich eine Tablette erforderlich.</p>
+        <p class="a-reason">Ein ruhiges, erfahrenes Zuhause ohne Kinder ist ideal für diesen besonderen Kater.</p>
+        <p class="a-foot"><span class="a-listed">seit 111 Tagen gelistet</span>
+           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/251280">Steckbrief &rarr;</a></p>
+      </article>
+      <article class="a-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255223-1-134182906887033878.jpg" alt="PFU" loading="lazy">
+        <h3>PFU<span class="a-id">255223</span></h3>
+        <p class="a-meta">9 Jahre alt</p>
+        <p class="a-rating" style="--rc:var(--clay)"><span class="a-rule"></span>Nicht für Kinder</p>
+        <p class="a-health" style="--hc:var(--health-1)">Gesundheit beachten · neigt zu Übergewicht, muss aktuell noch abnehmen</p>
+        <p class="a-reason">Der Text sagt ausdrücklich: &#x27;suchen wir für sie präferiert einen Einzelplatz in einem Haushalt ohne Kinder.&#x27;</p>
+        <p class="a-foot"><span class="a-listed">seit 111 Tagen gelistet</span>
+           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/255223">Steckbrief &rarr;</a></p>
+      </article></div></section>
+      <section class="a-sect"><h2>Nicht mehr verfügbar (2)</h2><div class="a-grid">
+      <article class="a-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262138-1-134278988481407158.JPG" alt="VIVALDI" loading="lazy">
+        <h3>VIVALDI<span class="a-id">262138</span></h3>
+        <p class="a-meta">Alter: 1 Jahre</p>
+        <p class="a-rating" style="--rc:var(--stone)"><span class="a-rule"></span>Keine Angabe</p>
+        
+        <p class="a-reason">Der Steckbrief trifft keine Aussage zur Eignung für Kinder; es wird nur erwähnt, dass Vivaldi ein ruhiges Zuhause bei geduldigen Menschen benötigt.</p>
+        <p class="a-foot"><span class="a-listed">seit heute gelistet</span>
+           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262138">Steckbrief &rarr;</a></p>
+      </article>
+      <article class="a-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/253426-1-134099368644862245.jpg" alt="TEDDY" loading="lazy">
+        <h3>TEDDY<span class="a-id">253426</span></h3>
+        <p class="a-meta">4 Jahre alt</p>
+        <p class="a-rating" style="--rc:var(--clay)"><span class="a-rule"></span>Nicht für Kinder</p>
+        
+        <p class="a-reason">Teddy mag keine Kinder und ist mit Artgenossen unverträglich, weshalb er als Einzelkatze in einem ruhigen Zuhause am besten aufgehoben ist.</p>
+        <p class="a-foot"><span class="a-listed">seit 111 Tagen gelistet</span>
+           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/253426">Steckbrief &rarr;</a></p>
+      </article></div></section>
+    </div>
+  </div>
+
+  <div class="sk-pane" id="pane-b">
+    <div class="sk-caption"><strong>Variante B — Stiller Rahmen.</strong> Behält die Karte als Fläche, nimmt ihr aber Schatten und Rundung: weiße Fläche, 1px Haarlinie. Bewertung und Gesundheit als umrandete Chips nebeneinander, dadurch am schnellsten zu scannen. Filterbuttons gefüllt statt unterstrichen. Der konservativste Schritt — die Struktur bleibt, nur die Oberfläche wechselt.</div>
+    <div class="b-wrap">
+      <header class="b-head">
+        <h1>Catfinder</h1>
+        <div class="b-sub">Lauf vom 08.08.2026, 00:22 · 47 Katzen gelistet · 4 neu bewertet · 12 angezeigt</div>
+      </header>
+      
+    <div class="b-bar">
+      <div class="b-slider">
+        <span class="b-slabel">Alter</span>
+        <span class="b-track"><span class="b-fill"></span></span>
+        <span class="b-svalue">3 Mon. – 13 J.</span>
+      </div>
+      <button class="b-btn is-active">Nur geeignet</button>
+      <button class="b-btn is-active">Nur Pärchen</button>
+      <button class="b-btn">Sorgenkinder einblenden</button>
+      <button class="b-btn">Dauerbehandlung ausblenden</button>
+      <button class="b-reset">Alle Katzen zeigen</button>
+    </div>
+      <section class="b-sect"><h2>Neu seit letztem Lauf (4)</h2><div class="b-grid">
+      <article class="b-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261779-1-134291782260993560.jpg" alt="KEVIN" loading="lazy">
+        <div class="b-body">
+          <h3>KEVIN<span class="b-id">261779</span></h3>
+          <p class="b-meta">3 Monate alt</p>
+          <div class="b-chips"><span class="b-chip" style="--cc:var(--moss)">Kinder geeignet</span><span class="b-chip b-chip-int">Interessenten</span></div>
+          <p class="b-partner">Pärchen mit HILDEGARD</p>
+          <p class="b-reason">Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.</p>
+          <p class="b-foot">seit heute gelistet</p>
+          <a class="b-btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261779">Steckbrief öffnen</a>
+        </div>
+      </article>
+      <article class="b-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261780-1-134291783787982501.jpg" alt="HILDEGARD" loading="lazy">
+        <div class="b-body">
+          <h3>HILDEGARD<span class="b-id">261780</span></h3>
+          <p class="b-meta">3 Monate alt</p>
+          <div class="b-chips"><span class="b-chip" style="--cc:var(--moss)">Kinder geeignet</span><span class="b-chip b-chip-int">Interessenten</span></div>
+          <p class="b-partner">Pärchen mit KEVIN</p>
+          <p class="b-reason">Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.</p>
+          <p class="b-foot">seit heute gelistet</p>
+          <a class="b-btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261780">Steckbrief öffnen</a>
+        </div>
+      </article>
+      <article class="b-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260813-1-134297009918308921.jpg" alt="MATILDA" loading="lazy">
+        <div class="b-body">
+          <h3>MATILDA<span class="b-id">260813</span></h3>
+          <p class="b-meta">Alter: 7 Monate</p>
+          <div class="b-chips"><span class="b-chip" style="--cc:var(--ochre)">Nur ältere Kinder</span><span class="b-chip" style="--cc:var(--health-2)">Dauerbehandlung nötig</span></div>
+          <p class="b-note">Futtermittelallergie mit Spezialfutter (Monoprotein Büffel, Hypoallergenic), drei Beine, neigt zu Ohrenproblemen bei ungeeignetem Futter.</p><p class="b-partner">Pärchen mit CONSTANTIN CHRISTOMANOS</p>
+          <p class="b-reason">Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.</p>
+          <p class="b-foot">seit heute gelistet</p>
+          <a class="b-btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260813">Steckbrief öffnen</a>
+        </div>
+      </article>
+      <article class="b-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261407-1-134297009918308921.jpg" alt="CONSTANTIN CHRISTOMANOS" loading="lazy">
+        <div class="b-body">
+          <h3>CONSTANTIN CHRISTOMANOS<span class="b-id">261407</span></h3>
+          <p class="b-meta">11 Monate alt</p>
+          <div class="b-chips"><span class="b-chip" style="--cc:var(--ochre)">Nur ältere Kinder</span><span class="b-chip" style="--cc:var(--health-2)">Dauerbehandlung nötig</span></div>
+          <p class="b-note">Futtermittelallergie, benötigt spezielles Monoprotein Büffel- und Hypoallergenic Futter; hatte längere Zeit mit Magen-Darm-Beschwerden zu kämpfen, deren Ursache noch abgeklärt wird.</p><p class="b-partner">Pärchen mit MATILDA</p>
+          <p class="b-reason">Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.</p>
+          <p class="b-foot">seit heute gelistet</p>
+          <a class="b-btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261407">Steckbrief öffnen</a>
+        </div>
+      </article></div></section>
+      <section class="b-sect"><h2>Weiterhin verfügbar (4)</h2><div class="b-grid">
+      <article class="b-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261479-1-134157955062570092.jpg" alt="BRAUNIE" loading="lazy">
+        <div class="b-body">
+          <h3>BRAUNIE<span class="b-id">261479</span></h3>
+          <p class="b-meta">Alter: 8 Jahre</p>
+          <div class="b-chips"><span class="b-chip" style="--cc:var(--ochre)">Nur ältere Kinder</span><span class="b-chip" style="--cc:var(--health-2)">Dauerbehandlung nötig</span><span class="b-chip b-chip-int">Interessenten</span></div>
+          <p class="b-note">Diabetes, benötigt regelmäßig Insulin</p>
+          <p class="b-reason">sich sowohl in einer Familie mit Kindern ab 10 Jahren als auch in einem ruhigen Zuhause bei Einzelpersonen sehr wohlfühlen kann</p>
+          <p class="b-foot">seit 94 Tagen gelistet</p>
+          <a class="b-btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479">Steckbrief öffnen</a>
+        </div>
+      </article>
+      <article class="b-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261102-1-134254023256819094.jpg" alt="GIZMO" loading="lazy">
+        <div class="b-body">
+          <h3>GIZMO<span class="b-id">261102</span></h3>
+          <p class="b-meta">Alter: 16 Jahre</p>
+          <div class="b-chips"><span class="b-chip" style="--cc:var(--ochre)">Nur ältere Kinder</span></div>
+          <p class="b-partner">Pärchen mit PASHA</p>
+          <p class="b-reason">Für Familien mit Kindern eignen sie sich ab einem etwas größeren Alter.</p>
+          <p class="b-foot">seit 59 Tagen gelistet</p>
+          <a class="b-btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261102">Steckbrief öffnen</a>
+        </div>
+      </article>
+      <article class="b-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/251280-1-134135615024050821.JPG" alt="WALLACE" loading="lazy">
+        <div class="b-body">
+          <h3>WALLACE<span class="b-id">251280</span></h3>
+          <p class="b-meta">Alter: 13 Jahre</p>
+          <div class="b-chips"><span class="b-chip" style="--cc:var(--clay)">Nicht für Kinder</span><span class="b-chip" style="--cc:var(--health-2)">Dauerbehandlung nötig</span></div>
+          <p class="b-note">Futtermittelallergie mit Spezialfutter und Bluthochdruck, täglich eine Tablette erforderlich.</p>
+          <p class="b-reason">Ein ruhiges, erfahrenes Zuhause ohne Kinder ist ideal für diesen besonderen Kater.</p>
+          <p class="b-foot">seit 111 Tagen gelistet</p>
+          <a class="b-btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/251280">Steckbrief öffnen</a>
+        </div>
+      </article>
+      <article class="b-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255223-1-134182906887033878.jpg" alt="PFU" loading="lazy">
+        <div class="b-body">
+          <h3>PFU<span class="b-id">255223</span></h3>
+          <p class="b-meta">9 Jahre alt</p>
+          <div class="b-chips"><span class="b-chip" style="--cc:var(--clay)">Nicht für Kinder</span><span class="b-chip" style="--cc:var(--health-1)">Gesundheit beachten</span></div>
+          <p class="b-note">neigt zu Übergewicht, muss aktuell noch abnehmen</p>
+          <p class="b-reason">Der Text sagt ausdrücklich: &#x27;suchen wir für sie präferiert einen Einzelplatz in einem Haushalt ohne Kinder.&#x27;</p>
+          <p class="b-foot">seit 111 Tagen gelistet</p>
+          <a class="b-btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/255223">Steckbrief öffnen</a>
+        </div>
+      </article></div></section>
+      <section class="b-sect"><h2>Nicht mehr verfügbar (2)</h2><div class="b-grid">
+      <article class="b-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262138-1-134278988481407158.JPG" alt="VIVALDI" loading="lazy">
+        <div class="b-body">
+          <h3>VIVALDI<span class="b-id">262138</span></h3>
+          <p class="b-meta">Alter: 1 Jahre</p>
+          <div class="b-chips"><span class="b-chip" style="--cc:var(--stone)">Keine Angabe</span></div>
+          
+          <p class="b-reason">Der Steckbrief trifft keine Aussage zur Eignung für Kinder; es wird nur erwähnt, dass Vivaldi ein ruhiges Zuhause bei geduldigen Menschen benötigt.</p>
+          <p class="b-foot">seit heute gelistet</p>
+          <a class="b-btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262138">Steckbrief öffnen</a>
+        </div>
+      </article>
+      <article class="b-card">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/253426-1-134099368644862245.jpg" alt="TEDDY" loading="lazy">
+        <div class="b-body">
+          <h3>TEDDY<span class="b-id">253426</span></h3>
+          <p class="b-meta">4 Jahre alt</p>
+          <div class="b-chips"><span class="b-chip" style="--cc:var(--clay)">Nicht für Kinder</span></div>
+          
+          <p class="b-reason">Teddy mag keine Kinder und ist mit Artgenossen unverträglich, weshalb er als Einzelkatze in einem ruhigen Zuhause am besten aufgehoben ist.</p>
+          <p class="b-foot">seit 111 Tagen gelistet</p>
+          <a class="b-btn" href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/253426">Steckbrief öffnen</a>
+        </div>
+      </article></div></section>
+    </div>
+  </div>
+
+  <div class="sk-pane" id="pane-c">
+    <div class="sk-caption"><strong>Variante C — Farbkante.</strong> Führt die farbige Kante des heutigen Reports fort, aber schmaler (3px statt 6px) und in gedeckten Tönen. Name in der Serife, Bewertung typografisch in der Akzentfarbe statt als Label. Kompromiss zwischen A und B: die Bewertung bleibt auf Distanz erkennbar, ohne dass Chips den Blick zerteilen.</div>
+    <div class="c-wrap">
+      <header class="c-head">
+        <h1>Catfinder</h1>
+        <div class="c-sub">Lauf vom 08.08.2026, 00:22 · 47 Katzen gelistet · 4 neu bewertet · 12 angezeigt</div>
+      </header>
+      
+    <div class="c-bar">
+      <div class="c-slider">
+        <span class="c-slabel">Alter</span>
+        <span class="c-track"><span class="c-fill"></span></span>
+        <span class="c-svalue">3 Mon. – 13 J.</span>
+      </div>
+      <button class="c-btn is-active">Nur geeignet</button>
+      <button class="c-btn is-active">Nur Pärchen</button>
+      <button class="c-btn">Sorgenkinder einblenden</button>
+      <button class="c-btn">Dauerbehandlung ausblenden</button>
+      <button class="c-reset">Alle Katzen zeigen</button>
+    </div>
+      <section class="c-sect"><h2>Neu seit letztem Lauf (4)</h2><div class="c-grid">
+      <article class="c-card" style="--rc:var(--moss)">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261779-1-134291782260993560.jpg" alt="KEVIN" loading="lazy">
+        <div class="c-body">
+          <h3>KEVIN <span class="c-id">261779</span></h3>
+          <p class="c-meta">3 Monate alt<p class="c-partner">mit HILDEGARD</p></p>
+          <p class="c-rating">Kinder geeignet</p>
+          <p class="c-int">Interessenten vorhanden</p>
+          <p class="c-reason">Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.</p>
+          <p class="c-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261779">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="c-card" style="--rc:var(--moss)">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261780-1-134291783787982501.jpg" alt="HILDEGARD" loading="lazy">
+        <div class="c-body">
+          <h3>HILDEGARD <span class="c-id">261780</span></h3>
+          <p class="c-meta">3 Monate alt<p class="c-partner">mit KEVIN</p></p>
+          <p class="c-rating">Kinder geeignet</p>
+          <p class="c-int">Interessenten vorhanden</p>
+          <p class="c-reason">Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.</p>
+          <p class="c-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261780">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="c-card" style="--rc:var(--ochre)">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260813-1-134297009918308921.jpg" alt="MATILDA" loading="lazy">
+        <div class="c-body">
+          <h3>MATILDA <span class="c-id">260813</span></h3>
+          <p class="c-meta">Alter: 7 Monate<p class="c-partner">mit CONSTANTIN CHRISTOMANOS</p></p>
+          <p class="c-rating">Nur ältere Kinder</p>
+          <p class="c-health">Dauerbehandlung nötig — Futtermittelallergie mit Spezialfutter (Monoprotein Büffel, Hypoallergenic), drei Beine, neigt zu Ohrenproblemen bei ungeeignetem Futter.</p>
+          <p class="c-reason">Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.</p>
+          <p class="c-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260813">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="c-card" style="--rc:var(--ochre)">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261407-1-134297009918308921.jpg" alt="CONSTANTIN CHRISTOMANOS" loading="lazy">
+        <div class="c-body">
+          <h3>CONSTANTIN CHRISTOMANOS <span class="c-id">261407</span></h3>
+          <p class="c-meta">11 Monate alt<p class="c-partner">mit MATILDA</p></p>
+          <p class="c-rating">Nur ältere Kinder</p>
+          <p class="c-health">Dauerbehandlung nötig — Futtermittelallergie, benötigt spezielles Monoprotein Büffel- und Hypoallergenic Futter; hatte längere Zeit mit Magen-Darm-Beschwerden zu kämpfen, deren Ursache noch abgeklärt wird.</p>
+          <p class="c-reason">Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.</p>
+          <p class="c-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261407">Steckbrief &rarr;</a></p>
+        </div>
+      </article></div></section>
+      <section class="c-sect"><h2>Weiterhin verfügbar (4)</h2><div class="c-grid">
+      <article class="c-card" style="--rc:var(--ochre)">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261479-1-134157955062570092.jpg" alt="BRAUNIE" loading="lazy">
+        <div class="c-body">
+          <h3>BRAUNIE <span class="c-id">261479</span></h3>
+          <p class="c-meta">Alter: 8 Jahre</p>
+          <p class="c-rating">Nur ältere Kinder</p>
+          <p class="c-health">Dauerbehandlung nötig — Diabetes, benötigt regelmäßig Insulin</p><p class="c-int">Interessenten vorhanden</p>
+          <p class="c-reason">sich sowohl in einer Familie mit Kindern ab 10 Jahren als auch in einem ruhigen Zuhause bei Einzelpersonen sehr wohlfühlen kann</p>
+          <p class="c-foot"><span>seit 94 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="c-card" style="--rc:var(--ochre)">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261102-1-134254023256819094.jpg" alt="GIZMO" loading="lazy">
+        <div class="c-body">
+          <h3>GIZMO <span class="c-id">261102</span></h3>
+          <p class="c-meta">Alter: 16 Jahre<p class="c-partner">mit PASHA</p></p>
+          <p class="c-rating">Nur ältere Kinder</p>
+          
+          <p class="c-reason">Für Familien mit Kindern eignen sie sich ab einem etwas größeren Alter.</p>
+          <p class="c-foot"><span>seit 59 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261102">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="c-card" style="--rc:var(--clay)">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/251280-1-134135615024050821.JPG" alt="WALLACE" loading="lazy">
+        <div class="c-body">
+          <h3>WALLACE <span class="c-id">251280</span></h3>
+          <p class="c-meta">Alter: 13 Jahre</p>
+          <p class="c-rating">Nicht für Kinder</p>
+          <p class="c-health">Dauerbehandlung nötig — Futtermittelallergie mit Spezialfutter und Bluthochdruck, täglich eine Tablette erforderlich.</p>
+          <p class="c-reason">Ein ruhiges, erfahrenes Zuhause ohne Kinder ist ideal für diesen besonderen Kater.</p>
+          <p class="c-foot"><span>seit 111 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/251280">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="c-card" style="--rc:var(--clay)">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255223-1-134182906887033878.jpg" alt="PFU" loading="lazy">
+        <div class="c-body">
+          <h3>PFU <span class="c-id">255223</span></h3>
+          <p class="c-meta">9 Jahre alt</p>
+          <p class="c-rating">Nicht für Kinder</p>
+          <p class="c-health">Gesundheit beachten — neigt zu Übergewicht, muss aktuell noch abnehmen</p>
+          <p class="c-reason">Der Text sagt ausdrücklich: &#x27;suchen wir für sie präferiert einen Einzelplatz in einem Haushalt ohne Kinder.&#x27;</p>
+          <p class="c-foot"><span>seit 111 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/255223">Steckbrief &rarr;</a></p>
+        </div>
+      </article></div></section>
+      <section class="c-sect"><h2>Nicht mehr verfügbar (2)</h2><div class="c-grid">
+      <article class="c-card" style="--rc:var(--stone)">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262138-1-134278988481407158.JPG" alt="VIVALDI" loading="lazy">
+        <div class="c-body">
+          <h3>VIVALDI <span class="c-id">262138</span></h3>
+          <p class="c-meta">Alter: 1 Jahre</p>
+          <p class="c-rating">Keine Angabe</p>
+          
+          <p class="c-reason">Der Steckbrief trifft keine Aussage zur Eignung für Kinder; es wird nur erwähnt, dass Vivaldi ein ruhiges Zuhause bei geduldigen Menschen benötigt.</p>
+          <p class="c-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262138">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="c-card" style="--rc:var(--clay)">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/253426-1-134099368644862245.jpg" alt="TEDDY" loading="lazy">
+        <div class="c-body">
+          <h3>TEDDY <span class="c-id">253426</span></h3>
+          <p class="c-meta">4 Jahre alt</p>
+          <p class="c-rating">Nicht für Kinder</p>
+          
+          <p class="c-reason">Teddy mag keine Kinder und ist mit Artgenossen unverträglich, weshalb er als Einzelkatze in einem ruhigen Zuhause am besten aufgehoben ist.</p>
+          <p class="c-foot"><span>seit 111 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/253426">Steckbrief &rarr;</a></p>
+        </div>
+      </article></div></section>
+    </div>
+  </div>
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.sk-tabs button');
+  function show(p){
+    document.querySelectorAll('.sk-pane').forEach(function(x){x.classList.toggle('on',x.id==='pane-'+p);});
+    tabs.forEach(function(b){b.classList.toggle('on',b.dataset.p===p);});
+    window.scrollTo(0,0);
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.p);});});
+  document.addEventListener('keydown',function(ev){
+    var m={'1':'a','2':'b','3':'c'};
+    if(m[ev.key])show(m[ev.key]);
+  });
+  // Filterbuttons im Mockup klickbar machen, damit der aktive Zustand beurteilbar ist
+  document.querySelectorAll('.a-btn,.b-btn,.c-btn').forEach(function(b){
+    b.addEventListener('click',function(){b.classList.toggle('is-active');});
+  });
+  show('a');
+})();
+</script>
+</body>
+</html>
