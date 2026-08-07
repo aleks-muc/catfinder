@@ -72,6 +72,12 @@ RATING_META: dict[str, dict[str, str]] = {
     "nicht_geeignet":  {"emoji": "🔴", "label": "Nicht für Kinder",      "color": "#c62828", "order": "3"},
 }
 
+# Nur die zwei sichtbaren Health-Kategorien; "keine"/"unbekannt" rendern keinen Marker.
+HEALTH_META: dict[str, dict[str, str]] = {
+    "erwaehnt":        {"label": "Gesundheit beachten",   "color": "#f57c00"},
+    "dauerbehandlung": {"label": "Dauerbehandlung nötig", "color": "#c62828"},
+}
+
 
 # ---------------------------------------------------------------------------
 # Datenmodelle
@@ -105,6 +111,23 @@ class CatRating(BaseModel):
     reason: str = Field(
         description="Begründung in max. einem Satz, möglichst wörtliches Zitat aus dem Steckbrief."
     )
+    health: Literal["keine", "erwaehnt", "dauerbehandlung", "unbekannt"] = Field(
+        default="unbekannt",
+        description=(
+            "keine = Steckbrief nennt keine gesundheitliche Einschränkung. "
+            "erwaehnt = Einschränkung genannt, aber ohne dauerhafte Behandlung "
+            "(z.B. Übergewicht, ausgeheilte Sache, nur beobachten). "
+            "dauerbehandlung = braucht dauerhaft Medikamente, Spezialfutter oder Gabe zu festen Zeiten. "
+            "unbekannt = kein Steckbrieftext vorhanden."
+        ),
+    )
+    health_note: str = Field(
+        default="",
+        description=(
+            "Die Erkrankung in max. einem Halbsatz, bevorzugt wörtlich aus dem Steckbrief "
+            "(z.B. 'Epilepsie, 2x täglich Medikamente'). Leer lassen bei 'keine' und 'unbekannt'."
+        ),
+    )
 SYSTEM_PROMPT = """Du bist ein Klassifikator für deutsche Tierheim-Steckbriefe.
 
 Aufgabe: Bewerte, ob eine Katze laut ihrem Steckbrief für Familien mit Kindern geeignet ist.
@@ -116,6 +139,22 @@ Kategorien für 'rating':
 - "unbekannt": Der Text trifft KEINE Aussage zu Kindern. WICHTIG: Nicht raten oder aus anderen Merkmalen (scheu, ängstlich, Freigänger) auf Kinderverträglichkeit schließen — wenn nicht explizit erwähnt, ist es "unbekannt".
 
 Gib als Begründung einen knappen Satz, bevorzugt ein wörtliches Zitat aus dem Text.
+
+Zweite Aufgabe: Bewerte über 'health', welchen gesundheitlichen Pflegeaufwand die Katze verursacht.
+Die Angaben stehen meist im Abschnitt "Besonderheiten".
+
+Kategorien für 'health':
+- "keine": Der Text nennt keine gesundheitliche Einschränkung.
+- "erwaehnt": Eine Einschränkung ist genannt, erfordert aber keine dauerhafte Behandlung (z.B. Übergewicht, ausgeheilte Verletzung, "auf Veränderungen achten").
+- "dauerbehandlung": Die Katze braucht dauerhaft Medikamente, Spezialfutter oder Gaben zu festen Zeiten (z.B. "zweimal täglich Medikamente", "benötigt Spezialfutter").
+- "unbekannt": Es liegt kein Steckbrieftext vor.
+
+WICHTIG, sonst wird jede Katze als krank eingestuft:
+- "Kastriert: Ja", Impfungen und Chippen sind Routine-Angaben und stehen bei praktisch jeder Katze — das ist KEINE Erkrankung.
+- "Sorgentier" und "Nur für erfahrene Halter" sind Verhaltens- und Vermittlungsmarker, KEINE Gesundheitsangaben.
+- Scheu, ängstlich oder unverträglich mit Artgenossen ist Verhalten, keine Erkrankung.
+
+'health_note': die Erkrankung in max. einem Halbsatz, bevorzugt wörtlich. Bei "keine" und "unbekannt" leer lassen.
 """
 
 
@@ -136,6 +175,19 @@ def load_state() -> dict[str, dict]:
 def _safe_rating(value: str) -> str:
     """Klemmt einen aus dem State gelesenen Rating-Wert auf eine gültige Kategorie."""
     return value if value in ("geeignet", "aeltere_kinder", "nicht_geeignet", "unbekannt") else "unbekannt"
+
+
+def _rating_from_entry(entry: dict) -> CatRating:
+    """Baut ein CatRating aus einem State-Eintrag; Alt-Einträge ohne health bleiben gültig."""
+    health = entry.get("health", "unbekannt")
+    if health not in ("keine", "erwaehnt", "dauerbehandlung", "unbekannt"):
+        health = "unbekannt"
+    return CatRating(
+        rating=_safe_rating(entry.get("rating", "unbekannt")),
+        reason=entry.get("reason", ""),
+        health=health,
+        health_note=entry.get("health_note", ""),
+    )
 
 
 def save_state(state: dict[str, dict]) -> None:
@@ -327,7 +379,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 .cf-range{{position:absolute;width:100%;height:0;top:3px;pointer-events:none;-webkit-appearance:none;appearance:none;background:transparent;outline:none;}}
 .cf-range::-webkit-slider-thumb{{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:#1976d2;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);cursor:pointer;pointer-events:all;}}
 .cf-range::-moz-range-thumb{{width:18px;height:18px;border-radius:50%;background:#1976d2;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);cursor:pointer;pointer-events:all;}}
-#sorgBtn,#fitBtn,#pairBtn{{padding:.4rem .85rem;border-radius:6px;border:1px solid #ddd;background:#f5f5f5;font-size:.85rem;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s;}}
+#sorgBtn,#fitBtn,#pairBtn,#healthBtn{{padding:.4rem .85rem;border-radius:6px;border:1px solid #ddd;background:#f5f5f5;font-size:.85rem;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s;}}
+#healthBtn.active{{background:#fff3e0;border-color:#ffb74d;color:#e65100;}}
 #sorgBtn.hidden{{background:#ffebee;border-color:#ef9a9a;color:#c62828;}}
 #fitBtn.active{{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32;}}
 #pairBtn.active{{background:#e3f2fd;border-color:#90caf9;color:#1565c0;}}
@@ -338,6 +391,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   <button id="fitBtn" class="active">🟢 Nur geeignet</button>
   <button id="pairBtn" class="active">🐱🐱 Nur Pärchen (aktiv)</button>
   <button id="sorgBtn" class="hidden">🔴 Sorgenkinder einblenden</button>
+  <button id="healthBtn">💊 Dauerbehandlung ausblenden</button>
   <button id="resetBtn" style="margin-left:auto;">🌐 Alle Katzen zeigen</button>
 </div>
 <script>
@@ -345,8 +399,9 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   var minR=document.getElementById('ageMin'),maxR=document.getElementById('ageMax'),
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
       sorgBtn=document.getElementById('sorgBtn'),fitBtn=document.getElementById('fitBtn'),
-      pairBtn=document.getElementById('pairBtn'),resetBtn=document.getElementById('resetBtn');
-  var LO={age_min},HI={age_max},showSorg=false,showOnlyFit=true,showOnlyPair=true;
+      pairBtn=document.getElementById('pairBtn'),resetBtn=document.getElementById('resetBtn'),
+      healthBtn=document.getElementById('healthBtn');
+  var LO={age_min},HI={age_max},showSorg=false,showOnlyFit=true,showOnlyPair=true,hideTreat=false;
   function fmt(m){{if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}}
   function pct(v){{return HI>LO?(v-LO)/(HI-LO)*100:0;}}
   function update(){{
@@ -365,6 +420,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
       else{{show=true;}}
       if(show){{show=(!a||a==='unknown')||(parseInt(a)>=lo&&parseInt(a)<=hi);}}
       if(show&&showOnlyPair){{show=c.dataset.companions==='2';}}
+      if(show&&hideTreat){{show=c.dataset.health!=='dauerbehandlung';}}
       c.style.display=show?'':'none';
       if(show)visible++;
     }});
@@ -383,6 +439,12 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     fitBtn.classList.toggle('active',showOnlyFit);
     filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
   }});
+  healthBtn.addEventListener('click',function(){{
+    hideTreat=!hideTreat;
+    healthBtn.textContent=hideTreat?'💊 Dauerbehandlung ausgeblendet':'💊 Dauerbehandlung ausblenden';
+    healthBtn.classList.toggle('active',hideTreat);
+    filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
+  }});
   sorgBtn.addEventListener('click',function(){{
     showSorg=!showSorg;
     sorgBtn.textContent=showSorg?'🔴 Sorgenkinder ausblenden':'🔴 Sorgenkinder einblenden';
@@ -390,7 +452,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
   }});
   resetBtn.addEventListener('click',function(){{
-    showSorg=true;showOnlyFit=false;showOnlyPair=false;
+    showSorg=true;showOnlyFit=false;showOnlyPair=false;hideTreat=false;
     if(minR)minR.value=LO;
     if(maxR)maxR.value=HI;
     fitBtn.textContent='🟢 Nur geeignet';
@@ -399,6 +461,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     pairBtn.classList.remove('active');
     sorgBtn.textContent='🔴 Sorgenkinder ausblenden';
     sorgBtn.classList.remove('hidden');
+    healthBtn.textContent='💊 Dauerbehandlung ausblenden';
+    healthBtn.classList.remove('active');
     update();
   }});
   if(minR)minR.addEventListener('input',update);
@@ -537,6 +601,7 @@ main {{ max-width: 1600px; margin: 1.5rem auto; padding: 0 1rem; }}
 .badge-int {{ display: inline-block; background: #fff3e0; color: #e65100; font-size: .78rem; font-weight: 700; padding: .2rem .55rem; border-radius: 4px; letter-spacing: .01em; }}
 .card .partner {{ font-size: .85rem; color: #1565c0; font-style: italic; }}
 .card .listed {{ font-size: .85rem; color: #888; }}
+.card .health {{ font-size: .85rem; font-weight: 500; color: var(--hc); border-left: 3px solid var(--hc); padding-left: .5rem; }}
 section + section {{ margin-top: 3rem; }}
 section h2.group {{ font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd; padding-bottom: .4rem; margin-bottom: 1rem; }}
 @media (max-width: 480px) {{
@@ -624,6 +689,14 @@ def render_report(
             return f'<div class="partner">🐱 Pärchen mit <strong>{html.escape(cat.partner_name)}</strong></div>'
         return ""
 
+    def _health_line(rating: CatRating) -> str:
+        """Marker nur bei 'erwaehnt'/'dauerbehandlung' — 'keine'/'unbekannt' bleiben unsichtbar."""
+        meta = HEALTH_META.get(rating.health)
+        if not meta:
+            return ""
+        note = f" · {html.escape(rating.health_note)}" if rating.health_note else ""
+        return f'<div class="health" style="--hc: {meta["color"]};">{meta["label"]}{note}</div>'
+
     def _render_card(cat: Cat, rating: CatRating, *, dimmed: bool = False) -> str:
         """Erzeugt das HTML-Markup für eine Katzen-Card; dimmed=True für nicht mehr verfügbare Katzen."""
         meta = RATING_META[rating.rating]
@@ -632,7 +705,7 @@ def render_report(
         card_style = f"--accent: {meta['color']}; opacity: .6;" if dimmed else f"--accent: {meta['color']};"
         btn_style = ' style="background:#9e9e9e;"' if dimmed else ""
         return f"""
-    <div class="card" style="{card_style}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}">
+    <div class="card" style="{card_style}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}">
       {_img(cat)}
       <div class="body">
         <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
@@ -641,6 +714,7 @@ def render_report(
         {_partner_line(cat)}
         {_interested_badge(cat)}
         <div class="rating">{meta['emoji']} {meta['label']}</div>
+        {_health_line(rating)}
         <div class="reason">{html.escape(rating.reason)}</div>
         <a class="btn" href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener"{btn_style}>Steckbrief öffnen →</a>
       </div>
@@ -760,11 +834,10 @@ def main() -> int:
         result = []
         for c in cat_list:
             entry = state.get(c.cat_id, {})
-            r = _safe_rating(entry.get("rating", "unbekannt"))
             c.has_interested = entry.get("has_interested", False)
             c.companion_count = entry.get("companion_count", 0)
             c.partner_name = entry.get("partner_name", "")
-            result.append((c, CatRating(rating=r, reason=entry.get("reason", ""))))
+            result.append((c, _rating_from_entry(entry)))
         return result
 
     # Katzen die letztes Mal gelistet waren, jetzt aber nicht mehr
@@ -784,8 +857,7 @@ def main() -> int:
             companion_count=entry.get("companion_count", 0),
             partner_name=entry.get("partner_name", ""),
         )
-        r = _safe_rating(entry.get("rating", "unbekannt"))
-        no_longer_listed.append((c, CatRating(rating=r, reason=entry.get("reason", ""))))
+        no_longer_listed.append((c, _rating_from_entry(entry)))
 
     def _age_months_with_fallback(cat_id: str, age_hint: str) -> int | None:
         return age_hint_to_months(age_hint) or age_hint_to_months(state.get(cat_id, {}).get("age_hint", ""))
@@ -870,6 +942,8 @@ def main() -> int:
         if cat.cat_id in ratings:
             state[cat.cat_id]["rating"] = ratings[cat.cat_id].rating
             state[cat.cat_id]["reason"] = ratings[cat.cat_id].reason
+            state[cat.cat_id]["health"] = ratings[cat.cat_id].health
+            state[cat.cat_id]["health_note"] = ratings[cat.cat_id].health_note
             state[cat.cat_id]["has_interested"] = cat.has_interested
             state[cat.cat_id]["companion_count"] = cat.companion_count
             state[cat.cat_id]["partner_name"] = cat.partner_name
