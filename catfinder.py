@@ -164,12 +164,23 @@ NICHT als Erkrankung werten — das sind die häufigsten Fehlerquellen:
 - Allgemeine Rassehinweise ohne konkreten Befund ("als British Kurzhaar besteht ein
   erhöhtes Risiko für rassetypische Erkrankungen").
 
-Pärchen-Steckbriefe beschreiben BEIDE Katzen im selben Text. Bewerte ausschließlich die
-Katze, deren Name im Steckbrief-Kopf steht. Hat nur die Partnerkatze einen Befund, ist
-'health' für diese Katze "keine" — übernimm den fremden Befund nicht.
+Der Abschnitt "Besonderheiten" enthält häufig genau solche nicht-medizinischen Hinweise.
+Dass er existiert und etwas erwähnt, ist für sich genommen KEIN Befund.
+
+Pärchen-Steckbriefe beschreiben BEIDE Katzen im selben Text, oft im ganzen Abschnitt nur
+die Partnerkatze. Bewerte ausschließlich die Katze, nach der im User-Prompt gefragt wird.
+Ist der Befund einer anderen Katze zugeschrieben — erkennbar am Namen oder an "er"/"sie"
+mit Bezug auf sie — dann ist 'health' für die gefragte Katze "keine".
 
 'health_note': der Befund DIESER Katze in max. einem Halbsatz, bevorzugt wörtlich.
 Bei "keine" und "unbekannt" leer lassen.
+
+Letzte Prüfung vor der Antwort: Wählst du "erwaehnt" oder "dauerbehandlung", muss
+'health_note' einen konkreten körperlichen Befund benennen — Diagnose, Organwert,
+Verletzung, Allergie, Infektion, Über- oder Untergewicht. Kannst du keinen benennen, weil
+es um Verhalten, Entwicklung, Erziehung, Kastration oder die Partnerkatze geht, dann ist
+'health' = "keine" und 'health_note' leer. Ein Satz wie "keine diagnostizierte Erkrankung"
+in der Notiz bedeutet immer "keine".
 """
 
 
@@ -516,11 +527,19 @@ def evaluate_cat(client: Anthropic, cat: Cat, profile_text: str) -> CatRating:
     if not profile_text.strip():
         return CatRating(rating="unbekannt", reason="Steckbriefseite konnte nicht geladen werden.")
 
+    # Partnername steht aus dem Listing bereits fest (main setzt ihn vor der Bewertung) —
+    # dem Modell nennen statt es aus dem Fließtext raten zu lassen.
+    partner_hint = (
+        f" Der Text beschreibt auch die Partnerkatze {cat.partner_name}. Befunde, die "
+        f"{cat.partner_name} betreffen, zählen für {cat.name} nicht."
+        if cat.partner_name
+        else ""
+    )
     user_prompt = (
         f"Steckbrief von {cat.name} (ID {cat.cat_id}):\n\n"
         f"{profile_text}\n\n"
-        f"Bewerte Kindertauglichkeit und Gesundheit nach dem oben definierten Schema. "
-        f"Bewertet wird ausschließlich {cat.name} — nicht eine im Text miterwähnte Partnerkatze."
+        f"Bewerte Kindertauglichkeit und Gesundheit von {cat.name} nach dem oben "
+        f"definierten Schema.{partner_hint}"
     )
 
     last_exc: Exception | None = None
