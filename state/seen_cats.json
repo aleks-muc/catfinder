@@ -239,21 +239,6 @@
     "reason": "Er eignet sich für Familien und könnte auch mit verständigen Kindern zusammenleben.",
     "sex": ""
   },
-  "260723": {
-    "age_hint": "Alter: 1 Jahre",
-    "breed": "",
-    "cat_id": "260723",
-    "companion_count": 0,
-    "first_seen": "2026-07-13T10:13:51",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260723-1-134211671340005978.jpg",
-    "name": "AMEOS",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260723",
-    "rating": "aeltere_kinder",
-    "reason": "Er ist geeignet für Familien mit sehr ruhigen Kindern ab 14 Jahren, sofern diese Katzenerfahrung haben.",
-    "sex": ""
-  },
   "260757": {
     "age_hint": "Alter: 4 Jahre",
     "breed": "",
@@ -599,21 +584,6 @@
     "reason": "können gerne in einen Haushalt mit größeren, verständigen Kindern ziehen",
     "sex": ""
   },
-  "261947": {
-    "age_hint": "Alter: 11 Monate",
-    "breed": "",
-    "cat_id": "261947",
-    "companion_count": 2,
-    "first_seen": "2026-07-25T08:53:11",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261947-1-134294404363251324.jpg",
-    "name": "PETULA",
-    "partner_name": "AMEOS",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261947",
-    "rating": "aeltere_kinder",
-    "reason": "Sie eignen sich für Familien mit Kindern ab 13 Jahren und wünschen sich ein ruhiges Umfeld.",
-    "sex": ""
-  },
   "261948": {
     "age_hint": "3 Jahre alt",
     "breed": "",
@@ -732,36 +702,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262397",
     "rating": "nicht_geeignet",
     "reason": "auch Kinder sollten nicht in seinem neuen Zuhause leben",
-    "sex": ""
-  },
-  "262827": {
-    "age_hint": "Alter: 7 Jahre",
-    "breed": "",
-    "cat_id": "262827",
-    "companion_count": 2,
-    "first_seen": "2026-07-22T09:19:27",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262827-1-134291762487322146.jpg",
-    "name": "SHADOW/ZORUS",
-    "partner_name": "DONNA",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262827",
-    "rating": "aeltere_kinder",
-    "reason": "Größere Kinder ab etwa 15 Jahren dürfen gerne zur Familie gehören, sofern sie die Bedürfnisse und Grenzen der beiden respektieren.",
-    "sex": ""
-  },
-  "262828": {
-    "age_hint": "Alter: 7 Jahre",
-    "breed": "",
-    "cat_id": "262828",
-    "companion_count": 0,
-    "first_seen": "2026-07-22T09:19:27",
-    "has_interested": false,
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262828-1-134291761765155224.jpg",
-    "name": "DONNA",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262828",
-    "rating": "aeltere_kinder",
-    "reason": "Größere Kinder ab etwa 15 Jahren dürfen gerne zur Familie gehören, sofern sie die Bedürfnisse und Grenzen der beiden respektieren.",
     "sex": ""
   }
 }
