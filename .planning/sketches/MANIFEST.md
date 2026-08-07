@@ -31,7 +31,8 @@ ASCII-Skizzen (redaktionell / funktional / warm).
 | # | Name | Design Question | Winner | Tags |
 |---|------|----------------|--------|------|
 | 001 | report-ohne-emojis | Wie lesen sich Bewertung und Gesundheit ohne Emoji — und wie viel Struktur braucht die Card? | **C — Farbkante** | layout, typografie, farbe |
-| 002 | farbkante-kontrast | Wie viel Fläche braucht ein Label, damit Bewertung und Gesundheit auf Distanz lesbar sind? | — | farbe, kontrast, informationsarchitektur |
+| 002 | farbkante-kontrast | Wie viel Fläche braucht ein Label, damit Bewertung und Gesundheit auf Distanz lesbar sind? | **C3 — Rating gefüllt** | farbe, kontrast, informationsarchitektur |
+| 003 | c3-gestapelt-kontrast | Wie weit lässt sich der Kontrast anheben, bevor "ruhig & redaktionell" kippt? | — | farbe, kontrast |
 
 ## Entschieden
 
@@ -39,3 +40,7 @@ ASCII-Skizzen (redaktionell / funktional / warm).
   Palette war aber zu kontrastarm. Zwei Töne lagen unter WCAG AA — in 002 korrigiert.
 - **Card-Reihenfolge** (Nutzer-Vorgabe, in 002 umgesetzt): Name → Meta → Pärchen/Interessenten
   → Labels → Verhaltensbeschreibung → Gesundheitsbeschreibung → Fußzeile.
+- **Sketch 002 → C3 (Rating gefüllt, Gesundheit umrandet).** Setzt die Rangfolge:
+  Kindertauglichkeit ist die Hauptaussage, Gesundheit die Nebenbedingung.
+- **Labels gestapelt** (Nutzer-Vorgabe, in 003 umgesetzt): Gesundheit immer unter
+  Kindertauglichkeit, nicht daneben.

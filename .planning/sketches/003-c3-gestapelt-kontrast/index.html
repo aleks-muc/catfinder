@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sketch 003 — C3 gestapelt, mehr Kontrast</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f3ef;
+     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+:root{--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+
+.sk-tabs{position:sticky;top:0;z-index:200;display:flex;gap:.25rem;padding:.6rem 1rem;background:#141310}
+.sk-tabs button{background:transparent;border:1px solid #4a463f;color:#cfc9be;padding:.4rem .9rem;
+                border-radius:2px;font:inherit;font-size:.82rem;cursor:pointer}
+.sk-tabs button.on{background:#f5f3ef;color:#141310;border-color:#f5f3ef}
+.sk-tabs .sk-hint{margin-left:auto;color:#8a857c;font-size:.78rem;align-self:center}
+.sk-pane{display:none}.sk-pane.on{display:block}
+.sk-caption{max-width:46rem;margin:0 auto;padding:1.5rem 1.5rem 0;color:#5c574f;
+            font-size:.85rem;line-height:1.6}
+.sk-caption strong{color:#141310}
+
+.k-wrap{max-width:1500px;margin:0 auto;padding:0 1.5rem 5rem;color:var(--ink)}
+.k-head{padding:3rem 0 1.4rem;border-bottom:2px solid var(--ink)}
+.k-head h1{font-family:var(--serif);font-weight:400;font-size:2.4rem;margin:0 0 .35rem;letter-spacing:-.01em}
+.k-sub-head{color:var(--mute);font-size:.85rem}
+.k-bar{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;padding:1rem 0;
+       border-bottom:1px solid var(--hair);position:sticky;top:0;z-index:100}
+.k-slider{display:flex;align-items:center;gap:.55rem}
+.k-slabel,.k-svalue{font-size:.8rem;color:var(--mute)}
+.k-track{width:120px;height:1px;background:var(--hair);position:relative;display:block}
+.k-fill{position:absolute;left:12%;right:18%;top:-1px;height:3px;background:var(--ink)}
+.k-btn{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;color:var(--mute);
+       cursor:pointer;border-bottom:2px solid transparent}
+.k-btn.is-active{color:var(--ink);border-bottom-color:var(--ink);font-weight:600}
+.k-reset{margin-left:auto;background:none;border:none;font:inherit;font-size:.85rem;color:var(--mute);
+         cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.k-sect{margin-top:3rem}
+.k-sect h2{font-family:var(--serif);font-weight:400;font-size:1.4rem;margin:0 0 1.4rem;color:var(--soft)}
+.k-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem 1.75rem}
+
+.k-card{background:#fff;border-left:var(--edge) solid var(--rc);display:flex;flex-direction:column;
+        border-top:1px solid var(--hair);border-right:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.k-card img{width:100%;height:220px;object-fit:cover;display:block;background:#e6e3dd}
+.k-body{padding:1rem 1.1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+.k-card h3{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:0;line-height:1.25;color:var(--ink)}
+.k-id{font-size:.72rem;color:var(--mute);font-family:-apple-system,sans-serif}
+.k-meta{margin:0;font-size:.82rem;color:var(--mute)}
+.k-sub{margin:0;display:flex;flex-direction:column;gap:.2rem}
+.k-pair{font-size:.85rem;color:#1f4453}
+.k-int{font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:#8c1f0d;font-weight:700}
+
+/* Labels gestapelt: Gesundheit immer unter Kindertauglichkeit */
+.k-labels{display:flex;flex-direction:column;align-items:flex-start;gap:.3rem;margin-top:.15rem}
+.k-lab{font-size:.78rem;font-weight:600;padding:.26rem .65rem;border-radius:2px;border:1px solid;
+       line-height:1.25}
+.k-lab-r{color:#fff}
+.k-lab-h{background:#fff}
+
+.k-reason{margin:.3rem 0 0;font-size:.88rem;line-height:1.55;color:var(--soft);flex:1}
+.k-hnote{margin:0;font-size:.85rem;line-height:1.5;padding-left:.7rem;border-left:2px solid}
+.k-foot{margin:0;padding-top:.75rem;border-top:1px solid var(--hair);display:flex;
+        justify-content:space-between;align-items:baseline;font-size:.78rem;color:var(--mute)}
+.k-foot a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--soft);font-weight:500}
+
+@media (max-width:520px){.k-grid{grid-template-columns:1fr}.k-head h1{font-size:1.9rem}}
+
+
+#pane-d1 .k-wrap{--paper:#f5f3ef;--ink:#141310;--soft:#3a3630;
+                     --mute:#5c574f;--hair:#d2cbc0;--edge:4px;
+                     background:#f5f3ef}
+#pane-d1 .k-bar{background:#f5f3ef}
+
+
+#pane-d2 .k-wrap{--paper:#efece6;--ink:#000000;--soft:#26231e;
+                     --mute:#4a463f;--hair:#c2bab0;--edge:5px;
+                     background:#efece6}
+#pane-d2 .k-bar{background:#efece6}
+
+</style>
+</head>
+<body>
+<nav class="sk-tabs">
+  <button data-p="d1" class="on">D1 — Kräftig</button>
+  <button data-p="d2">D2 — Maximal</button>
+  <span class="sk-hint">Sketch 003 · Labels gestapelt · Tasten 1/2</span>
+</nav>
+
+  <div class="sk-pane" id="pane-d1">
+    <div class="k-wrap">
+      <div class="sk-caption"><strong>D1 — Kräftig.</strong> Der gewünschte Schritt: Farben eine Stufe dunkler (Moos #1f4d26, Ocker #7a4a00, Ton #8c1f0d), Papierton von #faf9f7 auf #f5f3ef abgesenkt, damit die weißen Cards deutlicher als Fläche stehen. Kante bleibt 4px, Fließtext dunkler.</div>
+      <header class="k-head">
+        <h1>Catfinder</h1>
+        <div class="k-sub-head">Lauf vom 08.08.2026, 00:36 · 47 Katzen gelistet · 4 neu bewertet · 12 angezeigt</div>
+      </header>
+      
+    <div class="k-bar">
+      <div class="k-slider">
+        <span class="k-slabel">Alter</span>
+        <span class="k-track"><span class="k-fill"></span></span>
+        <span class="k-svalue">3 Mon. – 13 J.</span>
+      </div>
+      <button class="k-btn is-active">Nur geeignet</button>
+      <button class="k-btn is-active">Nur Pärchen</button>
+      <button class="k-btn">Sorgenkinder einblenden</button>
+      <button class="k-btn">Dauerbehandlung ausblenden</button>
+      <button class="k-reset">Alle Katzen zeigen</button>
+    </div>
+      <section class="k-sect"><h2>Neu seit letztem Lauf (4)</h2><div class="k-grid">
+      <article class="k-card" style="--rc:#1f4d26">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261779-1-134291782260993560.jpg" alt="KEVIN" loading="lazy">
+        <div class="k-body">
+          <h3>KEVIN <span class="k-id">261779</span></h3>
+          <p class="k-meta">3 Monate alt</p>
+          <p class="k-sub"><span class="k-pair">Pärchen mit <strong>HILDEGARD</strong></span><span class="k-int">Interessenten vorhanden</span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#1f4d26;border-color:#1f4d26">Kinder geeignet</span>
+            <span class="k-lab k-lab-h" style="color:#4a4640;border-color:#4a4640">Keine Erkrankung bekannt</span>
+          </div>
+          <p class="k-reason">Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.</p>
+          
+          <p class="k-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261779">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#1f4d26">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261780-1-134291783787982501.jpg" alt="HILDEGARD" loading="lazy">
+        <div class="k-body">
+          <h3>HILDEGARD <span class="k-id">261780</span></h3>
+          <p class="k-meta">3 Monate alt</p>
+          <p class="k-sub"><span class="k-pair">Pärchen mit <strong>KEVIN</strong></span><span class="k-int">Interessenten vorhanden</span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#1f4d26;border-color:#1f4d26">Kinder geeignet</span>
+            <span class="k-lab k-lab-h" style="color:#4a4640;border-color:#4a4640">Keine Erkrankung bekannt</span>
+          </div>
+          <p class="k-reason">Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.</p>
+          
+          <p class="k-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261780">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#7a4a00">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260813-1-134297009918308921.jpg" alt="MATILDA" loading="lazy">
+        <div class="k-body">
+          <h3>MATILDA <span class="k-id">260813</span></h3>
+          <p class="k-meta">Alter: 7 Monate</p>
+          <p class="k-sub"><span class="k-pair">Pärchen mit <strong>CONSTANTIN CHRISTOMANOS</strong></span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#7a4a00;border-color:#7a4a00">Nur ältere Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#8c1f0d;border-color:#8c1f0d">Dauerbehandlung nötig</span>
+          </div>
+          <p class="k-reason">Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.</p>
+          <p class="k-hnote" style="color:#8c1f0d;border-color:#8c1f0d">Futtermittelallergie mit Spezialfutter (Monoprotein Büffel, Hypoallergenic), drei Beine, neigt zu Ohrenproblemen bei ungeeignetem Futter.</p>
+          <p class="k-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260813">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#7a4a00">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261407-1-134297009918308921.jpg" alt="CONSTANTIN CHRISTOMANOS" loading="lazy">
+        <div class="k-body">
+          <h3>CONSTANTIN CHRISTOMANOS <span class="k-id">261407</span></h3>
+          <p class="k-meta">11 Monate alt</p>
+          <p class="k-sub"><span class="k-pair">Pärchen mit <strong>MATILDA</strong></span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#7a4a00;border-color:#7a4a00">Nur ältere Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#8c1f0d;border-color:#8c1f0d">Dauerbehandlung nötig</span>
+          </div>
+          <p class="k-reason">Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.</p>
+          <p class="k-hnote" style="color:#8c1f0d;border-color:#8c1f0d">Futtermittelallergie, benötigt spezielles Monoprotein Büffel- und Hypoallergenic Futter; hatte längere Zeit mit Magen-Darm-Beschwerden zu kämpfen, deren Ursache noch abgeklärt wird.</p>
+          <p class="k-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261407">Steckbrief &rarr;</a></p>
+        </div>
+      </article></div></section>
+      <section class="k-sect"><h2>Weiterhin verfügbar (4)</h2><div class="k-grid">
+      <article class="k-card" style="--rc:#7a4a00">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261479-1-134157955062570092.jpg" alt="BRAUNIE" loading="lazy">
+        <div class="k-body">
+          <h3>BRAUNIE <span class="k-id">261479</span></h3>
+          <p class="k-meta">Alter: 8 Jahre</p>
+          <p class="k-sub"><span class="k-int">Interessenten vorhanden</span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#7a4a00;border-color:#7a4a00">Nur ältere Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#8c1f0d;border-color:#8c1f0d">Dauerbehandlung nötig</span>
+          </div>
+          <p class="k-reason">sich sowohl in einer Familie mit Kindern ab 10 Jahren als auch in einem ruhigen Zuhause bei Einzelpersonen sehr wohlfühlen kann</p>
+          <p class="k-hnote" style="color:#8c1f0d;border-color:#8c1f0d">Diabetes, benötigt regelmäßig Insulin</p>
+          <p class="k-foot"><span>seit 94 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#7a4a00">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261102-1-134254023256819094.jpg" alt="GIZMO" loading="lazy">
+        <div class="k-body">
+          <h3>GIZMO <span class="k-id">261102</span></h3>
+          <p class="k-meta">Alter: 16 Jahre</p>
+          <p class="k-sub"><span class="k-pair">Pärchen mit <strong>PASHA</strong></span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#7a4a00;border-color:#7a4a00">Nur ältere Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#4a4640;border-color:#4a4640">Keine Erkrankung bekannt</span>
+          </div>
+          <p class="k-reason">Für Familien mit Kindern eignen sie sich ab einem etwas größeren Alter.</p>
+          
+          <p class="k-foot"><span>seit 59 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261102">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#8c1f0d">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/251280-1-134135615024050821.JPG" alt="WALLACE" loading="lazy">
+        <div class="k-body">
+          <h3>WALLACE <span class="k-id">251280</span></h3>
+          <p class="k-meta">Alter: 13 Jahre</p>
+          
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#8c1f0d;border-color:#8c1f0d">Nicht für Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#8c1f0d;border-color:#8c1f0d">Dauerbehandlung nötig</span>
+          </div>
+          <p class="k-reason">Ein ruhiges, erfahrenes Zuhause ohne Kinder ist ideal für diesen besonderen Kater.</p>
+          <p class="k-hnote" style="color:#8c1f0d;border-color:#8c1f0d">Futtermittelallergie mit Spezialfutter und Bluthochdruck, täglich eine Tablette erforderlich.</p>
+          <p class="k-foot"><span>seit 111 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/251280">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#8c1f0d">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255223-1-134182906887033878.jpg" alt="PFU" loading="lazy">
+        <div class="k-body">
+          <h3>PFU <span class="k-id">255223</span></h3>
+          <p class="k-meta">9 Jahre alt</p>
+          
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#8c1f0d;border-color:#8c1f0d">Nicht für Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#7a4a00;border-color:#7a4a00">Gesundheit beachten</span>
+          </div>
+          <p class="k-reason">Der Text sagt ausdrücklich: &#x27;suchen wir für sie präferiert einen Einzelplatz in einem Haushalt ohne Kinder.&#x27;</p>
+          <p class="k-hnote" style="color:#7a4a00;border-color:#7a4a00">neigt zu Übergewicht, muss aktuell noch abnehmen</p>
+          <p class="k-foot"><span>seit 111 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/255223">Steckbrief &rarr;</a></p>
+        </div>
+      </article></div></section>
+      <section class="k-sect"><h2>Nicht mehr verfügbar (2)</h2><div class="k-grid">
+      <article class="k-card" style="--rc:#4a4640">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262138-1-134278988481407158.JPG" alt="VIVALDI" loading="lazy">
+        <div class="k-body">
+          <h3>VIVALDI <span class="k-id">262138</span></h3>
+          <p class="k-meta">Alter: 1 Jahre</p>
+          
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#4a4640;border-color:#4a4640">Keine Angabe</span>
+            <span class="k-lab k-lab-h" style="color:#4a4640;border-color:#4a4640">Keine Erkrankung bekannt</span>
+          </div>
+          <p class="k-reason">Der Steckbrief trifft keine Aussage zur Eignung für Kinder; es wird nur erwähnt, dass Vivaldi ein ruhiges Zuhause bei geduldigen Menschen benötigt.</p>
+          
+          <p class="k-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262138">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#8c1f0d">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/253426-1-134099368644862245.jpg" alt="TEDDY" loading="lazy">
+        <div class="k-body">
+          <h3>TEDDY <span class="k-id">253426</span></h3>
+          <p class="k-meta">4 Jahre alt</p>
+          
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#8c1f0d;border-color:#8c1f0d">Nicht für Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#4a4640;border-color:#4a4640">Keine Erkrankung bekannt</span>
+          </div>
+          <p class="k-reason">Teddy mag keine Kinder und ist mit Artgenossen unverträglich, weshalb er als Einzelkatze in einem ruhigen Zuhause am besten aufgehoben ist.</p>
+          
+          <p class="k-foot"><span>seit 111 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/253426">Steckbrief &rarr;</a></p>
+        </div>
+      </article></div></section>
+    </div>
+  </div>
+
+  <div class="sk-pane" id="pane-d2">
+    <div class="k-wrap">
+      <div class="sk-caption"><strong>D2 — Maximal.</strong> Die Obergrenze, damit die Spanne sichtbar wird: Überschriften auf Schwarz, Farben nochmals dunkler, Papier auf #efece6, Kante 5px. Härter und technischer — irgendwo hier kippt "ruhig &amp; redaktionell".</div>
+      <header class="k-head">
+        <h1>Catfinder</h1>
+        <div class="k-sub-head">Lauf vom 08.08.2026, 00:36 · 47 Katzen gelistet · 4 neu bewertet · 12 angezeigt</div>
+      </header>
+      
+    <div class="k-bar">
+      <div class="k-slider">
+        <span class="k-slabel">Alter</span>
+        <span class="k-track"><span class="k-fill"></span></span>
+        <span class="k-svalue">3 Mon. – 13 J.</span>
+      </div>
+      <button class="k-btn is-active">Nur geeignet</button>
+      <button class="k-btn is-active">Nur Pärchen</button>
+      <button class="k-btn">Sorgenkinder einblenden</button>
+      <button class="k-btn">Dauerbehandlung ausblenden</button>
+      <button class="k-reset">Alle Katzen zeigen</button>
+    </div>
+      <section class="k-sect"><h2>Neu seit letztem Lauf (4)</h2><div class="k-grid">
+      <article class="k-card" style="--rc:#14401c">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261779-1-134291782260993560.jpg" alt="KEVIN" loading="lazy">
+        <div class="k-body">
+          <h3>KEVIN <span class="k-id">261779</span></h3>
+          <p class="k-meta">3 Monate alt</p>
+          <p class="k-sub"><span class="k-pair">Pärchen mit <strong>HILDEGARD</strong></span><span class="k-int">Interessenten vorhanden</span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#14401c;border-color:#14401c">Kinder geeignet</span>
+            <span class="k-lab k-lab-h" style="color:#33302b;border-color:#33302b">Keine Erkrankung bekannt</span>
+          </div>
+          <p class="k-reason">Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.</p>
+          
+          <p class="k-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261779">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#14401c">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261780-1-134291783787982501.jpg" alt="HILDEGARD" loading="lazy">
+        <div class="k-body">
+          <h3>HILDEGARD <span class="k-id">261780</span></h3>
+          <p class="k-meta">3 Monate alt</p>
+          <p class="k-sub"><span class="k-pair">Pärchen mit <strong>KEVIN</strong></span><span class="k-int">Interessenten vorhanden</span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#14401c;border-color:#14401c">Kinder geeignet</span>
+            <span class="k-lab k-lab-h" style="color:#33302b;border-color:#33302b">Keine Erkrankung bekannt</span>
+          </div>
+          <p class="k-reason">Kevin und Hildegard eignen sich auch für eine Familie, in der sie genügend Zeit zum Spielen, Toben und Kuscheln bekommen.</p>
+          
+          <p class="k-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261780">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#653c00">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260813-1-134297009918308921.jpg" alt="MATILDA" loading="lazy">
+        <div class="k-body">
+          <h3>MATILDA <span class="k-id">260813</span></h3>
+          <p class="k-meta">Alter: 7 Monate</p>
+          <p class="k-sub"><span class="k-pair">Pärchen mit <strong>CONSTANTIN CHRISTOMANOS</strong></span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#653c00;border-color:#653c00">Nur ältere Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#78140A;border-color:#78140A">Dauerbehandlung nötig</span>
+          </div>
+          <p class="k-reason">Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.</p>
+          <p class="k-hnote" style="color:#78140A;border-color:#78140A">Futtermittelallergie mit Spezialfutter (Monoprotein Büffel, Hypoallergenic), drei Beine, neigt zu Ohrenproblemen bei ungeeignetem Futter.</p>
+          <p class="k-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260813">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#653c00">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261407-1-134297009918308921.jpg" alt="CONSTANTIN CHRISTOMANOS" loading="lazy">
+        <div class="k-body">
+          <h3>CONSTANTIN CHRISTOMANOS <span class="k-id">261407</span></h3>
+          <p class="k-meta">11 Monate alt</p>
+          <p class="k-sub"><span class="k-pair">Pärchen mit <strong>MATILDA</strong></span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#653c00;border-color:#653c00">Nur ältere Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#78140A;border-color:#78140A">Dauerbehandlung nötig</span>
+          </div>
+          <p class="k-reason">Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.</p>
+          <p class="k-hnote" style="color:#78140A;border-color:#78140A">Futtermittelallergie, benötigt spezielles Monoprotein Büffel- und Hypoallergenic Futter; hatte längere Zeit mit Magen-Darm-Beschwerden zu kämpfen, deren Ursache noch abgeklärt wird.</p>
+          <p class="k-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261407">Steckbrief &rarr;</a></p>
+        </div>
+      </article></div></section>
+      <section class="k-sect"><h2>Weiterhin verfügbar (4)</h2><div class="k-grid">
+      <article class="k-card" style="--rc:#653c00">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261479-1-134157955062570092.jpg" alt="BRAUNIE" loading="lazy">
+        <div class="k-body">
+          <h3>BRAUNIE <span class="k-id">261479</span></h3>
+          <p class="k-meta">Alter: 8 Jahre</p>
+          <p class="k-sub"><span class="k-int">Interessenten vorhanden</span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#653c00;border-color:#653c00">Nur ältere Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#78140A;border-color:#78140A">Dauerbehandlung nötig</span>
+          </div>
+          <p class="k-reason">sich sowohl in einer Familie mit Kindern ab 10 Jahren als auch in einem ruhigen Zuhause bei Einzelpersonen sehr wohlfühlen kann</p>
+          <p class="k-hnote" style="color:#78140A;border-color:#78140A">Diabetes, benötigt regelmäßig Insulin</p>
+          <p class="k-foot"><span>seit 94 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#653c00">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261102-1-134254023256819094.jpg" alt="GIZMO" loading="lazy">
+        <div class="k-body">
+          <h3>GIZMO <span class="k-id">261102</span></h3>
+          <p class="k-meta">Alter: 16 Jahre</p>
+          <p class="k-sub"><span class="k-pair">Pärchen mit <strong>PASHA</strong></span></p>
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#653c00;border-color:#653c00">Nur ältere Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#33302b;border-color:#33302b">Keine Erkrankung bekannt</span>
+          </div>
+          <p class="k-reason">Für Familien mit Kindern eignen sie sich ab einem etwas größeren Alter.</p>
+          
+          <p class="k-foot"><span>seit 59 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261102">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#78140A">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/251280-1-134135615024050821.JPG" alt="WALLACE" loading="lazy">
+        <div class="k-body">
+          <h3>WALLACE <span class="k-id">251280</span></h3>
+          <p class="k-meta">Alter: 13 Jahre</p>
+          
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#78140A;border-color:#78140A">Nicht für Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#78140A;border-color:#78140A">Dauerbehandlung nötig</span>
+          </div>
+          <p class="k-reason">Ein ruhiges, erfahrenes Zuhause ohne Kinder ist ideal für diesen besonderen Kater.</p>
+          <p class="k-hnote" style="color:#78140A;border-color:#78140A">Futtermittelallergie mit Spezialfutter und Bluthochdruck, täglich eine Tablette erforderlich.</p>
+          <p class="k-foot"><span>seit 111 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/251280">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#78140A">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255223-1-134182906887033878.jpg" alt="PFU" loading="lazy">
+        <div class="k-body">
+          <h3>PFU <span class="k-id">255223</span></h3>
+          <p class="k-meta">9 Jahre alt</p>
+          
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#78140A;border-color:#78140A">Nicht für Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#653c00;border-color:#653c00">Gesundheit beachten</span>
+          </div>
+          <p class="k-reason">Der Text sagt ausdrücklich: &#x27;suchen wir für sie präferiert einen Einzelplatz in einem Haushalt ohne Kinder.&#x27;</p>
+          <p class="k-hnote" style="color:#653c00;border-color:#653c00">neigt zu Übergewicht, muss aktuell noch abnehmen</p>
+          <p class="k-foot"><span>seit 111 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/255223">Steckbrief &rarr;</a></p>
+        </div>
+      </article></div></section>
+      <section class="k-sect"><h2>Nicht mehr verfügbar (2)</h2><div class="k-grid">
+      <article class="k-card" style="--rc:#33302b">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262138-1-134278988481407158.JPG" alt="VIVALDI" loading="lazy">
+        <div class="k-body">
+          <h3>VIVALDI <span class="k-id">262138</span></h3>
+          <p class="k-meta">Alter: 1 Jahre</p>
+          
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#33302b;border-color:#33302b">Keine Angabe</span>
+            <span class="k-lab k-lab-h" style="color:#33302b;border-color:#33302b">Keine Erkrankung bekannt</span>
+          </div>
+          <p class="k-reason">Der Steckbrief trifft keine Aussage zur Eignung für Kinder; es wird nur erwähnt, dass Vivaldi ein ruhiges Zuhause bei geduldigen Menschen benötigt.</p>
+          
+          <p class="k-foot"><span>seit heute gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262138">Steckbrief &rarr;</a></p>
+        </div>
+      </article>
+      <article class="k-card" style="--rc:#78140A">
+        <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/253426-1-134099368644862245.jpg" alt="TEDDY" loading="lazy">
+        <div class="k-body">
+          <h3>TEDDY <span class="k-id">253426</span></h3>
+          <p class="k-meta">4 Jahre alt</p>
+          
+          <div class="k-labels">
+            <span class="k-lab k-lab-r" style="background:#78140A;border-color:#78140A">Nicht für Kinder</span>
+            <span class="k-lab k-lab-h" style="color:#33302b;border-color:#33302b">Keine Erkrankung bekannt</span>
+          </div>
+          <p class="k-reason">Teddy mag keine Kinder und ist mit Artgenossen unverträglich, weshalb er als Einzelkatze in einem ruhigen Zuhause am besten aufgehoben ist.</p>
+          
+          <p class="k-foot"><span>seit 111 Tagen gelistet</span>
+             <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/253426">Steckbrief &rarr;</a></p>
+        </div>
+      </article></div></section>
+    </div>
+  </div>
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.sk-tabs button');
+  function show(p){
+    document.querySelectorAll('.sk-pane').forEach(function(x){x.classList.toggle('on',x.id==='pane-'+p);});
+    tabs.forEach(function(b){b.classList.toggle('on',b.dataset.p===p);});
+    window.scrollTo(0,0);
+  }
+  tabs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.p);});});
+  document.addEventListener('keydown',function(ev){
+    var m={'1':'d1','2':'d2'};
+    if(m[ev.key])show(m[ev.key]);
+  });
+  document.querySelectorAll('.k-btn').forEach(function(b){
+    b.addEventListener('click',function(){b.classList.toggle('is-active');});
+  });
+  show('d1');
+})();
+</script>
+</body>
+</html>
