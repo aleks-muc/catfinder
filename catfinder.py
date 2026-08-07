@@ -328,6 +328,37 @@ def find_companion_names(profile_text: str, all_names: list[str]) -> set[str]:
     return found
 
 
+def repair_pair_symmetry(cats: list[Cat], evaluated_ids: set[str], state: dict[str, dict]) -> None:
+    """Ergänzt die fehlende Gegenrichtung bei einseitig erkannten Pärchen.
+
+    Ein Pärchen gilt beidseitig, aber Steckbriefe nennen die Partnerkatze oft nur in
+    Kurzform ("Constantin" statt Listing-Name "CONSTANTIN CHRISTOMANOS"). Dann schlägt
+    find_companion_names nur auf einer Seite an und die andere Karte zeigt keinen Partner.
+
+    Katzen aus evaluated_ids tragen ihren Stand am Cat-Objekt, alle anderen im State —
+    letztere werden dort mitkorrigiert, weil _ratings_from_state ihre Werte von dort
+    liest und das Cat-Objekt sonst wieder überschreiben würde.
+    """
+    def partner_of(c: Cat) -> str:
+        if c.cat_id in evaluated_ids:
+            return c.partner_name
+        return state.get(c.cat_id, {}).get("partner_name", "")
+
+    by_name = {c.name.upper(): c for c in cats}
+    for cat in cats:
+        pname = partner_of(cat)
+        if not pname:
+            continue
+        partner = by_name.get(pname.upper())
+        if partner is None or partner.cat_id == cat.cat_id or partner_of(partner):
+            continue
+        partner.companion_count = 2
+        partner.partner_name = cat.name
+        if partner.cat_id in state:
+            state[partner.cat_id]["companion_count"] = 2
+            state[partner.cat_id]["partner_name"] = cat.name
+
+
 def extract_age_hint(text: str) -> str:
     """Extrahiert Geburtsdatum aus Steckbrief-Text und rechnet in Alter um."""
     m = BIRTH_DATE_PATTERN.search(text)
@@ -938,6 +969,8 @@ def main() -> int:
         else:
             cat.companion_count = 0
             cat.partner_name = ""
+
+    repair_pair_symmetry(cats, {c.cat_id for c in to_evaluate}, state)
 
     # Alter aus Steckbrief nachpflegen, falls Listing keines hatte
     for cat in to_evaluate:
