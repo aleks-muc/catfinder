@@ -34,7 +34,8 @@ ASCII-Skizzen (redaktionell / funktional / warm).
 | 002 | farbkante-kontrast | Wie viel Fläche braucht ein Label, damit Bewertung und Gesundheit auf Distanz lesbar sind? | **C3 — Rating gefüllt** | farbe, kontrast, informationsarchitektur |
 | 003 | c3-gestapelt-kontrast | Wie weit lässt sich der Kontrast anheben, bevor "ruhig & redaktionell" kippt? | **D1 — Kräftig** (Aufbau) | farbe, kontrast |
 | 004 | signalfarben | Wie gesättigt dürfen die Kategoriefarben werden, bevor die gefüllten Labels ihre einheitliche Schriftfarbe verlieren? | **E1 — Kräftig** | farbe, kontrast, signalfarben |
-| 005 | e1-gesund-gruen | Trägt Grün für "gesund", obwohl die Kindertauglichkeit dieselbe Farbe nutzt? | — | farbe, semantik |
+| 005 | e1-gesund-gruen | Trägt Grün für "gesund", obwohl die Kindertauglichkeit dieselbe Farbe nutzt? | **ja** — gesund grün, unbekannt grau | farbe, semantik |
+| 006 | bestfall-hervorheben | Wie wird "für Kinder geeignet und ohne bekannte Erkrankung" auf einen Blick erfassbar? | — | hierarchie, farbe, struktur |
 
 ## Entschieden
 
