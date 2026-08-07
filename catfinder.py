@@ -65,18 +65,32 @@ BIRTH_DATE_PATTERN = re.compile(
 # Ampel-Metadaten
 Rating = Literal["geeignet", "aeltere_kinder", "nicht_geeignet", "unbekannt"]
 
+# Je Kategorie drei Farbwerte:
+#   color = Fläche, Kartenkante und Rahmen
+#   text  = abgedunkelter Ton derselben Familie, für Text auf Weiß
+#   on    = Schriftfarbe im gefüllten Label (Gelb trägt kein Weiß, nur 2.9:1)
+# Alle Kombinationen liegen über WCAG AA (4.5:1); fest hinterlegt statt zur Laufzeit
+# aus der Helligkeit gerechnet — es sind vier Werte, die sich nicht ändern.
 RATING_META: dict[str, dict[str, str]] = {
-    "geeignet":        {"emoji": "🟢", "label": "Kinder geeignet",       "color": "#2e7d32", "order": "0"},
-    "unbekannt":       {"emoji": "⚪", "label": "Keine Angabe",          "color": "#757575", "order": "1"},
-    "aeltere_kinder":  {"emoji": "🟡", "label": "Nur ältere Kinder",     "color": "#f9a825", "order": "2"},
-    "nicht_geeignet":  {"emoji": "🔴", "label": "Nicht für Kinder",      "color": "#c62828", "order": "3"},
+    "geeignet":        {"label": "Kinder geeignet",   "color": "#1e7a35", "text": "#145c26", "on": "#ffffff", "order": "0"},
+    "unbekannt":       {"label": "Keine Angabe",      "color": "#6b6560", "text": "#4d4843", "on": "#ffffff", "order": "1"},
+    "aeltere_kinder":  {"label": "Nur ältere Kinder", "color": "#c9880a", "text": "#8a5c00", "on": "#17150f", "order": "2"},
+    "nicht_geeignet":  {"label": "Nicht für Kinder",  "color": "#c62020", "text": "#971616", "on": "#ffffff", "order": "3"},
 }
 
-# Nur die zwei sichtbaren Health-Kategorien; "keine"/"unbekannt" rendern keinen Marker.
+# Alle vier Health-Kategorien sind sichtbar — auch der Negativfall, weil ein fehlender
+# Marker sonst nicht von "nicht bewertet" zu unterscheiden wäre. "keine" (geprüft, nichts
+# gefunden) und "unbekannt" (Steckbrief nicht ladbar) tragen deshalb verschiedene Farben.
 HEALTH_META: dict[str, dict[str, str]] = {
-    "erwaehnt":        {"label": "Gesundheit beachten",   "color": "#f57c00"},
-    "dauerbehandlung": {"label": "Dauerbehandlung nötig", "color": "#c62828"},
+    "keine":           {"label": "Keine Erkrankung bekannt", "color": "#1e7a35", "text": "#145c26"},
+    "erwaehnt":        {"label": "Gesundheit beachten",      "color": "#c9880a", "text": "#8a5c00"},
+    "dauerbehandlung": {"label": "Dauerbehandlung nötig",    "color": "#c62020", "text": "#971616"},
+    "unbekannt":       {"label": "Gesundheit unbekannt",     "color": "#6b6560", "text": "#4d4843"},
 }
+
+# Bestfall: für Kinder geeignet und ohne bekannte Erkrankung. Statt zweier grüner Labels
+# wird eine zusammengezogene Aussage gerendert (Sketch 006, Vorschlag 2).
+BEST_LABEL = "Geeignet und gesund"
 
 
 # ---------------------------------------------------------------------------
@@ -128,6 +142,8 @@ class CatRating(BaseModel):
             "(z.B. 'Epilepsie, 2x täglich Medikamente'). Leer lassen bei 'keine' und 'unbekannt'."
         ),
     )
+
+
 SYSTEM_PROMPT = """Du bist ein Klassifikator für deutsche Tierheim-Steckbriefe.
 
 Aufgabe: Bewerte, ob eine Katze laut ihrem Steckbrief für Familien mit Kindern geeignet ist.
@@ -418,38 +434,36 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     slider = ""
     if age_min < age_max:
         slider = f"""
-  <div style="display:flex;flex-direction:column;gap:.5rem;flex:1;min-width:220px;max-width:420px;">
-    <div style="display:flex;justify-content:space-between;">
-      <span style="font-size:.85rem;font-weight:500;color:#555;">Alter filtern</span>
-      <span id="ageLabel" style="font-size:.85rem;color:#1976d2;font-weight:600;">{fmt(default_lo)} – {fmt(default_hi)}</span>
-    </div>
+  <div style="display:flex;align-items:center;gap:.6rem;">
+    <span class="cf-cap">Alter</span>
     <div class="cf-track">
       <div id="sliderFill" class="cf-fill"></div>
       <input type="range" class="cf-range" id="ageMin" min="{age_min}" max="{age_max}" value="{default_lo}">
       <input type="range" class="cf-range" id="ageMax" min="{age_min}" max="{age_max}" value="{default_hi}">
     </div>
+    <span id="ageLabel" class="cf-cap">{fmt(default_lo)} – {fmt(default_hi)}</span>
   </div>"""
 
     return f"""<style>
-.cf-track{{position:relative;height:6px;background:#e0e0e0;border-radius:3px;margin:.2rem 0;}}
-.cf-fill{{position:absolute;height:100%;background:#1976d2;border-radius:3px;pointer-events:none;}}
-.cf-range{{position:absolute;width:100%;height:0;top:3px;pointer-events:none;-webkit-appearance:none;appearance:none;background:transparent;outline:none;}}
-.cf-range::-webkit-slider-thumb{{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:#1976d2;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);cursor:pointer;pointer-events:all;}}
-.cf-range::-moz-range-thumb{{width:18px;height:18px;border-radius:50%;background:#1976d2;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);cursor:pointer;pointer-events:all;}}
-#sorgBtn,#fitBtn,#pairBtn,#healthBtn{{padding:.4rem .85rem;border-radius:6px;border:1px solid #ddd;background:#f5f5f5;font-size:.85rem;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s;}}
-#healthBtn.active{{background:#fff3e0;border-color:#ffb74d;color:#e65100;}}
-#sorgBtn.hidden{{background:#ffebee;border-color:#ef9a9a;color:#c62828;}}
-#fitBtn.active{{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32;}}
-#pairBtn.active{{background:#e3f2fd;border-color:#90caf9;color:#1565c0;}}
-#resetBtn{{background:transparent;border:none;padding:.4rem .25rem;color:#666;cursor:pointer;font-size:.85rem;}}
-#resetBtn:hover{{color:#1976d2;}}
+.cf-cap{{font-size:.8rem;color:#5c574f;white-space:nowrap;}}
+.cf-track{{position:relative;width:130px;height:1px;background:#c9c3b8;margin:.2rem 0;}}
+.cf-fill{{position:absolute;top:-1px;height:3px;background:#141310;pointer-events:none;}}
+.cf-range{{position:absolute;width:100%;height:0;top:0;pointer-events:none;-webkit-appearance:none;appearance:none;background:transparent;outline:none;}}
+.cf-range::-webkit-slider-thumb{{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:#141310;border:2px solid #f5f3ef;cursor:pointer;pointer-events:all;}}
+.cf-range::-moz-range-thumb{{width:14px;height:14px;border-radius:50%;background:#141310;border:2px solid #f5f3ef;cursor:pointer;pointer-events:all;}}
+#sorgBtn,#fitBtn,#pairBtn,#healthBtn{{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;color:#5c574f;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;}}
+#fitBtn.active,#pairBtn.active,#healthBtn.active{{color:#141310;border-bottom-color:#141310;font-weight:600;}}
+#sorgBtn{{color:#971616;}}
+#sorgBtn.hidden{{color:#5c574f;}}
+#resetBtn{{margin-left:auto;background:none;border:none;padding:.2rem 0;color:#5c574f;cursor:pointer;font:inherit;font-size:.85rem;text-decoration:underline;text-underline-offset:3px;}}
+#resetBtn:hover{{color:#141310;}}
 </style>
-<div id="filterBar" style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e0e0e0;padding:.9rem 1rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">{slider}
-  <button id="fitBtn" class="active">🟢 Nur geeignet</button>
-  <button id="pairBtn" class="active">🐱🐱 Nur Pärchen (aktiv)</button>
-  <button id="sorgBtn" class="hidden">🔴 Sorgenkinder einblenden</button>
-  <button id="healthBtn">💊 Dauerbehandlung ausblenden</button>
-  <button id="resetBtn" style="margin-left:auto;">🌐 Alle Katzen zeigen</button>
+<div id="filterBar" style="position:sticky;top:0;z-index:100;background:#f5f3ef;border-bottom:1px solid #d2cbc0;padding:1rem 0;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;">{slider}
+  <button id="fitBtn" class="active">Nur geeignet</button>
+  <button id="pairBtn" class="active">Nur Pärchen (aktiv)</button>
+  <button id="sorgBtn" class="hidden">Sorgenkinder einblenden</button>
+  <button id="healthBtn">Dauerbehandlung ausblenden</button>
+  <button id="resetBtn">Alle Katzen zeigen</button>
 </div>
 <script>
 (function(){{
@@ -486,25 +500,25 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   }}
   pairBtn.addEventListener('click',function(){{
     showOnlyPair=!showOnlyPair;
-    pairBtn.textContent=showOnlyPair?'🐱🐱 Nur Pärchen (aktiv)':'🐱🐱 Nur Pärchen';
+    pairBtn.textContent=showOnlyPair?'Nur Pärchen (aktiv)':'Nur Pärchen';
     pairBtn.classList.toggle('active',showOnlyPair);
     filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
   }});
   fitBtn.addEventListener('click',function(){{
     showOnlyFit=!showOnlyFit;
-    fitBtn.textContent=showOnlyFit?'🟢 Nur geeignet':'🟢 Alle Bewertungen';
+    fitBtn.textContent=showOnlyFit?'Nur geeignet':'Alle Bewertungen';
     fitBtn.classList.toggle('active',showOnlyFit);
     filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
   }});
   healthBtn.addEventListener('click',function(){{
     hideTreat=!hideTreat;
-    healthBtn.textContent=hideTreat?'💊 Dauerbehandlung ausgeblendet':'💊 Dauerbehandlung ausblenden';
+    healthBtn.textContent=hideTreat?'Dauerbehandlung ausgeblendet':'Dauerbehandlung ausblenden';
     healthBtn.classList.toggle('active',hideTreat);
     filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
   }});
   sorgBtn.addEventListener('click',function(){{
     showSorg=!showSorg;
-    sorgBtn.textContent=showSorg?'🔴 Sorgenkinder ausblenden':'🔴 Sorgenkinder einblenden';
+    sorgBtn.textContent=showSorg?'Sorgenkinder ausblenden':'Sorgenkinder einblenden';
     sorgBtn.classList.toggle('hidden',!showSorg);
     filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
   }});
@@ -512,13 +526,13 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     showSorg=true;showOnlyFit=false;showOnlyPair=false;hideTreat=false;
     if(minR)minR.value=LO;
     if(maxR)maxR.value=HI;
-    fitBtn.textContent='🟢 Nur geeignet';
+    fitBtn.textContent='Nur geeignet';
     fitBtn.classList.remove('active');
-    pairBtn.textContent='🐱🐱 Nur Pärchen';
+    pairBtn.textContent='Nur Pärchen';
     pairBtn.classList.remove('active');
-    sorgBtn.textContent='🔴 Sorgenkinder ausblenden';
+    sorgBtn.textContent='Sorgenkinder ausblenden';
     sorgBtn.classList.remove('hidden');
-    healthBtn.textContent='💊 Dauerbehandlung ausblenden';
+    healthBtn.textContent='Dauerbehandlung ausblenden';
     healthBtn.classList.remove('active');
     update();
   }});
@@ -648,37 +662,56 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <title>Catfinder — {timestamp}</title>
 <style>
 * {{ box-sizing: border-box; }}
-body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; background: #fafafa; color: #222; }}
-header {{ background: #fff; border-bottom: 1px solid #e0e0e0; padding: 1rem 1.25rem; }}
-header h1 {{ margin: 0 0 .3rem; font-size: 1.4rem; }}
-header .stats {{ color: #666; font-size: .85rem; line-height: 1.5; }}
-main {{ max-width: 1600px; margin: 1.5rem auto; padding: 0 1rem; }}
-.grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }}
-.card {{ background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.08); overflow: hidden; display: flex; flex-direction: column; border-left: 6px solid var(--accent); }}
-.card img {{ width: 100%; height: 220px; object-fit: cover; display: block; background: #eee; }}
-.card .body {{ padding: 1rem 1.1rem 1.2rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }}
-.card h2 {{ margin: 0; font-size: 1.1rem; }}
-.card .meta {{ color: #666; font-size: .85rem; }}
-.card .rating {{ font-weight: 600; color: var(--accent); }}
-.card .reason {{ font-size: .9rem; color: #333; flex: 1; }}
-.card a.btn {{ margin-top: .5rem; display: block; background: #1976d2; color: #fff; padding: .65rem .9rem; border-radius: 6px; text-decoration: none; text-align: center; font-weight: 500; font-size: .95rem; }}
-.card a.btn:hover {{ background: #1565c0; }}
-.empty {{ text-align: center; color: #666; padding: 4rem 1rem; }}
-.badge-int {{ display: inline-block; background: #fff3e0; color: #e65100; font-size: .78rem; font-weight: 700; padding: .2rem .55rem; border-radius: 4px; letter-spacing: .01em; }}
-.card .partner {{ font-size: .85rem; color: #1565c0; font-style: italic; }}
-.card .listed {{ font-size: .85rem; color: #888; }}
-.card .health {{ font-size: .85rem; font-weight: 500; color: var(--hc); border-left: 3px solid var(--hc); padding-left: .5rem; }}
-section + section {{ margin-top: 3rem; }}
-section h2.group {{ font-size: 1.1rem; color: #555; border-bottom: 1px solid #ddd; padding-bottom: .4rem; margin-bottom: 1rem; }}
-@media (max-width: 480px) {{
+:root {{
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --paper: #f5f3ef; --ink: #141310; --soft: #3a3630; --mute: #5c574f; --hair: #d2cbc0;
+}}
+body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0;
+        background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }}
+header {{ max-width: 1500px; margin: 0 auto; padding: 2.5rem 1.5rem 1.4rem; }}
+header h1 {{ font-family: var(--serif); font-weight: 400; font-size: 2.4rem; margin: 0 0 .35rem;
+             letter-spacing: -.01em; }}
+header .stats {{ color: var(--mute); font-size: .85rem; line-height: 1.5;
+                 border-top: 2px solid var(--ink); padding-top: .9rem; }}
+main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
+.grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem 1.75rem; }}
+.card {{ background: #fff; display: flex; flex-direction: column;
+         border: 1px solid var(--hair); border-left: 4px solid var(--accent); }}
+.card img {{ width: 100%; height: 220px; object-fit: cover; display: block; background: #e6e3dd; }}
+.card .body {{ padding: 1rem 1.1rem 1.1rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }}
+.card h2 {{ font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin: 0; line-height: 1.25; }}
+.card .meta {{ color: var(--mute); font-size: .82rem; }}
+.card .status {{ display: flex; flex-direction: column; gap: .2rem; }}
+.card .partner {{ font-size: .85rem; color: #1f4453; }}
+.badge-int {{ font-size: .74rem; letter-spacing: .06em; text-transform: uppercase;
+              font-weight: 700; color: #971616; }}
+.card .labels {{ display: flex; flex-direction: column; align-items: flex-start; gap: .3rem; margin-top: .15rem; }}
+.card .lab {{ font-size: .78rem; font-weight: 600; padding: .26rem .65rem; border-radius: 2px;
+              border: 1px solid; line-height: 1.25; }}
+.card .lab-best {{ font-size: .85rem; padding: .35rem .8rem; }}
+.card .reason {{ font-size: .88rem; line-height: 1.55; color: var(--soft); flex: 1; margin-top: .3rem; }}
+.card .health {{ font-size: .85rem; line-height: 1.5; padding-left: .7rem; border-left: 2px solid; }}
+.card .foot {{ padding-top: .75rem; border-top: 1px solid var(--hair); display: flex;
+               justify-content: space-between; align-items: baseline; gap: .75rem;
+               font-size: .78rem; color: var(--mute); }}
+.card .foot a {{ color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--soft);
+                 font-weight: 500; white-space: nowrap; }}
+.card .foot a:hover {{ color: #1f4453; border-color: #1f4453; }}
+.card.gone {{ opacity: .6; }}
+.empty {{ text-align: center; color: var(--mute); padding: 4rem 1rem; background: #fff;
+          border: 1px solid var(--hair); }}
+section {{ margin-top: 3rem; }}
+section h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4rem;
+                    color: var(--soft); margin: 0 0 1.4rem; }}
+@media (max-width: 520px) {{
   .grid {{ grid-template-columns: 1fr; }}
-  header h1 {{ font-size: 1.2rem; }}
+  header h1 {{ font-size: 1.9rem; }}
 }}
 </style>
 </head>
 <body>
 <header>
-  <h1>🐈 Catfinder — Tierschutzverein München</h1>
+  <h1>Catfinder</h1>
   <div class="stats">
     Lauf vom {timestamp} · {total_listed} Katzen gelistet · <strong>{new_count} neu bewertet</strong>{scope_note} · <span id="visibleCount">{new_count}</span> angezeigt
   </div>
@@ -729,7 +762,7 @@ def render_report(
             txt = "seit 1 Tag gelistet"
         else:
             txt = f"seit {days} Tagen gelistet"
-        return f'<div class="listed">📅 {txt}</div>'
+        return txt
 
     def _img(cat: Cat) -> str:
         return (
@@ -747,42 +780,62 @@ def render_report(
         bits = [b for b in (cat.breed, cat.sex, age_str) if b]
         return " · ".join(html.escape(b) for b in bits) if bits else "&nbsp;"
 
-    def _interested_badge(cat: Cat) -> str:
-        return '<div class="badge-int">👥 Interessenten vorhanden</div>' if cat.has_interested else ""
-
-    def _partner_line(cat: Cat) -> str:
+    def _status_line(cat: Cat) -> str:
+        """Partner und Interessenten — steht direkt unter Name und Metazeile."""
+        bits = []
         if cat.companion_count == 2 and cat.partner_name:
-            return f'<div class="partner">🐱 Pärchen mit <strong>{html.escape(cat.partner_name)}</strong></div>'
-        return ""
+            bits.append(f'<span class="partner">Pärchen mit <strong>{html.escape(cat.partner_name)}</strong></span>')
+        if cat.has_interested:
+            bits.append('<span class="badge-int">Interessenten vorhanden</span>')
+        return f'<div class="status">{"".join(bits)}</div>' if bits else ""
 
-    def _health_line(rating: CatRating) -> str:
-        """Marker nur bei 'erwaehnt'/'dauerbehandlung' — 'keine'/'unbekannt' bleiben unsichtbar."""
-        meta = HEALTH_META.get(rating.health)
-        if not meta:
+    def _labels(rating: CatRating) -> str:
+        """Bewertung gefüllt, Gesundheit umrandet darunter.
+
+        Bestfall (geeignet + keine Erkrankung) wird zu einem Label zusammengezogen —
+        zwei grüne Labels übereinander tragen dieselbe Aussage doppelt.
+        """
+        rm = RATING_META[rating.rating]
+        filled = (
+            f'<span class="lab{{cls}}" style="background:{rm["color"]};'
+            f'border-color:{rm["color"]};color:{rm["on"]}">{{text}}</span>'
+        )
+        if rating.rating == "geeignet" and rating.health == "keine":
+            return f'<div class="labels">{filled.format(cls=" lab-best", text=BEST_LABEL)}</div>'
+
+        hm = HEALTH_META.get(rating.health, HEALTH_META["unbekannt"])
+        outlined = (
+            f'<span class="lab" style="background:#fff;'
+            f'border-color:{hm["color"]};color:{hm["text"]}">{hm["label"]}</span>'
+        )
+        return f'<div class="labels">{filled.format(cls="", text=rm["label"])}{outlined}</div>'
+
+    def _health_note(rating: CatRating) -> str:
+        """Beschreibung aus Gesundheitssicht, im Ton der Kategorie. Leer wenn nichts vorliegt."""
+        if not rating.health_note:
             return ""
-        note = f" · {html.escape(rating.health_note)}" if rating.health_note else ""
-        return f'<div class="health" style="--hc: {meta["color"]};">{meta["label"]}{note}</div>'
+        hm = HEALTH_META.get(rating.health, HEALTH_META["unbekannt"])
+        return (f'<div class="health" style="color:{hm["text"]};border-color:{hm["color"]}">'
+                f'{html.escape(rating.health_note)}</div>')
 
     def _render_card(cat: Cat, rating: CatRating, *, dimmed: bool = False) -> str:
         """Erzeugt das HTML-Markup für eine Katzen-Card; dimmed=True für nicht mehr verfügbare Katzen."""
         meta = RATING_META[rating.rating]
         age_months = get_age(cat.cat_id, cat.age_hint)
         age_data = str(age_months) if age_months is not None else "unknown"
-        card_style = f"--accent: {meta['color']}; opacity: .6;" if dimmed else f"--accent: {meta['color']};"
-        btn_style = ' style="background:#9e9e9e;"' if dimmed else ""
+        listed = "" if dimmed else _listed_line(cat)
         return f"""
-    <div class="card" style="{card_style}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}">
+    <div class="card{' gone' if dimmed else ''}" style="--accent: {meta['color']};" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}">
       {_img(cat)}
       <div class="body">
-        <h2>{html.escape(cat.name)} <span style="color:#999;font-weight:400;font-size:.85rem;">#{html.escape(cat.cat_id)}</span></h2>
+        <h2>{html.escape(cat.name)} <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">{html.escape(cat.cat_id)}</span></h2>
         <div class="meta">{_meta_line(cat, age_months)}</div>
-        {"" if dimmed else _listed_line(cat)}
-        {_partner_line(cat)}
-        {_interested_badge(cat)}
-        <div class="rating">{meta['emoji']} {meta['label']}</div>
-        {_health_line(rating)}
+        {_status_line(cat)}
+        {_labels(rating)}
         <div class="reason">{html.escape(rating.reason)}</div>
-        <a class="btn" href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener"{btn_style}>Steckbrief öffnen →</a>
+        {_health_note(rating)}
+        <div class="foot"><span>{listed}</span>
+          <a href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
     </div>"""
 
@@ -799,13 +852,13 @@ def render_report(
 
     # Sektion 1 — neue Katzen
     if not evaluated_sorted:
-        sect1_inner = '<div class="empty">Keine neuen Katzen seit dem letzten Lauf. 🎉</div>'
+        sect1_inner = '<div class="empty">Keine neuen Katzen seit dem letzten Lauf.</div>'
     else:
         cards = [_render_card(cat, rating) for cat, rating in evaluated_sorted]
         sect1_inner = f'<div class="grid">{"".join(cards)}</div>'
 
     if two_sections:
-        sect1 = f'<section><h2 class="group">✨ Neu seit letztem Lauf ({len(evaluated_sorted)})</h2>{sect1_inner}</section>'
+        sect1 = f'<section><h2 class="group">Neu seit letztem Lauf ({len(evaluated_sorted)})</h2>{sect1_inner}</section>'
     else:
         sect1 = f'<section>{sect1_inner}</section>'
 
@@ -813,12 +866,12 @@ def render_report(
     sect_gone = ""
     if no_longer_listed:
         cards = [_render_card(cat, rating, dimmed=True) for cat, rating in sorted(no_longer_listed, key=_card_sort_key)]
-        sect_gone = f'<section><h2 class="group">🚫 Nicht mehr verfügbar ({len(no_longer_listed)})</h2><div class="grid">{"".join(cards)}</div></section>'
+        sect_gone = f'<section><h2 class="group">Nicht mehr verfügbar ({len(no_longer_listed)})</h2><div class="grid">{"".join(cards)}</div></section>'
     elif had_prior_state:
         # D-05/D-06/D-07: voriger State nicht-leer, aber nichts verschwunden — Empty-State-Hint mit bestehendem .empty-Pattern.
         sect_gone = (
-            '<section><h2 class="group">🚫 Nicht mehr verfügbar (0)</h2>'
-            '<div class="empty">Seit dem letzten Lauf sind keine Katzen verschwunden. ✨</div>'
+            '<section><h2 class="group">Nicht mehr verfügbar (0)</h2>'
+            '<div class="empty">Seit dem letzten Lauf sind keine Katzen verschwunden.</div>'
             '</section>'
         )
     # else: had_prior_state == False (Erstlauf / --reset / Cold-Start) — sect_gone bleibt "" (D-07: Sektion komplett ausblenden).
@@ -827,7 +880,7 @@ def render_report(
     sect2 = ""
     if still_known:
         cards = [_render_card(cat, rating) for cat, rating in sorted(still_known, key=_card_sort_key)]
-        sect2 = f'<section><h2 class="group">📋 Weiterhin verfügbar ({len(still_known)})</h2><div class="grid">{"".join(cards)}</div></section>'
+        sect2 = f'<section><h2 class="group">Weiterhin verfügbar ({len(still_known)})</h2><div class="grid">{"".join(cards)}</div></section>'
 
     return HTML_TEMPLATE.format(
         timestamp=datetime.now().strftime("%d.%m.%Y %H:%M"),
