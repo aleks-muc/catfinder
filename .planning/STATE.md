@@ -72,6 +72,7 @@ Keine.
 | 260622-s6i | Card-Render-Blöcke zu _render_card-Helper zusammenführen (ponytail-Audit) | 2026-06-22 | adfe769 | [260622-s6i-card-render-bl-cke-zu-render-card-helper](./quick/260622-s6i-card-render-bl-cke-zu-render-card-helper/) |
 | 260622-sd4 | Restliche ponytail-Audit-Punkte aufräumen (has_unknown, _pair_attr, detect_interested, Rating-Whitelist) | 2026-06-22 | eb0118e | [260622-sd4-restliche-ponytail-audit-punkte-has-unkn](./quick/260622-sd4-restliche-ponytail-audit-punkte-has-unkn/) |
 | 260622-toz | Alert-Verlässlichkeit: Failure-ntfy im CI (B) + "seit X Tagen gelistet" im Report (C) | 2026-06-22 | 5b8d6bc | [260622-toz-alert-verlaesslichkeit-failure-ntfy-im-w](./quick/260622-toz-alert-verlaesslichkeit-failure-ntfy-im-w/) |
+| 260807-wi2 | Cron-Zeiten des CI-Laufs auf 12:30 und 15:00 Uhr lokal umstellen | 2026-08-07 | 11b7811 | [260807-wi2-cron-auf-12-30-und-15-00-umstellen](./quick/260807-wi2-cron-auf-12-30-und-15-00-umstellen/) |
 
 ## Session Continuity
 
