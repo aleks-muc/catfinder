@@ -30,4 +30,12 @@ ASCII-Skizzen (redaktionell / funktional / warm).
 
 | # | Name | Design Question | Winner | Tags |
 |---|------|----------------|--------|------|
-| 001 | report-ohne-emojis | Wie lesen sich Bewertung und Gesundheit ohne Emoji — und wie viel Struktur braucht die Card? | — | layout, typografie, farbe |
+| 001 | report-ohne-emojis | Wie lesen sich Bewertung und Gesundheit ohne Emoji — und wie viel Struktur braucht die Card? | **C — Farbkante** | layout, typografie, farbe |
+| 002 | farbkante-kontrast | Wie viel Fläche braucht ein Label, damit Bewertung und Gesundheit auf Distanz lesbar sind? | — | farbe, kontrast, informationsarchitektur |
+
+## Entschieden
+
+- **Sketch 001 → Variante C (Farbkante).** Die schmale Akzentkante überzeugt, die gedeckte
+  Palette war aber zu kontrastarm. Zwei Töne lagen unter WCAG AA — in 002 korrigiert.
+- **Card-Reihenfolge** (Nutzer-Vorgabe, in 002 umgesetzt): Name → Meta → Pärchen/Interessenten
+  → Labels → Verhaltensbeschreibung → Gesundheitsbeschreibung → Fußzeile.
