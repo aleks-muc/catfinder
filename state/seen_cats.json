@@ -509,23 +509,6 @@
     "reason": "Kinder ab etwa zwölf Jahren dürfen gerne im neuen Zuhause leben, sofern sie den beiden mit Ruhe und Verständnis begegnen.",
     "sex": ""
   },
-  "261684": {
-    "age_hint": "3 Monate alt",
-    "breed": "",
-    "cat_id": "261684",
-    "companion_count": 2,
-    "first_seen": "2026-08-07T23:39:48",
-    "has_interested": false,
-    "health": "keine",
-    "health_note": "",
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261684-1-134291855011426982.jpg",
-    "name": "SAL-AMANDA",
-    "partner_name": "BILL-KAUL-QUAPPI",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261684",
-    "rating": "aeltere_kinder",
-    "reason": "Kinder ab etwa 10 Jahren dürfen gerne im neuen Zuhause leben, wenn sie den beiden mit Ruhe und Rücksicht begegnen.",
-    "sex": ""
-  },
   "261685": {
     "age_hint": "3 Monate alt",
     "breed": "",
@@ -694,6 +677,23 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262397",
     "rating": "nicht_geeignet",
     "reason": "Kinder sollten nicht in seinem neuen Zuhause leben.",
+    "sex": ""
+  },
+  "262505": {
+    "age_hint": "3 Jahre alt",
+    "breed": "",
+    "cat_id": "262505",
+    "companion_count": 0,
+    "first_seen": "2026-08-12T11:14:18",
+    "has_interested": false,
+    "health": "keine",
+    "health_note": "",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262505-1-134309898350177591.jpg",
+    "name": "LOUIS",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262505",
+    "rating": "aeltere_kinder",
+    "reason": "Kinder ab etwa zehn Jahren können gerne in seinem neuen Zuhause leben.",
     "sex": ""
   }
 }
