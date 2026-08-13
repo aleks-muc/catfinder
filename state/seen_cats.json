@@ -305,23 +305,6 @@
     "reason": "Kinder ab etwa neun oder zehn Jahren dürfen gerne im neuen Zuhause leben.",
     "sex": ""
   },
-  "260878": {
-    "age_hint": "1 Jahr alt",
-    "breed": "",
-    "cat_id": "260878",
-    "companion_count": 2,
-    "first_seen": "2026-05-04T15:53:56",
-    "has_interested": false,
-    "health": "keine",
-    "health_note": "",
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260878-1-134223733148632092.JPG",
-    "name": "WASTL",
-    "partner_name": "ARTHUR",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260878",
-    "rating": "aeltere_kinder",
-    "reason": "Gerne auch in einer Familie mit größeren, verständigen Kindern, wichtig ist ausreichend Zeit zum Eingewöhnen.",
-    "sex": ""
-  },
   "260880": {
     "age_hint": "4 Jahre alt",
     "breed": "",
@@ -422,23 +405,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261105",
     "rating": "aeltere_kinder",
     "reason": "Für Familien mit Kindern eignen sie sich ab einem etwas größeren Alter.",
-    "sex": ""
-  },
-  "261288": {
-    "age_hint": "Alter: 5 Jahre",
-    "breed": "",
-    "cat_id": "261288",
-    "companion_count": 2,
-    "first_seen": "2026-08-07T23:39:48",
-    "has_interested": false,
-    "health": "erwaehnt",
-    "health_note": "Kieferbruch, der vollständig verheilt ist.",
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261288-1-134286609201272646.jpg",
-    "name": "ARTHUR",
-    "partner_name": "WASTL",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261288",
-    "rating": "aeltere_kinder",
-    "reason": "Gerne auch in einer Familie mit größeren, verständigen Kindern.",
     "sex": ""
   },
   "261352": {
