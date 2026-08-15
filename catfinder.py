@@ -433,10 +433,6 @@ def age_hint_to_months(age_hint: str) -> int | None:
     return None
 
 
-DEFAULT_AGE_LO = 36   # 3 Jahre in Monaten
-DEFAULT_AGE_HI = 144  # 12 Jahre in Monaten
-
-
 def _build_filter_bar(age_min: int, age_max: int) -> str:
     """Baut den HTML/CSS/JS-Block für Altersfilter und Sorgenkinder-Toggle."""
     def fmt(m: int) -> str:
@@ -445,9 +441,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
         y, r = divmod(m, 12)
         return f"{y}{'.5' if r >= 6 else ''} J."
 
-    # Defaultwerte auf tatsächliche Datenbandbreite klemmen
-    default_lo = max(age_min, min(DEFAULT_AGE_LO, age_max))
-    default_hi = min(age_max, max(DEFAULT_AGE_HI, age_min))
+    # Beim Öffnen sind alle Filter aus: Slider auf voller Datenbandbreite
+    default_lo, default_hi = age_min, age_max
 
     slider = ""
     if age_min < age_max:
@@ -477,9 +472,9 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 #resetBtn:hover{{color:#141310;}}
 </style>
 <div id="filterBar" style="position:sticky;top:0;z-index:100;background:#f5f3ef;border-bottom:1px solid #d2cbc0;padding:1rem 0;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;">{slider}
-  <button id="fitBtn" class="active">Nur geeignet</button>
-  <button id="pairBtn" class="active">Nur Pärchen (aktiv)</button>
-  <button id="sorgBtn" class="hidden">Sorgenkinder einblenden</button>
+  <button id="fitBtn">Nur geeignet</button>
+  <button id="pairBtn">Nur Pärchen</button>
+  <button id="sorgBtn">Sorgenkinder ausblenden</button>
   <button id="healthBtn">Dauerbehandlung ausblenden</button>
   <button id="resetBtn">Alle Katzen zeigen</button>
 </div>
@@ -490,7 +485,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
       sorgBtn=document.getElementById('sorgBtn'),fitBtn=document.getElementById('fitBtn'),
       pairBtn=document.getElementById('pairBtn'),resetBtn=document.getElementById('resetBtn'),
       healthBtn=document.getElementById('healthBtn');
-  var LO={age_min},HI={age_max},showSorg=false,showOnlyFit=true,showOnlyPair=true,hideTreat=false;
+  var LO={age_min},HI={age_max},showSorg=true,showOnlyFit=false,showOnlyPair=false,hideTreat=false;
   function fmt(m){{if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}}
   function pct(v){{return HI>LO?(v-LO)/(HI-LO)*100:0;}}
   function update(){{

@@ -83,7 +83,7 @@ Catfinder ist eine private CLI-Pipeline, die zweimal täglich das Listing des Ti
 - Private/internal helpers are prefixed with a single underscore: `_http_get`, `_pick`, `_build_filter_bar`, `_card_sort_key`, `_write_github_output` (all in `catfinder.py`), and the closure/module-level helpers `_img`, `_meta_line`, `_age_months_with_fallback`, `_ratings_from_state` (also in `catfinder.py`).
 - Local variables are `snake_case`: `profile_url`, `card_text`, `age_min`, `age_max`, `last_exc` (examples throughout `catfinder.py`).
 - Loop variables stay short (`a`, `c`, `m`, `r`, `idx`) when their meaning is local and obvious — e.g. `for a in soup.find_all(...)`, `for c in cats`, `m = CAT_ID_PATTERN.search(...)` (all in `catfinder.py`).
-- `UPPER_SNAKE_CASE` at module level: `BASE`, `LISTING_URL`, `PROFILE_URL_TMPL`, `USER_AGENT`, `MODEL`, `MAX_EVAL_WORKERS`, `API_RETRY_DELAYS`, `PROFILE_FETCH_DELAY_S`, `DEFAULT_AGE_LO`, `DEFAULT_AGE_HI` (in `catfinder.py`).
+- `UPPER_SNAKE_CASE` at module level: `BASE`, `LISTING_URL`, `PROFILE_URL_TMPL`, `USER_AGENT`, `MODEL`, `MAX_EVAL_WORKERS`, `API_RETRY_DELAYS`, `PROFILE_FETCH_DELAY_S` (in `catfinder.py`).
 - Compiled regex constants share the same convention with a `_PATTERN` suffix: `CAT_ID_PATTERN`, `INTERESTED_PATTERN`, `BIRTH_DATE_PATTERN` (in `catfinder.py`).
 - Path constants computed from `__file__`: `ROOT`, `STATE_DIR`, `STATE_FILE`, `REPORT_DIR`, `REPORT_FILE` (in `catfinder.py`).
 - Classes use `PascalCase`: `Cat` (dataclass in `catfinder.py`), `CatRating` (Pydantic model in `catfinder.py`).
