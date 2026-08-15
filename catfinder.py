@@ -739,6 +739,16 @@ def render_report(
     no_longer_listed = no_longer_listed or []
     evaluated_sorted = sorted(evaluated, key=_card_sort_key)
 
+    # Katzen mit festen Interessenten sind faktisch vergeben, sollen aber sichtbar
+    # bleiben — eigene Sektion statt Verwässerung der beiden Hauptlisten.
+    # Verschwundene Katzen (no_longer_listed) sind hiervon bewusst ausgenommen.
+    interested = sorted(
+        [p for p in evaluated_sorted + still_known if p[0].has_interested],
+        key=_card_sort_key,
+    )
+    evaluated_sorted = [p for p in evaluated_sorted if not p[0].has_interested]
+    still_known = [p for p in still_known if not p[0].has_interested]
+
     def get_age(cat_id: str, hint: str) -> int | None:
         if listing_ages is not None:
             return listing_ages.get(cat_id)
@@ -843,12 +853,13 @@ def render_report(
     all_ages = [get_age(c.cat_id, c.age_hint) for c, _ in evaluated_sorted]
     all_ages += [get_age(c.cat_id, c.age_hint) for c, _ in still_known]
     all_ages += [get_age(c.cat_id, c.age_hint) for c, _ in no_longer_listed]
+    all_ages += [get_age(c.cat_id, c.age_hint) for c, _ in interested]
     known_ages = [a for a in all_ages if a is not None]
     age_min = min(known_ages) if known_ages else 0
     age_max = max(known_ages) if known_ages else 0
-    filter_bar = _build_filter_bar(age_min, age_max) if (evaluated_sorted or still_known) else ""
+    filter_bar = _build_filter_bar(age_min, age_max) if (evaluated_sorted or still_known or interested) else ""
 
-    two_sections = bool(still_known or no_longer_listed)
+    two_sections = bool(still_known or no_longer_listed or interested)
 
     # Sektion 1 — neue Katzen
     if not evaluated_sorted:
@@ -876,7 +887,13 @@ def render_report(
         )
     # else: had_prior_state == False (Erstlauf / --reset / Cold-Start) — sect_gone bleibt "" (D-07: Sektion komplett ausblenden).
 
-    # Sektion 3 — weiterhin verfügbare Katzen (mit gespeicherter Ampelbewertung)
+    # Sektion 3 — Katzen mit festen Interessenten (faktisch vergeben, aber sichtbar)
+    sect_int = ""
+    if interested:
+        cards = [_render_card(cat, rating) for cat, rating in interested]
+        sect_int = f'<section><h2 class="group">Interessenten vorhanden ({len(interested)})</h2><div class="grid">{"".join(cards)}</div></section>'
+
+    # Sektion 4 — weiterhin verfügbare Katzen (mit gespeicherter Ampelbewertung)
     sect2 = ""
     if still_known:
         cards = [_render_card(cat, rating) for cat, rating in sorted(still_known, key=_card_sort_key)]
@@ -885,10 +902,10 @@ def render_report(
     return HTML_TEMPLATE.format(
         timestamp=datetime.now().strftime("%d.%m.%Y %H:%M"),
         total_listed=total_listed,
-        new_count=len(evaluated_sorted),
+        new_count=len(evaluated),
         scope_note=scope_note,
         filter_bar=filter_bar,
-        body=sect1 + sect_gone + sect2,
+        body=sect1 + sect_gone + sect_int + sect2,
     )
 
 
