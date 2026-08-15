@@ -739,8 +739,9 @@ def render_report(
     no_longer_listed = no_longer_listed or []
     evaluated_sorted = sorted(evaluated, key=_card_sort_key)
 
-    # Katzen mit festen Interessenten sind faktisch vergeben, sollen aber sichtbar
-    # bleiben — eigene Sektion statt Verwässerung der beiden Hauptlisten.
+    # Katzen mit festen Interessenten haben geringere Chancen, sind aber noch zu
+    # haben — eigene Sektion statt Verwässerung der beiden Hauptlisten, jedoch
+    # bewusst ungedimmt dargestellt.
     # Verschwundene Katzen (no_longer_listed) sind hiervon bewusst ausgenommen.
     interested = sorted(
         [p for p in evaluated_sorted + still_known if p[0].has_interested],
