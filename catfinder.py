@@ -246,6 +246,24 @@ def save_state(state: dict[str, dict]) -> None:
         raise
 
 
+def sync_state_entries(cats: list[Cat], state: dict[str, dict], now_iso: str) -> None:
+    """Legt neu gelistete Katzen im State an und pflegt Interessenten-/Pärchen-Status für
+    ALLE übergebenen Katzen nach — unabhängig davon, ob heute neu bei Claude bewertet wurde.
+
+    rating/reason/health/health_note werden hier bewusst NICHT angefasst, die schreibt der
+    Aufrufer in main() separat nur für tatsächlich neu bewertete Katzen.
+    """
+    for cat in cats:
+        if cat.cat_id not in state:
+            entry = asdict(cat)
+            entry["first_seen"] = now_iso
+            state[cat.cat_id] = entry
+        else:
+            state[cat.cat_id]["has_interested"] = cat.has_interested
+            state[cat.cat_id]["companion_count"] = cat.companion_count
+            state[cat.cat_id]["partner_name"] = cat.partner_name
+
+
 # ---------------------------------------------------------------------------
 # Scraper
 # ---------------------------------------------------------------------------
@@ -562,6 +580,47 @@ def fetch_profile_text(cat: Cat) -> str:
     text = re.sub(r"\n{3,}", "\n\n", text)
     # Längenbegrenzung für den API-Call
     return text[:8000]
+
+
+def refresh_interested_and_pairs(
+    cats: list[Cat], all_cat_names: list[str], state: dict[str, dict]
+) -> dict[str, str]:
+    """Lädt für jede aktuell gelistete Katze den Steckbrief neu und markiert
+    Interessenten- und Pärchen-Status direkt am Cat-Objekt.
+
+    Läuft für ALLE übergebenen Katzen, nicht nur neu entdeckte — sonst veraltet
+    has_interested für bereits bekannte Katzen nie nach, weil ihr Steckbrief sonst nur beim
+    Erstkontakt gelesen wurde (Debug-Session interessenten-status-veraltet). rating/reason/
+    health/health_note bleiben hier unangetastet, die kommen ausschließlich aus der
+    Claude-Bewertung neu entdeckter Katzen in evaluate_all.
+
+    Bei Fetch-Fehlern bleibt der zuletzt bekannte State-Wert erhalten, damit ein einzelner
+    Netzwerk-Hänger den Status nicht faelschlich zurücksetzt.
+    """
+    profile_texts: dict[str, str] = {}
+    print(f"\nLade {len(cats)} Steckbriefe …")
+    for i, cat in enumerate(cats, 1):
+        print(f"  [{i}/{len(cats)}] {cat.name} ({cat.cat_id})")
+        entry = state.get(cat.cat_id, {})
+        try:
+            text = fetch_profile_text(cat)
+            profile_texts[cat.cat_id] = text
+            cat.has_interested = bool(INTERESTED_PATTERN.search(text))
+            companions = find_companion_names(text, all_cat_names)
+            if len(companions) == 2:
+                cat.companion_count = 2
+                cat.partner_name = next(n for n in companions if n.upper() != cat.name.upper())
+            else:
+                cat.companion_count = 0
+                cat.partner_name = ""
+        except Exception as e:
+            print(f"    ! Fehler: {e}")
+            profile_texts[cat.cat_id] = ""
+            cat.has_interested = entry.get("has_interested", False)
+            cat.companion_count = entry.get("companion_count", 0)
+            cat.partner_name = entry.get("partner_name", "")
+        time.sleep(PROFILE_FETCH_DELAY_S)
+    return profile_texts
 
 
 # ---------------------------------------------------------------------------
@@ -968,14 +1027,10 @@ def main() -> int:
         scope_note = ""
 
     def _ratings_from_state(cat_list: list[Cat]) -> list[tuple[Cat, CatRating]]:
-        result = []
-        for c in cat_list:
-            entry = state.get(c.cat_id, {})
-            c.has_interested = entry.get("has_interested", False)
-            c.companion_count = entry.get("companion_count", 0)
-            c.partner_name = entry.get("partner_name", "")
-            result.append((c, _rating_from_entry(entry)))
-        return result
+        # has_interested/companion_count/partner_name kommen NICHT mehr aus dem State —
+        # die stehen bereits frisch am Cat-Objekt (refresh_interested_and_pairs lief vorher
+        # für ALLE Katzen). Aus dem State-Eintrag kommt nur noch die Claude-Bewertung.
+        return [(c, _rating_from_entry(state.get(c.cat_id, {}))) for c in cat_list]
 
     # Katzen die letztes Mal gelistet waren, jetzt aber nicht mehr
     current_ids = {c.cat_id for c in cats}
@@ -999,6 +1054,14 @@ def main() -> int:
     def _age_months_with_fallback(cat_id: str, age_hint: str) -> int | None:
         return age_hint_to_months(age_hint) or age_hint_to_months(state.get(cat_id, {}).get("age_hint", ""))
 
+    # Steckbriefe für ALLE aktuell gelisteten Katzen neu laden (nicht nur to_evaluate) —
+    # sonst veraltet has_interested für bereits bekannte Katzen nie (siehe Debug-Session
+    # interessenten-status-veraltet). Läuft VOR dem Früh-Ausstieg unten, damit auch der
+    # häufigste Fall (keine neuen Katzen, 2x/Tag) den Refresh erreicht.
+    profile_texts = refresh_interested_and_pairs(cats, all_cat_names, state)
+    repair_pair_symmetry(cats, current_ids, state)
+    now_iso = datetime.now().isoformat(timespec="seconds")
+
     if not to_evaluate:
         print("Keine neuen Katzen seit dem letzten Lauf.")
         la = {c.cat_id: _age_months_with_fallback(c.cat_id, c.age_hint) for c in still_known}
@@ -1009,6 +1072,7 @@ def main() -> int:
                                   had_prior_state=had_prior_state,
                                   first_seen_map={cid: state[cid].get("first_seen", "") for cid in state})
         write_and_open_report(html_text, no_browser=args.no_browser)
+        sync_state_entries(cats, state, now_iso)
         # Purge: nur Katzen aus dem aktuellen Listing bleiben im State (D-02).
         for cid in list(state.keys()):
             if cid not in current_ids:
@@ -1017,31 +1081,6 @@ def main() -> int:
         print(f"State aktualisiert: {len(state)} Katzen bekannt.")
         _write_github_output(0)
         return 0
-
-    print(f"\nLade {len(to_evaluate)} Steckbriefe …")
-    profile_texts: dict[str, str] = {}
-    for i, cat in enumerate(to_evaluate, 1):
-        print(f"  [{i}/{len(to_evaluate)}] {cat.name} ({cat.cat_id})")
-        try:
-            profile_texts[cat.cat_id] = fetch_profile_text(cat)
-        except Exception as e:
-            print(f"    ! Fehler: {e}")
-            profile_texts[cat.cat_id] = ""
-        time.sleep(PROFILE_FETCH_DELAY_S)
-
-    # Interessenten- und Pärchen-Status aus Steckbrief-Text erkennen
-    for cat in to_evaluate:
-        text = profile_texts.get(cat.cat_id, "")
-        cat.has_interested = bool(INTERESTED_PATTERN.search(text))
-        companions = find_companion_names(text, all_cat_names)
-        if len(companions) == 2:
-            cat.companion_count = 2
-            cat.partner_name = next(n for n in companions if n.upper() != cat.name.upper())
-        else:
-            cat.companion_count = 0
-            cat.partner_name = ""
-
-    repair_pair_symmetry(cats, {c.cat_id for c in to_evaluate}, state)
 
     # Alter aus Steckbrief nachpflegen, falls Listing keines hatte
     for cat in to_evaluate:
@@ -1070,22 +1109,15 @@ def main() -> int:
                               first_seen_map={cid: state[cid].get("first_seen", "") for cid in state})
     write_and_open_report(html_text, no_browser=args.no_browser)
 
-    # State: alle aktuell gelisteten Katzen eintragen, Bewertungen speichern.
-    now_iso = datetime.now().isoformat(timespec="seconds")
-    for cat in cats:
-        if cat.cat_id not in state:
-            entry = asdict(cat)
-            entry["first_seen"] = now_iso
-            state[cat.cat_id] = entry
+    # State: alle aktuell gelisteten Katzen eintragen (has_interested/Pärchen für alle,
+    # Claude-Bewertung nur für tatsächlich neu bewertete Katzen).
+    sync_state_entries(cats, state, now_iso)
     for cat in to_evaluate:
         if cat.cat_id in ratings:
             state[cat.cat_id]["rating"] = ratings[cat.cat_id].rating
             state[cat.cat_id]["reason"] = ratings[cat.cat_id].reason
             state[cat.cat_id]["health"] = ratings[cat.cat_id].health
             state[cat.cat_id]["health_note"] = ratings[cat.cat_id].health_note
-            state[cat.cat_id]["has_interested"] = cat.has_interested
-            state[cat.cat_id]["companion_count"] = cat.companion_count
-            state[cat.cat_id]["partner_name"] = cat.partner_name
     # Purge: nur Katzen aus dem aktuellen Listing bleiben im State (D-02).
     for cid in list(state.keys()):
         if cid not in current_ids:
