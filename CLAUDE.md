@@ -3,7 +3,7 @@
 
 **Catfinder**
 
-Catfinder ist eine private CLI-Pipeline, die zweimal täglich das Listing des Tierschutzvereins München scrapt, neue Katzen mit Claude gegen ein Familien-Eignungsprofil bewertet und einen filterbaren HTML-Report per ntfy-Push-Benachrichtigung und GitHub Pages ausliefert. Zielnutzer ist eine einzelne Familie auf Katzensuche, die nicht ständig manuell nachschauen möchte.
+Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tierschutzvereins München scrapt, neue Katzen mit Claude gegen ein Familien-Eignungsprofil bewertet und einen filterbaren HTML-Report per ntfy-Push-Benachrichtigung und GitHub Pages ausliefert. Zielnutzer ist eine einzelne Familie auf Katzensuche, die nicht ständig manuell nachschauen möchte.
 
 **Core Value:** Sobald eine geeignete Katze neu auf der Seite auftaucht, weiß die Familie es ohne manuelles Nachsehen — der Report muss zuverlässig laufen und den Unterschied zwischen "neu", "weiter verfügbar" und "verschwunden" sauber kommunizieren.
 
@@ -67,7 +67,7 @@ Catfinder ist eine private CLI-Pipeline, die zweimal täglich das Listing des Ti
 - A working web browser for the auto-opened HTML report (skippable with `--no-browser`).
 - Outbound HTTPS to `tierschutzverein-muenchen.de` and `api.anthropic.com`.
 - `ubuntu-latest` GitHub-hosted runner.
-- Scheduled twice daily via cron (`30 10 * * *` and `0 13 * * *` UTC) plus on-demand `workflow_dispatch`.
+- Scheduled once daily via cron (`30 10 * * *` UTC) plus on-demand `workflow_dispatch`.
 - Requires `contents: write` permission so the workflow can commit `state/seen_cats.json` and `docs/index.html` back to `main`.
 - GitHub Pages serves `docs/index.html` as the public report (a banner linking to the Pages URL is injected into the report HTML during the CI run, in `.github/workflows/catfinder.yml`).
 ## Build & Test Scripts
@@ -169,7 +169,7 @@ Catfinder ist eine private CLI-Pipeline, die zweimal täglich das Listing des Ti
 | Claude evaluator | Call Anthropic API with retries, parallelize via thread pool | `catfinder.py` (`evaluate_cat`, `evaluate_all`) |
 | Report renderer | Build HTML with filter bar, sections, sort key | `catfinder.py` (`render_report`, `_build_filter_bar`) |
 | CI bridge | Emit `new_count` to `GITHUB_OUTPUT` | `catfinder.py` (`_write_github_output`) |
-| Scheduler / publisher | Run twice daily, commit state, publish to Pages, send ntfy push notification | `.github/workflows/catfinder.yml` |
+| Scheduler / publisher | Run once daily, commit state, publish to Pages, send ntfy push notification | `.github/workflows/catfinder.yml` |
 ## Pattern Overview
 - One Python module, no packages. All public functions live in `catfinder.py` and are organized by section comments.
 - Pure functions for scraping / parsing; side-effecting functions (state I/O, HTTP, browser launch) are explicit and named.
@@ -235,7 +235,7 @@ Catfinder ist eine private CLI-Pipeline, die zweimal täglich das Listing des Ti
 - Triggers: developer running `python catfinder.py [--reset|--all|--no-browser]`, or CI step "Catfinder ausführen".
 - Responsibilities: drives the full pipeline; non-zero exit on missing API key.
 - Location: `.github/workflows/catfinder.yml`.
-- Triggers: `schedule` (cron `30 10 * * *`, `0 13 * * *` UTC) and `workflow_dispatch` (manual).
+- Triggers: `schedule` (cron `30 10 * * *` UTC) and `workflow_dispatch` (manual).
 - Responsibilities: run script with `--no-browser`, publish to Pages via `docs/index.html`, push state, send an ntfy push notification.
 ## Architectural Constraints
 - **Threading:** Single-process Python. The only concurrency is `concurrent.futures.ThreadPoolExecutor(max_workers=MAX_EVAL_WORKERS)` (=2) inside `evaluate_all` in `catfinder.py`. Listing scrape and profile fetches are sequential; profile fetches sleep `PROFILE_FETCH_DELAY_S = 0.4` s between requests to be polite.
