@@ -594,6 +594,23 @@
     "reason": "Sie können sich gut eine Familie mit größeren Kindern vorstellen, die Freude daran hat, sich mit ihnen zu beschäftigen.",
     "sex": ""
   },
+  "262111": {
+    "age_hint": "Alter: 2 Jahre",
+    "breed": "",
+    "cat_id": "262111",
+    "companion_count": 2,
+    "first_seen": "2026-08-17T10:54:49",
+    "has_interested": false,
+    "health": "erwaehnt",
+    "health_note": "Bekommen derzeit Spezialfutter und sollten dieses auch weiterhin erhalten.",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262111-1-134314302414293307.JPG",
+    "name": "KLEINER BRE",
+    "partner_name": "BELLA",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262111",
+    "rating": "geeignet",
+    "reason": "Bella und Kleiner Bre eignen sich gut für Familien mit Kindern und freuen sich über ein liebevolles Zuhause, in dem sie am Familienalltag teilhaben dürfen.",
+    "sex": ""
+  },
   "262125": {
     "age_hint": "7 Jahre alt",
     "breed": "",
@@ -609,6 +626,23 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262125",
     "rating": "nicht_geeignet",
     "reason": "Ein ruhiges Zuhause ohne Kinder ist für Milka wichtig, damit sie sich wohlfühlen kann.",
+    "sex": ""
+  },
+  "262131": {
+    "age_hint": "2 Jahre alt",
+    "breed": "",
+    "cat_id": "262131",
+    "companion_count": 2,
+    "first_seen": "2026-08-17T10:54:49",
+    "has_interested": false,
+    "health": "erwaehnt",
+    "health_note": "Bekommen derzeit Spezialfutter und sollten dieses auch weiterhin erhalten.",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262131-1-134314299922287198.JPG",
+    "name": "BELLA",
+    "partner_name": "KLEINER BRE",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262131",
+    "rating": "geeignet",
+    "reason": "Bella und Kleiner Bre eignen sich gut für Familien mit Kindern und freuen sich über ein liebevolles Zuhause, in dem sie am Familienalltag teilhaben dürfen.",
     "sex": ""
   },
   "262138": {
@@ -662,6 +696,23 @@
     "reason": "Für Inci suchen wir ein ruhiges Zuhause ohne Kinder.",
     "sex": ""
   },
+  "262260": {
+    "age_hint": "Alter: 3 Jahre",
+    "breed": "",
+    "cat_id": "262260",
+    "companion_count": 0,
+    "first_seen": "2026-08-17T10:54:49",
+    "has_interested": false,
+    "health": "dauerbehandlung",
+    "health_note": "Futtermittelallergiker, benötigt spezielle Ernährung und dauerhafte Beachtung der Fütterung.",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262260-1-134261688094338017.jpg",
+    "name": "KASPER",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262260",
+    "rating": "aeltere_kinder",
+    "reason": "Kinder ab etwa sechs Jahren dürfen gerne in seinem neuen Zuhause leben.",
+    "sex": ""
+  },
   "262397": {
     "age_hint": "6 Jahre alt",
     "breed": "",
@@ -694,6 +745,40 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262505",
     "rating": "aeltere_kinder",
     "reason": "Kinder ab etwa zehn Jahren können gerne in seinem neuen Zuhause leben.",
+    "sex": ""
+  },
+  "262527": {
+    "age_hint": "26 Jahre alt",
+    "breed": "",
+    "cat_id": "262527",
+    "companion_count": 0,
+    "first_seen": "2026-08-17T10:54:49",
+    "has_interested": false,
+    "health": "keine",
+    "health_note": "",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262527-1-134163121146736285.jpg",
+    "name": "PANTERLI",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262527",
+    "rating": "geeignet",
+    "reason": "Panterli eignet sich gut für Familien mit Kindern und ist sehr menschenbezogen, zutraulich und verschmust.",
+    "sex": ""
+  },
+  "262531": {
+    "age_hint": "Alter: 2 Jahre",
+    "breed": "",
+    "cat_id": "262531",
+    "companion_count": 0,
+    "first_seen": "2026-08-17T10:54:49",
+    "has_interested": false,
+    "health": "keine",
+    "health_note": "",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262531-1-134302959067744066.JPG",
+    "name": "TIGERLILLY",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262531",
+    "rating": "aeltere_kinder",
+    "reason": "Wir wünschen uns für Tigerlilly ein liebevolles und ruhiges Zuhause mit größeren Kindern ab etwa 13 Jahren, die Verständnis dafür haben, dass sie etwas Zeit benötigt, um Vertrauen zu fassen.",
     "sex": ""
   },
   "262568": {
