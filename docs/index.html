@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Catfinder — 21.08.2026 10:55</title>
+<title>Catfinder — 21.08.2026 17:47</title>
 <style>
 * { box-sizing: border-box; }
 :root {
@@ -44,9 +44,13 @@ main { max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }
 .card.gone { opacity: .6; }
 .empty { text-align: center; color: var(--mute); padding: 4rem 1rem; background: #fff;
           border: 1px solid var(--hair); }
-section { margin-top: 3rem; }
+section, details.sect { margin-top: 3rem; }
+details.sect > summary { cursor: pointer; margin-bottom: 1.4rem; color: var(--soft); }
+details.sect > summary::marker { font-size: .8rem; }
 section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4rem;
                     color: var(--soft); margin: 0 0 1.4rem; }
+summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4rem;
+                    color: var(--soft); margin: 0; display: inline; }
 @media (max-width: 520px) {
   .grid { grid-template-columns: 1fr; }
   header h1 { font-size: 1.9rem; }
@@ -57,7 +61,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
 <header>
   <h1>Catfinder</h1>
   <div class="stats">
-    Lauf vom 21.08.2026 10:55 · 56 Katzen gelistet · <strong>7 neu bewertet</strong> · <span id="visibleCount">7</span> angezeigt
+    Lauf vom 21.08.2026 17:47 · 60 Katzen gelistet · <strong>4 neu bewertet</strong> · <span id="visibleCount">4</span> angezeigt
   </div>
 </header>
 <main>
@@ -123,6 +127,12 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     });
     var vc=document.getElementById('visibleCount');
     if(vc)vc.textContent=visible;
+    document.querySelectorAll('details.sect').forEach(function(d){
+      var cards=d.querySelectorAll('.card'),vis=0;
+      cards.forEach(function(c){if(c.style.display!=='none')vis++;});
+      var s=d.querySelector('.cnt');
+      if(s)s.textContent=(vis===cards.length?cards.length:vis+' von '+cards.length);
+    });
   }
   pairBtn.addEventListener('click',function(){
     showOnlyPair=!showOnlyPair;
@@ -167,115 +177,63 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
   document.addEventListener('DOMContentLoaded',update);
 })();
 </script>
-<section><h2 class="group">Neu seit letztem Lauf (7)</h2><div class="grid">
-    <div class="card" style="--accent: #c9880a;" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263104-1-134317059515060882.jpg" alt="ANTON" loading="lazy">
+<details class="sect" open><summary><h2 class="group">Neu seit letztem Lauf (<span class="cnt">4</span>)</h2></summary><div class="grid">
+    <div class="card" style="--accent: #c9880a;" data-age-months="60" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263224-1-134317961784082743.jpg" alt="BLAUBÄR" loading="lazy">
       <div class="body">
-        <h2>ANTON <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">263104</span></h2>
-        <div class="meta">4 Monate</div>
-        <div class="status"><span class="partner">Pärchen mit <strong>BERTA</strong></span></div>
+        <h2>BLAUBÄR <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263224</span></h2>
+        <div class="meta">5 Jahre</div>
+        <div class="status"><span class="partner">Pärchen mit <strong>MARIECHEN</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
-        <div class="reason">Kinder ab etwa zehn Jahren dürfen gerne im neuen Zuhause leben.</div>
-        <div class="health" style="color:#8a5c00;border-color:#c9880a">Benötigen ein gut verträgliches Futter, das Magen und Darm schont.</div>
+        <div class="reason">Größere, ruhige Kinder, die respektvoll mit Katzen umgehen und ihre Rückzugsmöglichkeiten achten, sind im neuen Zuhause denkbar.</div>
+        <div class="health" style="color:#8a5c00;border-color:#c9880a">Gelegentlich mit Verstopfung zu kämpfen, möglicherweise bessert sich dies durch mehr Bewegung und Beschäftigung.</div>
         <div class="foot"><span>seit heute gelistet</span>
-          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263104" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263224" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" style="--accent: #c9880a;" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263118-1-134317057724019036.jpg" alt="BERTA" loading="lazy">
+    <div class="card" style="--accent: #c9880a;" data-age-months="48" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263227-1-134317955733558708.jpg" alt="MARIECHEN" loading="lazy">
       <div class="body">
-        <h2>BERTA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">263118</span></h2>
-        <div class="meta">4 Monate</div>
-        <div class="status"><span class="partner">Pärchen mit <strong>ANTON</strong></span></div>
+        <h2>MARIECHEN <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263227</span></h2>
+        <div class="meta">4 Jahre</div>
+        <div class="status"><span class="partner">Pärchen mit <strong>BLAUBÄR</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
-        <div class="reason">Kinder ab etwa zehn Jahren dürfen gerne im neuen Zuhause leben.</div>
-        <div class="health" style="color:#8a5c00;border-color:#c9880a">benötigen ein gut verträgliches Futter, das Magen und Darm schont</div>
+        <div class="reason">Größere, ruhige Kinder, die respektvoll mit Katzen umgehen und ihre Rückzugsmöglichkeiten achten, sind im neuen Zuhause denkbar.</div>
+        <div class="health" style="color:#8a5c00;border-color:#c9880a">Gelegentlich mit Verstopfung zu kämpfen, könnte sich durch mehr Bewegung bessern.</div>
         <div class="foot"><span>seit heute gelistet</span>
-          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263118" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263227" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" style="--accent: #c9880a;" data-age-months="72" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263376-1-134316998987360327.jpg" alt="LILLY" loading="lazy">
+    <div class="card" style="--accent: #c9880a;" data-age-months="12" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263239-1-134317947984667596.jpg" alt="EKMEK" loading="lazy">
       <div class="body">
-        <h2>LILLY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">263376</span></h2>
-        <div class="meta">6 Jahre</div>
-        <div class="status"><span class="partner">Pärchen mit <strong>LUNA</strong></span></div>
-        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
-        <div class="reason">Kinder ab etwa 15 Jahren sind im neuen Zuhause denkbar.</div>
-        <div class="health" style="color:#8a5c00;border-color:#c9880a">Übergewichtig, Zahnsanierung anstehend.</div>
-        <div class="foot"><span>seit heute gelistet</span>
-          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263376" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
-      </div>
-    </div>
-    <div class="card" style="--accent: #c9880a;" data-age-months="72" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263377-1-134317001704527389.jpg" alt="LUNA" loading="lazy">
-      <div class="body">
-        <h2>LUNA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">263377</span></h2>
-        <div class="meta">6 Jahre</div>
-        <div class="status"><span class="partner">Pärchen mit <strong>LILLY</strong></span></div>
-        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
-        <div class="reason">Kinder ab etwa 15 Jahren sind im neuen Zuhause denkbar.</div>
-        <div class="health" style="color:#8a5c00;border-color:#c9880a">Übergewichtig, Zahnsanierung anstehend.</div>
-        <div class="foot"><span>seit heute gelistet</span>
-          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263377" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
-      </div>
-    </div>
-    <div class="card" style="--accent: #c9880a;" data-age-months="132" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261783-1-134315359756782994.jpg" alt="OTILIE" loading="lazy">
-      <div class="body">
-        <h2>OTILIE <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">261783</span></h2>
-        <div class="meta">11 Jahre</div>
-        
-        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
-        <div class="reason">Sie kann zu einer Familie mit Kindern ab etwa 12 Jahren ziehen.</div>
-        <div class="health" style="color:#971616;border-color:#c62020">Bluthochdruck, bekommt dafür täglich Tabletten.</div>
-        <div class="foot"><span>seit heute gelistet</span>
-          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261783" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
-      </div>
-    </div>
-    <div class="card" style="--accent: #c62020;" data-age-months="108" data-rating="nicht_geeignet" data-companions="2" data-health="erwaehnt">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263463-1-134317002893690926.jpg" alt="LIZ" loading="lazy">
-      <div class="body">
-        <h2>LIZ <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">263463</span></h2>
-        <div class="meta">9 Jahre</div>
-        <div class="status"><span class="partner">Pärchen mit <strong>MIA</strong></span></div>
-        <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
-        <div class="reason">Für Mia und Liz suchen wir ein ruhiges Zuhause ohne Kinder.</div>
-        <div class="health" style="color:#8a5c00;border-color:#c9880a">Zahnsanierung steht noch an.</div>
-        <div class="foot"><span>seit heute gelistet</span>
-          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263463" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
-      </div>
-    </div>
-    <div class="card" style="--accent: #c62020;" data-age-months="108" data-rating="nicht_geeignet" data-companions="2" data-health="keine">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263464-1-134317002893690926.jpg" alt="MIA" loading="lazy">
-      <div class="body">
-        <h2>MIA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">263464</span></h2>
-        <div class="meta">9 Jahre</div>
-        <div class="status"><span class="partner">Pärchen mit <strong>LIZ</strong></span></div>
-        <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
-        <div class="reason">Für Mia und Liz suchen wir ein ruhiges Zuhause ohne Kinder.</div>
+        <h2>EKMEK <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263239</span></h2>
+        <div class="meta">1 Jahr</div>
+        <div class="status"><span class="partner">Pärchen mit <strong>MANTI</strong></span></div>
+        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
+        <div class="reason">Auch Kinder ab etwa acht Jahren dürfen gerne zur neuen Familie gehören.</div>
         
         <div class="foot"><span>seit heute gelistet</span>
-          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263464" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263239" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
-    </div></div></section><section><h2 class="group">Nicht mehr verfügbar (1)</h2><div class="grid">
-    <div class="card gone" style="--accent: #c9880a;" data-age-months="96" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
-      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261479-1-134157955062570092.jpg" alt="BRAUNIE" loading="lazy">
+    </div>
+    <div class="card" style="--accent: #c9880a;" data-age-months="12" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263238-1-134317948791005038.jpg" alt="MANTI" loading="lazy">
       <div class="body">
-        <h2>BRAUNIE <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">261479</span></h2>
-        <div class="meta">8 Jahre</div>
-        <div class="status"><span class="badge-int">Interessenten vorhanden</span></div>
-        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
-        <div class="reason">Er kann sich in einer Familie mit Kindern ab 10 Jahren sehr wohlfühlen.</div>
-        <div class="health" style="color:#971616;border-color:#c62020">Diabetes, benötigt regelmäßig Insulin.</div>
-        <div class="foot"><span></span>
-          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261479" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+        <h2>MANTI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263238</span></h2>
+        <div class="meta">1 Jahr</div>
+        <div class="status"><span class="partner">Pärchen mit <strong>EKMEK</strong></span></div>
+        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
+        <div class="reason">Auch Kinder ab etwa acht Jahren dürfen gerne zur neuen Familie gehören.</div>
+        
+        <div class="foot"><span>seit heute gelistet</span>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263238" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
-    </div></div></section><section><h2 class="group">Interessenten vorhanden (7)</h2><div class="grid">
+    </div></div></details><details class="sect"><summary><h2 class="group">Nicht mehr verfügbar (<span class="cnt">0</span>)</h2></summary><div class="empty">Seit dem letzten Lauf sind keine Katzen verschwunden.</div></details><details class="sect"><summary><h2 class="group">Interessenten vorhanden (<span class="cnt">7</span>)</h2></summary><div class="grid">
     <div class="card" style="--accent: #1e7a35;" data-age-months="24" data-rating="geeignet" data-companions="2" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262131-1-134314299922287198.JPG" alt="BELLA" loading="lazy">
       <div class="body">
-        <h2>BELLA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262131</span></h2>
+        <h2>BELLA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262131</span></h2>
         <div class="meta">2 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>KLEINER BRE</strong></span><span class="badge-int">Interessenten vorhanden</span></div>
         <div class="labels"><span class="lab" style="background:#1e7a35;border-color:#1e7a35;color:#ffffff">Kinder geeignet</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -288,7 +246,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #1e7a35;" data-age-months="24" data-rating="geeignet" data-companions="2" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262111-1-134314302414293307.JPG" alt="KLEINER BRE" loading="lazy">
       <div class="body">
-        <h2>KLEINER BRE <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262111</span></h2>
+        <h2>KLEINER BRE <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262111</span></h2>
         <div class="meta">2 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>BELLA</strong></span><span class="badge-int">Interessenten vorhanden</span></div>
         <div class="labels"><span class="lab" style="background:#1e7a35;border-color:#1e7a35;color:#ffffff">Kinder geeignet</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -301,7 +259,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="108" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260610-1-134287416362388792.jpg" alt="KIM" loading="lazy">
       <div class="body">
-        <h2>KIM <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">260610</span></h2>
+        <h2>KIM <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">260610</span></h2>
         <div class="meta">9 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>SVEN</strong></span><span class="badge-int">Interessenten vorhanden</span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -314,7 +272,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="144" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260234-1-134202848517102329.JPG" alt="SVEN" loading="lazy">
       <div class="body">
-        <h2>SVEN <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">260234</span></h2>
+        <h2>SVEN <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">260234</span></h2>
         <div class="meta">12 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>KIM</strong></span><span class="badge-int">Interessenten vorhanden</span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -327,7 +285,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="36" data-rating="aeltere_kinder" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262505-1-134309898350177591.jpg" alt="LOUIS" loading="lazy">
       <div class="body">
-        <h2>LOUIS <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262505</span></h2>
+        <h2>LOUIS <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262505</span></h2>
         <div class="meta">3 Jahre</div>
         <div class="status"><span class="badge-int">Interessenten vorhanden</span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -340,7 +298,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="36" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260188-1-134286609903331173.jpg" alt="SASCHA" loading="lazy">
       <div class="body">
-        <h2>SASCHA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">260188</span></h2>
+        <h2>SASCHA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">260188</span></h2>
         <div class="meta">3 Jahre</div>
         <div class="status"><span class="badge-int">Interessenten vorhanden</span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -353,7 +311,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c62020;" data-age-months="48" data-rating="nicht_geeignet" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/253426-1-134272771657970990.jpg" alt="TEDDY" loading="lazy">
       <div class="body">
-        <h2>TEDDY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">253426</span></h2>
+        <h2>TEDDY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">253426</span></h2>
         <div class="meta">4 Jahre</div>
         <div class="status"><span class="badge-int">Interessenten vorhanden</span></div>
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -362,11 +320,11 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
         <div class="foot"><span>seit 125 Tagen gelistet</span>
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/253426" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
-    </div></div></section><section><h2 class="group">Weiterhin verfügbar (42)</h2><div class="grid">
+    </div></div></details><details class="sect"><summary><h2 class="group">Weiterhin verfügbar (<span class="cnt">49</span>)</h2></summary><div class="grid">
     <div class="card" style="--accent: #1e7a35;" data-age-months="36" data-rating="geeignet" data-companions="0" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262968-1-134310182655034988.jpg" alt="ANNELIESE" loading="lazy">
       <div class="body">
-        <h2>ANNELIESE <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262968</span></h2>
+        <h2>ANNELIESE <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262968</span></h2>
         <div class="meta">3 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#1e7a35;border-color:#1e7a35;color:#ffffff">Kinder geeignet</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -379,7 +337,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #1e7a35;" data-age-months="312" data-rating="geeignet" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262527-1-134163121146736285.jpg" alt="PANTERLI" loading="lazy">
       <div class="body">
-        <h2>PANTERLI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262527</span></h2>
+        <h2>PANTERLI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262527</span></h2>
         <div class="meta">26 Jahre</div>
         
         <div class="labels"><span class="lab lab-best" style="background:#1e7a35;border-color:#1e7a35;color:#ffffff">Geeignet und gesund</span></div>
@@ -392,7 +350,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #6b6560;" data-age-months="12" data-rating="unbekannt" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262138-1-134278988481407158.JPG" alt="VIVALDI" loading="lazy">
       <div class="body">
-        <h2>VIVALDI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262138</span></h2>
+        <h2>VIVALDI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262138</span></h2>
         <div class="meta">1 Jahr</div>
         
         <div class="labels"><span class="lab" style="background:#6b6560;border-color:#6b6560;color:#ffffff">Keine Angabe</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -402,10 +360,36 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262138" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
     </div>
+    <div class="card" style="--accent: #c9880a;" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263104-1-134317059515060882.jpg" alt="ANTON" loading="lazy">
+      <div class="body">
+        <h2>ANTON <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263104</span></h2>
+        <div class="meta">4 Monate</div>
+        <div class="status"><span class="partner">Pärchen mit <strong>BERTA</strong></span></div>
+        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
+        <div class="reason">Kinder ab etwa zehn Jahren dürfen gerne im neuen Zuhause leben.</div>
+        <div class="health" style="color:#8a5c00;border-color:#c9880a">Benötigen ein gut verträgliches Futter, das Magen und Darm schont.</div>
+        <div class="foot"><span>seit heute gelistet</span>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263104" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+      </div>
+    </div>
+    <div class="card" style="--accent: #c9880a;" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263118-1-134317057724019036.jpg" alt="BERTA" loading="lazy">
+      <div class="body">
+        <h2>BERTA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263118</span></h2>
+        <div class="meta">4 Monate</div>
+        <div class="status"><span class="partner">Pärchen mit <strong>ANTON</strong></span></div>
+        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
+        <div class="reason">Kinder ab etwa zehn Jahren dürfen gerne im neuen Zuhause leben.</div>
+        <div class="health" style="color:#8a5c00;border-color:#c9880a">benötigen ein gut verträgliches Futter, das Magen und Darm schont</div>
+        <div class="foot"><span>seit heute gelistet</span>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263118" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+      </div>
+    </div>
     <div class="card" style="--accent: #c9880a;" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262970-1-134310190424111270.jpg" alt="AVERELL DALTON" loading="lazy">
       <div class="body">
-        <h2>AVERELL DALTON <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262970</span></h2>
+        <h2>AVERELL DALTON <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262970</span></h2>
         <div class="meta">4 Monate</div>
         <div class="status"><span class="partner">Pärchen mit <strong>WILLIAM DALTON</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -418,7 +402,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="3" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262969-1-134310191532804593.jpg" alt="WILLIAM DALTON" loading="lazy">
       <div class="body">
-        <h2>WILLIAM DALTON <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262969</span></h2>
+        <h2>WILLIAM DALTON <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262969</span></h2>
         <div class="meta">3 Monate</div>
         <div class="status"><span class="partner">Pärchen mit <strong>AVERELL DALTON</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -431,7 +415,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="84" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262739-1-134315362529015846.jpg" alt="BABY" loading="lazy">
       <div class="body">
-        <h2>BABY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262739</span></h2>
+        <h2>BABY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262739</span></h2>
         <div class="meta">7 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>HANIBAL</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -444,7 +428,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="108" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262740-1-134315363771511644.jpg" alt="HANIBAL" loading="lazy">
       <div class="body">
-        <h2>HANIBAL <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262740</span></h2>
+        <h2>HANIBAL <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262740</span></h2>
         <div class="meta">9 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>BABY</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -457,7 +441,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="108" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263410-1-134311922601472925.jpg" alt="DORI" loading="lazy">
       <div class="body">
-        <h2>DORI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">263410</span></h2>
+        <h2>DORI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263410</span></h2>
         <div class="meta">9 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>POPPY</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -470,7 +454,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="96" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263409-1-134315081109008790.jpg" alt="POPPY" loading="lazy">
       <div class="body">
-        <h2>POPPY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">263409</span></h2>
+        <h2>POPPY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263409</span></h2>
         <div class="meta">8 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>DORI</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -483,7 +467,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="36" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261949-1-134287520261695845.jpg" alt="DUMAN" loading="lazy">
       <div class="body">
-        <h2>DUMAN <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">261949</span></h2>
+        <h2>DUMAN <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">261949</span></h2>
         <div class="meta">3 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>PAMUK</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -496,7 +480,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="36" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261948-1-134287513623255342.jpg" alt="PAMUK" loading="lazy">
       <div class="body">
-        <h2>PAMUK <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">261948</span></h2>
+        <h2>PAMUK <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">261948</span></h2>
         <div class="meta">3 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>DUMAN</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -509,7 +493,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="204" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261102-1-134262608371065386.jpg" alt="GIZMO" loading="lazy">
       <div class="body">
-        <h2>GIZMO <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">261102</span></h2>
+        <h2>GIZMO <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">261102</span></h2>
         <div class="meta">17 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>PASHA</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -522,7 +506,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="204" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261105-1-134254023596532603.jpg" alt="PASHA" loading="lazy">
       <div class="body">
-        <h2>PASHA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">261105</span></h2>
+        <h2>PASHA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">261105</span></h2>
         <div class="meta">17 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>GIZMO</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -535,7 +519,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="12" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/256261-1-134253807735530997.jpg" alt="KAI" loading="lazy">
       <div class="body">
-        <h2>KAI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">256261</span></h2>
+        <h2>KAI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">256261</span></h2>
         <div class="meta">1 Jahr</div>
         <div class="status"><span class="partner">Pärchen mit <strong>NILO</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -548,7 +532,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="12" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262106-1-134287415419615385.jpg" alt="NILO" loading="lazy">
       <div class="body">
-        <h2>NILO <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262106</span></h2>
+        <h2>NILO <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262106</span></h2>
         <div class="meta">1 Jahr</div>
         <div class="status"><span class="partner">Pärchen mit <strong>KAI</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -558,10 +542,36 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262106" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
     </div>
+    <div class="card" style="--accent: #c9880a;" data-age-months="72" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263376-1-134316998987360327.jpg" alt="LILLY" loading="lazy">
+      <div class="body">
+        <h2>LILLY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263376</span></h2>
+        <div class="meta">6 Jahre</div>
+        <div class="status"><span class="partner">Pärchen mit <strong>LUNA</strong></span></div>
+        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
+        <div class="reason">Kinder ab etwa 15 Jahren sind im neuen Zuhause denkbar.</div>
+        <div class="health" style="color:#8a5c00;border-color:#c9880a">Übergewichtig, Zahnsanierung anstehend.</div>
+        <div class="foot"><span>seit heute gelistet</span>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263376" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+      </div>
+    </div>
+    <div class="card" style="--accent: #c9880a;" data-age-months="72" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263377-1-134317001704527389.jpg" alt="LUNA" loading="lazy">
+      <div class="body">
+        <h2>LUNA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263377</span></h2>
+        <div class="meta">6 Jahre</div>
+        <div class="status"><span class="partner">Pärchen mit <strong>LILLY</strong></span></div>
+        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
+        <div class="reason">Kinder ab etwa 15 Jahren sind im neuen Zuhause denkbar.</div>
+        <div class="health" style="color:#8a5c00;border-color:#c9880a">Übergewichtig, Zahnsanierung anstehend.</div>
+        <div class="foot"><span>seit heute gelistet</span>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263377" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+      </div>
+    </div>
     <div class="card" style="--accent: #c9880a;" data-age-months="72" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261893-1-134291949428734771.jpg" alt="MILAN" loading="lazy">
       <div class="body">
-        <h2>MILAN <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">261893</span></h2>
+        <h2>MILAN <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">261893</span></h2>
         <div class="meta">6 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>SIMBALA</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -574,7 +584,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="60" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261890-1-134291949428734771.jpg" alt="SIMBALA" loading="lazy">
       <div class="body">
-        <h2>SIMBALA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">261890</span></h2>
+        <h2>SIMBALA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">261890</span></h2>
         <div class="meta">5 Jahre</div>
         <div class="status"><span class="partner">Pärchen mit <strong>MILAN</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -587,7 +597,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="9" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/256395-1-134259964776292835.jpg" alt="RAFFAELO" loading="lazy">
       <div class="body">
-        <h2>RAFFAELO <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">256395</span></h2>
+        <h2>RAFFAELO <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">256395</span></h2>
         <div class="meta">9 Monate</div>
         <div class="status"><span class="partner">Pärchen mit <strong>TWINGO</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -600,7 +610,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="12" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255715-1-134259962217153583.jpg" alt="TWINGO" loading="lazy">
       <div class="body">
-        <h2>TWINGO <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">255715</span></h2>
+        <h2>TWINGO <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">255715</span></h2>
         <div class="meta">1 Jahr</div>
         <div class="status"><span class="partner">Pärchen mit <strong>RAFFAELO</strong></span></div>
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -613,7 +623,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="96" data-rating="aeltere_kinder" data-companions="0" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260205-1-134183842916671148.JPG" alt="BAZI" loading="lazy">
       <div class="body">
-        <h2>BAZI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">260205</span></h2>
+        <h2>BAZI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">260205</span></h2>
         <div class="meta">8 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -626,7 +636,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="4" data-rating="aeltere_kinder" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262971-1-134310184648412194.jpg" alt="JACK DALTON" loading="lazy">
       <div class="body">
-        <h2>JACK DALTON <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262971</span></h2>
+        <h2>JACK DALTON <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262971</span></h2>
         <div class="meta">4 Monate</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -639,7 +649,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="4" data-rating="aeltere_kinder" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262972-1-134310184648412194.jpg" alt="JOE DALTON" loading="lazy">
       <div class="body">
-        <h2>JOE DALTON <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262972</span></h2>
+        <h2>JOE DALTON <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262972</span></h2>
         <div class="meta">4 Monate</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -652,7 +662,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="36" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262260-1-134314469607428845.JPG" alt="KASPER" loading="lazy">
       <div class="body">
-        <h2>KASPER <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262260</span></h2>
+        <h2>KASPER <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262260</span></h2>
         <div class="meta">3 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -665,7 +675,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="192" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261352-1-134291805952424859.jpg" alt="KITTY" loading="lazy">
       <div class="body">
-        <h2>KITTY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">261352</span></h2>
+        <h2>KITTY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">261352</span></h2>
         <div class="meta">16 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -678,7 +688,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="11" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/256305-1-134278914377245564.jpg" alt="KUKU" loading="lazy">
       <div class="body">
-        <h2>KUKU <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">256305</span></h2>
+        <h2>KUKU <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">256305</span></h2>
         <div class="meta">11 Monate</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -691,7 +701,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="60" data-rating="aeltere_kinder" data-companions="0" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260757-1-134227244811972043.jpg" alt="LUCIA" loading="lazy">
       <div class="body">
-        <h2>LUCIA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">260757</span></h2>
+        <h2>LUCIA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">260757</span></h2>
         <div class="meta">5 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -704,7 +714,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="132" data-rating="aeltere_kinder" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262220-1-134311921481575897.jpg" alt="MARSIK" loading="lazy">
       <div class="body">
-        <h2>MARSIK <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262220</span></h2>
+        <h2>MARSIK <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262220</span></h2>
         <div class="meta">11 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -717,7 +727,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="96" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/256408-1-134280767698304906.JPG" alt="MINI" loading="lazy">
       <div class="body">
-        <h2>MINI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">256408</span></h2>
+        <h2>MINI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">256408</span></h2>
         <div class="meta">8 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -730,7 +740,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="108" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255562-1-134227244325597148.jpg" alt="MIU-MIU" loading="lazy">
       <div class="body">
-        <h2>MIU-MIU <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">255562</span></h2>
+        <h2>MIU-MIU <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">255562</span></h2>
         <div class="meta">9 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -743,7 +753,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="60" data-rating="aeltere_kinder" data-companions="0" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261424-1-134315359901681433.jpg" alt="MONA" loading="lazy">
       <div class="body">
-        <h2>MONA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">261424</span></h2>
+        <h2>MONA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">261424</span></h2>
         <div class="meta">5 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -753,10 +763,23 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261424" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
     </div>
+    <div class="card" style="--accent: #c9880a;" data-age-months="132" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261783-1-134315359756782994.jpg" alt="OTILIE" loading="lazy">
+      <div class="body">
+        <h2>OTILIE <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">261783</span></h2>
+        <div class="meta">11 Jahre</div>
+        
+        <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
+        <div class="reason">Sie kann zu einer Familie mit Kindern ab etwa 12 Jahren ziehen.</div>
+        <div class="health" style="color:#971616;border-color:#c62020">Bluthochdruck, bekommt dafür täglich Tabletten.</div>
+        <div class="foot"><span>seit heute gelistet</span>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261783" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+      </div>
+    </div>
     <div class="card" style="--accent: #c9880a;" data-age-months="24" data-rating="aeltere_kinder" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262531-1-134302959067744066.JPG" alt="TIGERLILLY" loading="lazy">
       <div class="body">
-        <h2>TIGERLILLY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262531</span></h2>
+        <h2>TIGERLILLY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262531</span></h2>
         <div class="meta">2 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -769,7 +792,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c9880a;" data-age-months="36" data-rating="aeltere_kinder" data-companions="0" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262568-1-134311927704761435.jpg" alt="TRÜFFEL TONI" loading="lazy">
       <div class="body">
-        <h2>TRÜFFEL TONI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262568</span></h2>
+        <h2>TRÜFFEL TONI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262568</span></h2>
         <div class="meta">3 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c9880a;border-color:#c9880a;color:#17150f">Nur ältere Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -779,12 +802,38 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262568" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" style="--accent: #c62020;" data-age-months="48" data-rating="nicht_geeignet" data-companions="2" data-health="keine">
+    <div class="card" style="--accent: #c62020;" data-age-months="108" data-rating="nicht_geeignet" data-companions="2" data-health="erwaehnt">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263463-1-134317002893690926.jpg" alt="LIZ" loading="lazy">
+      <div class="body">
+        <h2>LIZ <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263463</span></h2>
+        <div class="meta">9 Jahre</div>
+        <div class="status"><span class="partner">Pärchen mit <strong>MIA</strong></span></div>
+        <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
+        <div class="reason">Für Mia und Liz suchen wir ein ruhiges Zuhause ohne Kinder.</div>
+        <div class="health" style="color:#8a5c00;border-color:#c9880a">Zahnsanierung steht noch an.</div>
+        <div class="foot"><span>seit heute gelistet</span>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263463" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+      </div>
+    </div>
+    <div class="card" style="--accent: #c62020;" data-age-months="108" data-rating="nicht_geeignet" data-companions="2" data-health="keine">
+      <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263464-1-134317002893690926.jpg" alt="MIA" loading="lazy">
+      <div class="body">
+        <h2>MIA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">263464</span></h2>
+        <div class="meta">9 Jahre</div>
+        <div class="status"><span class="partner">Pärchen mit <strong>LIZ</strong></span></div>
+        <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
+        <div class="reason">Für Mia und Liz suchen wir ein ruhiges Zuhause ohne Kinder.</div>
+        
+        <div class="foot"><span>seit heute gelistet</span>
+          <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263464" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+      </div>
+    </div>
+    <div class="card" style="--accent: #c62020;" data-age-months="48" data-rating="nicht_geeignet" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260880-1-134219451799899992.jpg" alt="BELLA" loading="lazy">
       <div class="body">
-        <h2>BELLA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">260880</span></h2>
+        <h2>BELLA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">260880</span></h2>
         <div class="meta">4 Jahre</div>
-        <div class="status"><span class="partner">Pärchen mit <strong>KLEINER BRE</strong></span></div>
+        
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
         <div class="reason">Bella sucht ein ruhiges Zuhause ohne Kinder bei katzenerfahrenen Menschen.</div>
         
@@ -795,7 +844,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c62020;" data-age-months="72" data-rating="nicht_geeignet" data-companions="0" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262238-1-134311042628172189.jpg" alt="INCI" loading="lazy">
       <div class="body">
-        <h2>INCI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262238</span></h2>
+        <h2>INCI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262238</span></h2>
         <div class="meta">6 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -808,7 +857,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c62020;" data-age-months="36" data-rating="nicht_geeignet" data-companions="0" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/254390-1-134279029131827330.jpg" alt="JELLY" loading="lazy">
       <div class="body">
-        <h2>JELLY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">254390</span></h2>
+        <h2>JELLY <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">254390</span></h2>
         <div class="meta">3 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -821,7 +870,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c62020;" data-age-months="84" data-rating="nicht_geeignet" data-companions="0" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262125-1-134299749020658376.jpg" alt="MILKA" loading="lazy">
       <div class="body">
-        <h2>MILKA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262125</span></h2>
+        <h2>MILKA <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262125</span></h2>
         <div class="meta">7 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -834,7 +883,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c62020;" data-age-months="84" data-rating="nicht_geeignet" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/242724-1-133862521652766182.jpg" alt="PEPPI" loading="lazy">
       <div class="body">
-        <h2>PEPPI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">242724</span></h2>
+        <h2>PEPPI <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">242724</span></h2>
         <div class="meta">7 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -847,7 +896,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c62020;" data-age-months="108" data-rating="nicht_geeignet" data-companions="0" data-health="erwaehnt">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255223-1-134272767101928820.jpg" alt="PFU" loading="lazy">
       <div class="body">
-        <h2>PFU <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">255223</span></h2>
+        <h2>PFU <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">255223</span></h2>
         <div class="meta">9 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#c9880a;color:#8a5c00">Gesundheit beachten</span></div>
@@ -860,7 +909,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c62020;" data-age-months="108" data-rating="nicht_geeignet" data-companions="0" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260884-1-134201953854748334.jpg" alt="SCHNECKERL" loading="lazy">
       <div class="body">
-        <h2>SCHNECKERL <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">260884</span></h2>
+        <h2>SCHNECKERL <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">260884</span></h2>
         <div class="meta">9 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -873,7 +922,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c62020;" data-age-months="60" data-rating="nicht_geeignet" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/254724-1-134272770427996081.jpg" alt="SUCUK" loading="lazy">
       <div class="body">
-        <h2>SUCUK <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">254724</span></h2>
+        <h2>SUCUK <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">254724</span></h2>
         <div class="meta">5 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -886,7 +935,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c62020;" data-age-months="156" data-rating="nicht_geeignet" data-companions="0" data-health="dauerbehandlung">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/251280-1-134272764854112656.jpg" alt="WALLACE" loading="lazy">
       <div class="body">
-        <h2>WALLACE <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">251280</span></h2>
+        <h2>WALLACE <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">251280</span></h2>
         <div class="meta">13 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#c62020;color:#971616">Dauerbehandlung nötig</span></div>
@@ -899,7 +948,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     <div class="card" style="--accent: #c62020;" data-age-months="72" data-rating="nicht_geeignet" data-companions="0" data-health="keine">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262397-1-134287413927454077.jpg" alt="ZERO" loading="lazy">
       <div class="body">
-        <h2>ZERO <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">262397</span></h2>
+        <h2>ZERO <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">262397</span></h2>
         <div class="meta">6 Jahre</div>
         
         <div class="labels"><span class="lab" style="background:#c62020;border-color:#c62020;color:#ffffff">Nicht für Kinder</span><span class="lab" style="background:#fff;border-color:#1e7a35;color:#145c26">Keine Erkrankung bekannt</span></div>
@@ -908,7 +957,7 @@ section h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
         <div class="foot"><span>seit 14 Tagen gelistet</span>
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262397" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
       </div>
-    </div></div></section>
+    </div></div></details>
 </main>
 </body>
 </html>
