@@ -75,6 +75,7 @@ Keine.
 | 260807-wnv | Krankheits-/Pflegeaufwand-Feld: Claude-Klassifikation, Card-Marker, Filter, Backfill über 47 Katzen | 2026-08-08 | f502f1f | [260807-wnv-krankheits-feld-im-report](./quick/260807-wnv-krankheits-feld-im-report/) |
 | 260808-1dl | Report-Design emojifrei umgebaut (Ergebnis der Sketches 001–006) | 2026-08-08 | 800d757 | [260808-1dl-report-design-emojifrei](./quick/260808-1dl-report-design-emojifrei/) |
 | 260815-j3a | Eigene Report-Sektion für Katzen mit festen Interessenten (zwischen "Nicht mehr verfügbar" und "Weiterhin verfügbar") | 2026-08-15 | 9b03931 | [260815-j3a-report-sektion-fuer-katzen-mit-festen-in](./quick/260815-j3a-report-sektion-fuer-katzen-mit-festen-in/) |
+| 260821-k7d | Report-Sektionen als klappbare <details> (nur "Neu seit letztem Lauf" offen) + Sektions-Zaehler mit gefilterter Anzahl | 2026-08-21 | a856941 | [260821-k7d-report-sektionen-klappbar-gefilterte-zahl](./quick/260821-k7d-report-sektionen-klappbar-gefilterte-zahl/) |
 | 10 | Filterbar: alle Filter beim Öffnen deaktiviert (Default = Reset-Zustand) | 2026-08-15 | 8d8863d | — |
 
 ## Session Continuity
