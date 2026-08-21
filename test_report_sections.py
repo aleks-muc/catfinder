@@ -33,9 +33,10 @@ def _sections(html_text: str) -> list[int]:
 
 
 def _marker(cat_id: str) -> str:
-    """Eindeutiges Suchtoken fuer eine Karte — die Card rendert die cat_id nur an dieser
-    Stelle (h2-Span); die blosse cat_id als Substring kollidiert sonst mit CSS-Zahlen."""
-    return f">{cat_id}</span>"
+    """Eindeutiges Suchtoken fuer eine Karte — die Card rendert die cat_id nur im
+    h2-Span mit class="cid"; die blosse cat_id als Substring kollidiert sonst mit
+    CSS-Zahlen und den Sektions-Zaehlern (span.cnt)."""
+    return f'class="cid">{cat_id}</span>'
 
 
 def main() -> None:
@@ -76,6 +77,11 @@ def main() -> None:
     order = _sections(h)
     assert all(pos != -1 for pos in order), ("nicht alle vier Sektionen vorhanden", order)
     assert order == sorted(order), ("Sektionsreihenfolge falsch", order)
+    # alle vier Sektionen klappbar, nur "Neu seit letztem Lauf" per Default offen
+    assert h.count('<details class="sect"') == 4, "nicht alle vier Sektionen sind klappbar"
+    assert h.count('<details class="sect" open>') == 1, "es darf genau eine Sektion offen starten"
+    assert '<details class="sect" open><summary><h2 class="group">Neu seit letztem Lauf' in h, \
+        "die offene Sektion muss 'Neu seit letztem Lauf' sein"
 
     # Fall 4: keine Katze mit Interessenten -> keine Ueberschrift der neuen Sektion.
     h = render_report([(_cat("10", "E"), _rating())], 1, still_known=[(_cat("11", "F"), _rating())])
@@ -86,7 +92,7 @@ def main() -> None:
     h = render_report([(_cat("12", "G", True), _rating())], 1)
     assert 'id="filterBar"' in h, "Filterleiste fehlt, obwohl Karten existieren"
     assert "Neu seit letztem Lauf" in h, "Neu-Ueberschrift fehlt"
-    assert "Interessenten vorhanden (1)" in h
+    assert 'Interessenten vorhanden (<span class="cnt">1</span>)' in h
 
     # Fall 6: new_count (Header/CI) bleibt die Gesamtzahl UNgefilterter evaluated-Katzen,
     # auch wenn eine davon in die neue Sektion abwandert. Nur die Neu-Ueberschrift schrumpft.
@@ -94,7 +100,7 @@ def main() -> None:
         [(_cat("13", "H"), _rating()), (_cat("14", "I", True), _rating()), (_cat("15", "J"), _rating())], 3,
     )
     assert "<strong>3 neu bewertet</strong>" in h, "new_count im Header muss die Gesamtzahl bleiben"
-    assert "Neu seit letztem Lauf (2)" in h, "Neu-Ueberschrift muss um die Interessenten-Katze schrumpfen"
+    assert 'Neu seit letztem Lauf (<span class="cnt">2</span>)' in h, "Neu-Ueberschrift muss um die Interessenten-Katze schrumpfen"
 
     print("test_report_sections: 6 Faelle ok")
 

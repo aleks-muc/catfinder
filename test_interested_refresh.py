@@ -97,7 +97,7 @@ def main() -> None:
         assert saved["1"]["rating"] == "geeignet", "rating haette unangetastet bleiben muessen"
         assert saved["1"]["reason"] == "Testfall", "reason haette unangetastet bleiben muessen"
         report_html = report_file.read_text(encoding="utf-8")
-        assert "Interessenten vorhanden (1)" in report_html, "Interessenten-Sektion fehlt im Report"
+        assert 'Interessenten vorhanden (<span class="cnt">1</span>)' in report_html, "Interessenten-Sektion fehlt im Report"
 
     # Fall 2: eine neue Katze daneben -> Hauptpfad. Auch hier muss die bereits bekannte
     # Katze frisch refetcht werden, nicht nur die neue.

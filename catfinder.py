@@ -510,6 +510,12 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     }});
     var vc=document.getElementById('visibleCount');
     if(vc)vc.textContent=visible;
+    document.querySelectorAll('details.sect').forEach(function(d){{
+      var cards=d.querySelectorAll('.card'),vis=0;
+      cards.forEach(function(c){{if(c.style.display!=='none')vis++;}});
+      var s=d.querySelector('.cnt');
+      if(s)s.textContent=(vis===cards.length?cards.length:vis+' von '+cards.length);
+    }});
   }}
   pairBtn.addEventListener('click',function(){{
     showOnlyPair=!showOnlyPair;
@@ -754,9 +760,13 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .card.gone {{ opacity: .6; }}
 .empty {{ text-align: center; color: var(--mute); padding: 4rem 1rem; background: #fff;
           border: 1px solid var(--hair); }}
-section {{ margin-top: 3rem; }}
+section, details.sect {{ margin-top: 3rem; }}
+details.sect > summary {{ cursor: pointer; margin-bottom: 1.4rem; color: var(--soft); }}
+details.sect > summary::marker {{ font-size: .8rem; }}
 section h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4rem;
                     color: var(--soft); margin: 0 0 1.4rem; }}
+summary h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4rem;
+                    color: var(--soft); margin: 0; display: inline; }}
 @media (max-width: 520px) {{
   .grid {{ grid-template-columns: 1fr; }}
   header h1 {{ font-size: 1.9rem; }}
@@ -777,6 +787,13 @@ section h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4r
 </body>
 </html>
 """
+
+
+def _section(title: str, total: int, inner: str, is_open: bool = False) -> str:
+    """Klappbare Report-Sektion. Der .cnt-Zaehler wird vom Filter-JS auf 'sichtbar von gesamt' gesetzt."""
+    return (f'<details class="sect"{" open" if is_open else ""}>'
+            f'<summary><h2 class="group">{title} (<span class="cnt">{total}</span>)</h2></summary>'
+            f'{inner}</details>')
 
 
 def render_report(
@@ -893,7 +910,7 @@ def render_report(
     <div class="card{' gone' if dimmed else ''}" style="--accent: {meta['color']};" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}">
       {_img(cat)}
       <div class="body">
-        <h2>{html.escape(cat.name)} <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;">{html.escape(cat.cat_id)}</span></h2>
+        <h2>{html.escape(cat.name)} <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">{html.escape(cat.cat_id)}</span></h2>
         <div class="meta">{_meta_line(cat, age_months)}</div>
         {_status_line(cat)}
         {_labels(rating)}
@@ -924,7 +941,7 @@ def render_report(
         sect1_inner = f'<div class="grid">{"".join(cards)}</div>'
 
     if two_sections:
-        sect1 = f'<section><h2 class="group">Neu seit letztem Lauf ({len(evaluated_sorted)})</h2>{sect1_inner}</section>'
+        sect1 = _section("Neu seit letztem Lauf", len(evaluated_sorted), sect1_inner, is_open=True)
     else:
         sect1 = f'<section>{sect1_inner}</section>'
 
@@ -932,13 +949,12 @@ def render_report(
     sect_gone = ""
     if no_longer_listed:
         cards = [_render_card(cat, rating, dimmed=True) for cat, rating in sorted(no_longer_listed, key=_card_sort_key)]
-        sect_gone = f'<section><h2 class="group">Nicht mehr verfügbar ({len(no_longer_listed)})</h2><div class="grid">{"".join(cards)}</div></section>'
+        sect_gone = _section("Nicht mehr verfügbar", len(no_longer_listed), f'<div class="grid">{"".join(cards)}</div>')
     elif had_prior_state:
         # D-05/D-06/D-07: voriger State nicht-leer, aber nichts verschwunden — Empty-State-Hint mit bestehendem .empty-Pattern.
-        sect_gone = (
-            '<section><h2 class="group">Nicht mehr verfügbar (0)</h2>'
-            '<div class="empty">Seit dem letzten Lauf sind keine Katzen verschwunden.</div>'
-            '</section>'
+        sect_gone = _section(
+            "Nicht mehr verfügbar", 0,
+            '<div class="empty">Seit dem letzten Lauf sind keine Katzen verschwunden.</div>',
         )
     # else: had_prior_state == False (Erstlauf / --reset / Cold-Start) — sect_gone bleibt "" (D-07: Sektion komplett ausblenden).
 
@@ -946,13 +962,13 @@ def render_report(
     sect_int = ""
     if interested:
         cards = [_render_card(cat, rating) for cat, rating in interested]
-        sect_int = f'<section><h2 class="group">Interessenten vorhanden ({len(interested)})</h2><div class="grid">{"".join(cards)}</div></section>'
+        sect_int = _section("Interessenten vorhanden", len(interested), f'<div class="grid">{"".join(cards)}</div>')
 
     # Sektion 4 — weiterhin verfügbare Katzen (mit gespeicherter Ampelbewertung)
     sect2 = ""
     if still_known:
         cards = [_render_card(cat, rating) for cat, rating in sorted(still_known, key=_card_sort_key)]
-        sect2 = f'<section><h2 class="group">Weiterhin verfügbar ({len(still_known)})</h2><div class="grid">{"".join(cards)}</div></section>'
+        sect2 = _section("Weiterhin verfügbar", len(still_known), f'<div class="grid">{"".join(cards)}</div>')
 
     return HTML_TEMPLATE.format(
         timestamp=datetime.now().strftime("%d.%m.%Y %H:%M"),
