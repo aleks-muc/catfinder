@@ -356,23 +356,6 @@
     "reason": "Sie eignen sich gut für Familien mit Kindern ab 6 Jahren, die bereits verstehen, wie man respektvoll mit Tieren umgeht.",
     "sex": ""
   },
-  "262220": {
-    "age_hint": "26 Jahre alt",
-    "breed": "",
-    "cat_id": "262220",
-    "companion_count": 0,
-    "first_seen": "2026-08-15T10:45:02",
-    "has_interested": true,
-    "health": "keine",
-    "health_note": "",
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262220-1-134311921481575897.jpg",
-    "name": "MARSIK",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262220",
-    "rating": "aeltere_kinder",
-    "reason": "Größere Kinder ab etwa 12 Jahren dürfen gerne mit ihm zusammenleben, sofern sie seinen Wunsch nach Ruhe und Rückzug respektieren.",
-    "sex": ""
-  },
   "262238": {
     "age_hint": "6 Jahre alt",
     "breed": "",
