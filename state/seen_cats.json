@@ -889,7 +889,7 @@
     "cat_id": "263681",
     "companion_count": 0,
     "first_seen": "2026-09-08T14:40:32",
-    "has_interested": false,
+    "has_interested": true,
     "health": "keine",
     "health_note": "",
     "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/263681-1-134333390482942699.jpg",
