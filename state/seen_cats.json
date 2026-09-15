@@ -118,23 +118,6 @@
     "reason": "Die beiden eignen sich für Familien mit Kindern ab 10 Jahren, die den respektvollen Umgang mit Tieren kennen und verstehen.",
     "sex": ""
   },
-  "256305": {
-    "age_hint": "Alter: 10 Monate",
-    "breed": "",
-    "cat_id": "256305",
-    "companion_count": 0,
-    "first_seen": "2026-08-07T23:39:48",
-    "has_interested": true,
-    "health": "dauerbehandlung",
-    "health_note": "Starke Fehlstellungen der Beine und des Schwanzes, benötigt dauerhaft Schmerzmittel; chronische Verdauungsprobleme mit dauerhaftem Spezialfutter und Futterzusätzen.",
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/256305-1-134278914377245564.jpg",
-    "name": "KUKU",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256305",
-    "rating": "aeltere_kinder",
-    "reason": "Kuku eignet sich gut für Familien mit Kindern, die bereits verstehen, wie man respektvoll mit Tieren umgeht.",
-    "sex": ""
-  },
   "256395": {
     "age_hint": "9 Monate alt",
     "breed": "",
@@ -422,23 +405,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262607",
     "rating": "geeignet",
     "reason": "Sie ist familiengeeignet und kann sich ein Zuhause mit Kindern gut vorstellen.",
-    "sex": ""
-  },
-  "262664": {
-    "age_hint": "Alter: 9 Jahre",
-    "breed": "",
-    "cat_id": "262664",
-    "companion_count": 0,
-    "first_seen": "2026-09-07T15:57:02",
-    "has_interested": true,
-    "health": "dauerbehandlung",
-    "health_note": "Vitamin-B12-Mangel, der derzeit behandelt wird.",
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/262664-1-134332584494491355.jpg",
-    "name": "LINSERL",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262664",
-    "rating": "aeltere_kinder",
-    "reason": "Linserl ist für eine Familie mit Kindern geeignet, Kinder sollten jedoch verständnisvoll mit ihr umgehen und ihre Bedürfnisse respektieren.",
     "sex": ""
   },
   "263224": {
@@ -745,6 +711,23 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263623",
     "rating": "aeltere_kinder",
     "reason": "Größere, verständnisvolle Kinder können sich die Betreuer vorstellen, sofern sie den beiden ihren Rückzugsraum lassen und sie nicht bedrängen.",
+    "sex": ""
+  },
+  "264153": {
+    "age_hint": "3 Jahre alt",
+    "breed": "",
+    "cat_id": "264153",
+    "companion_count": 0,
+    "first_seen": "2026-09-15T15:07:35",
+    "has_interested": false,
+    "health": "unbekannt",
+    "health_note": "",
+    "image_url": "",
+    "name": "BURRITO",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/264153",
+    "rating": "unbekannt",
+    "reason": "Der Steckbrief enthält keine Aussage zur Eignung für Kinder.",
     "sex": ""
   }
 }
