@@ -526,6 +526,23 @@
     "reason": "Sie eignet sich auch für eine Familie.",
     "sex": ""
   },
+  "263433": {
+    "age_hint": "Alter: 2 Jahre",
+    "breed": "",
+    "cat_id": "263433",
+    "companion_count": 2,
+    "first_seen": "2026-09-29T16:34:39",
+    "has_interested": false,
+    "health": "keine",
+    "health_note": "",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/263433-1-134346289600568145.jpg",
+    "name": "GORDO",
+    "partner_name": "PLASTIKA",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263433",
+    "rating": "geeignet",
+    "reason": "Plastika und Gordo sind familiengeeignet und mit ihrer offenen und lebhaften Art bringen sie viel Freude in ihr neues Zuhause.",
+    "sex": ""
+  },
   "263439": {
     "age_hint": "3 Jahre alt",
     "breed": "",
@@ -558,6 +575,23 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263453",
     "rating": "aeltere_kinder",
     "reason": "Größere Kinder sind im neuen Zuhause denkbar, sofern sie ruhig und respektvoll mit den beiden umgehen.",
+    "sex": ""
+  },
+  "263580": {
+    "age_hint": "2 Jahre alt",
+    "breed": "",
+    "cat_id": "263580",
+    "companion_count": 2,
+    "first_seen": "2026-09-29T16:34:39",
+    "has_interested": false,
+    "health": "keine",
+    "health_note": "",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/263580-1-134346290429147922.jpg",
+    "name": "PLASTIKA",
+    "partner_name": "GORDO",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263580",
+    "rating": "geeignet",
+    "reason": "Plastika und Gordo sind familiengeeignet und mit ihrer offenen und lebhaften Art bringen sie viel Freude und Abwechslung in ihr neues Zuhause.",
     "sex": ""
   },
   "263615": {
