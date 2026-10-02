@@ -1,9 +1,9 @@
 name: Catfinder täglich
 
 on:
-  schedule:
-    - cron: "30 10 * * *"  # 12:30 Uhr CEST (Sommerzeit) / 11:30 Uhr CET (Winterzeit)
-  workflow_dispatch:       # Manuell auslösbar
+  # Kein `schedule`: GitHub startete den cron täglich 3–10 h zu spät. Der Lauf
+  # wird stattdessen um 12:00 Uhr lokal vom NAS ausgelöst (scripts/wecker.sh).
+  workflow_dispatch:
 
 jobs:
   run:

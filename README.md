@@ -61,7 +61,7 @@ Beim ersten Lauf gelten alle gelisteten Katzen als neu → ~50 Claude-Calls (wen
 
 ## Automatischer Betrieb
 
-Der Workflow `.github/workflows/catfinder.yml` läuft einmal täglich per Cron (`30 10` UTC — 12:30 Uhr MESZ) und zusätzlich auf Knopfdruck via *workflow_dispatch*. Ein Lauf:
+Der Workflow `.github/workflows/catfinder.yml` läuft einmal täglich um 12:00 Uhr deutscher Zeit, ausgelöst vom NAS per *workflow_dispatch* (`scripts/wecker.sh` im DSM-Aufgabenplaner), und zusätzlich auf Knopfdruck. Ein Lauf:
 
 1. führt `catfinder.py --no-browser` aus,
 2. committet `state/seen_cats.json` und `docs/index.html` zurück nach `main` (`chore: state & report aktualisiert [skip ci]`),

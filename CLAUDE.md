@@ -32,7 +32,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 ## Frameworks
 - No web/application framework. The script is a pure CLI tool entered via `if __name__ == "__main__": sys.exit(main())` in `catfinder.py`.
 - `argparse` (stdlib) — CLI flag handling (`--reset`, `--all`, `--no-browser`) in `catfinder.py`, inside `main()`.
-- No `pytest`, `unittest`, or `tox` configuration, and no `tests/` directory. Instead, framework-free assert-based self-checks live at the project root as `test_pairs.py`, `test_report_sections.py`, `test_interested_refresh.py`, and `test_failed_rating.py` — run directly with `.venv/bin/python <file>`. Additional verification is done by running `python catfinder.py` manually or via the CI cron schedule.
+- No `pytest`, `unittest`, or `tox` configuration, and no `tests/` directory. Instead, framework-free assert-based self-checks live at the project root as `test_pairs.py`, `test_report_sections.py`, `test_interested_refresh.py`, and `test_failed_rating.py` — run directly with `.venv/bin/python <file>`. Additional verification is done by running `python catfinder.py` manually or via the daily CI run.
 - No build step (pure Python source, no compilation).
 - No formatter/linter config (`black`, `ruff`, `flake8`, `pylint`, `mypy` all absent).
 - No `pyproject.toml`, `setup.py`, or `setup.cfg` — project is not installable as a package.
@@ -64,7 +64,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - A working web browser for the auto-opened HTML report (skippable with `--no-browser`).
 - Outbound HTTPS to `tierschutzverein-muenchen.de` and `api.anthropic.com`.
 - `ubuntu-latest` GitHub-hosted runner.
-- Scheduled once daily via cron (`30 10 * * *` UTC) plus on-demand `workflow_dispatch`.
+- Triggered once daily at 12:00 local time by the NAS (`scripts/wecker.sh` in the DSM Aufgabenplaner, `workflow_dispatch` via GitHub API) — GitHub's own `schedule` was dropped because it started 3–10 h late. Manual `workflow_dispatch` works as before.
 - Requires `contents: write` permission so the workflow can commit `state/seen_cats.json` and `docs/index.html` back to `main`.
 - GitHub Pages serves `docs/index.html` as the public report (a 1:1 copy of `reports/report.html`, made during the CI run in `.github/workflows/catfinder.yml`).
 
@@ -223,7 +223,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - Triggers: developer running `python catfinder.py [--reset|--all|--no-browser]`, or CI step "Catfinder ausführen".
 - Responsibilities: drives the full pipeline; non-zero exit on missing API key.
 - Location: `.github/workflows/catfinder.yml`.
-- Triggers: `schedule` (cron `30 10 * * *` UTC) and `workflow_dispatch` (manual).
+- Triggers: `workflow_dispatch` only — daily from the NAS (`scripts/wecker.sh`), or manually.
 - Responsibilities: run script with `--no-browser`, publish to Pages via `docs/index.html`, push state, send an ntfy push notification.
 ## Architectural Constraints
 - **Threading:** Single-process Python. The only concurrency is `concurrent.futures.ThreadPoolExecutor(max_workers=MAX_EVAL_WORKERS)` (=2) inside `evaluate_all` in `catfinder.py`. Listing scrape and profile fetches are sequential; profile fetches sleep `PROFILE_FETCH_DELAY_S = 0.4` s between requests to be polite.
