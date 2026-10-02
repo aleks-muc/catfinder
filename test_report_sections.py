@@ -47,10 +47,10 @@ def main() -> None:
     h = render_report(
         [(a_int, _rating()), (a_free, _rating())], 4,
         still_known=[(b_int, _rating()), (b_free, _rating())],
-        had_prior_state=True,  # erzwingt den "Nicht mehr verf"-Delimiter fuer den Split unten
+        had_prior_state=True,
     )
     sect_int = h.split("Interessenten vorhanden (")[1].split("Weiterhin verf")[0]
-    rest_new = h.split("Neu seit letztem Lauf")[1].split("Nicht mehr verf")[0]
+    rest_new = h.split("Neu seit letztem Lauf")[1].split("Interessenten vorhanden (")[0]
     rest_still = h.split("Weiterhin verf")[1]
     assert _marker("1") in sect_int and _marker("3") in sect_int, "beide Interessenten-Katzen fehlen in der neuen Sektion"
     assert _marker("2") not in sect_int and _marker("4") not in sect_int, "Katzen ohne Interessenten landen faelschlich in der neuen Sektion"
@@ -94,6 +94,16 @@ def main() -> None:
     assert "Neu seit letztem Lauf" in h, "Neu-Ueberschrift fehlt"
     assert 'Interessenten vorhanden (<span class="cnt">1</span>)' in h
 
+    # Fall 7: Lauf ohne Neue und ohne Verschwundene -> keine leeren Sektionen,
+    # "Weiterhin verfuegbar" startet offen, Vermerk in der Statuszeile.
+    h = render_report([], 1, still_known=[(_cat("16", "K"), _rating())], had_prior_state=True)
+    assert "Neu seit letztem Lauf" not in h, "leere Neu-Sektion haette entfallen muessen"
+    assert "Nicht mehr verf" not in h, "leere Verschwunden-Sektion haette entfallen muessen"
+    assert "keine verschwunden" in h, "Vermerk 'keine verschwunden' fehlt"
+    assert "neu bewertet" not in h, "'0 neu bewertet' doppelt die Kopfzeile"
+    assert '<details class="sect" open><summary><h2 class="group">Weiterhin verf' in h, \
+        "ohne Neue muss 'Weiterhin verfuegbar' offen starten"
+
     # Fall 6: new_count (Header/CI) bleibt die Gesamtzahl UNgefilterter evaluated-Katzen,
     # auch wenn eine davon in die neue Sektion abwandert. Nur die Neu-Ueberschrift schrumpft.
     h = render_report(
@@ -102,7 +112,7 @@ def main() -> None:
     assert "<strong>3 neu bewertet</strong>" in h, "new_count im Header muss die Gesamtzahl bleiben"
     assert 'Neu seit letztem Lauf (<span class="cnt">2</span>)' in h, "Neu-Ueberschrift muss um die Interessenten-Katze schrumpfen"
 
-    print("test_report_sections: 6 Faelle ok")
+    print("test_report_sections: 7 Faelle ok")
 
     # Smoke-Test gegen den realen State — keine festen Namen/Anzahlen, der State
     # aendert sich zweimal taeglich per CI.

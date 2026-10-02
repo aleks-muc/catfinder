@@ -819,7 +819,8 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .card.gone h3 {{ color: var(--mute); }}
 .empty {{ text-align: center; color: var(--mute); padding: 4rem 1rem; background: var(--card);
           border: 1px solid var(--hair); }}
-.empty-filter {{ padding: 1.5rem 1rem; }}
+.empty-filter, .empty-line {{ padding: 1.5rem 1rem; }}
+.empty-line {{ margin: 0; color: var(--mute); }}
 section, details.sect {{ margin-top: 3rem; }}
 details.sect > summary {{ cursor: pointer; margin-bottom: 1.4rem; color: var(--soft); }}
 details.sect > summary::marker {{ font-size: .8rem; }}
@@ -858,7 +859,7 @@ summary h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4r
   <p class="brand">Catfinder</p>
   {today}
   <div class="stats">
-    Lauf vom {timestamp} · {total_listed} Katzen gelistet · <strong>{new_count} neu bewertet</strong>{scope_note}<span id="visibleCount" aria-live="polite"></span>
+    Lauf vom {timestamp} · {total_listed} Katzen gelistet{new_part}{scope_note}<span id="visibleCount" aria-live="polite"></span>
   </div>
 </header>
 <main>
@@ -1031,14 +1032,17 @@ def render_report(
 
     two_sections = bool(still_known or no_longer_listed or interested)
 
-    # Sektion 1 — neue Katzen
+    # Sektion 1 — neue Katzen. Ohne Neuzugänge entfällt sie: die Kopfzeile sagt schon
+    # "Nichts Neues", und der Vergleich in "Weiterhin verfügbar" rückt nach oben.
     if not evaluated_sorted:
-        sect1_inner = '<div class="empty">Keine neuen Katzen seit dem letzten Lauf.</div>'
+        sect1_inner = '<p class="empty-line">Die neuen Katzen haben schon Interessenten – siehe unten.</p>'
     else:
         cards = [_render_card(cat, rating) for cat, rating in evaluated_sorted]
         sect1_inner = f'<div class="grid">{"".join(cards)}</div>'
 
-    if two_sections:
+    if not evaluated:
+        sect1 = "" if two_sections else '<div class="empty">Keine Katzen gelistet.</div>'
+    elif two_sections:
         sect1 = _section("Neu seit letztem Lauf", len(evaluated_sorted), sect1_inner, is_open=True)
     else:
         sect1 = f'<section>{sect1_inner}</section>'
@@ -1048,13 +1052,9 @@ def render_report(
     if no_longer_listed:
         cards = [_render_card(cat, rating, dimmed=True) for cat, rating in sorted(no_longer_listed, key=_card_sort_key)]
         sect_gone = _section("Nicht mehr verfügbar", len(no_longer_listed), f'<div class="grid">{"".join(cards)}</div>')
-    elif had_prior_state:
-        # D-05/D-06/D-07: voriger State nicht-leer, aber nichts verschwunden — Empty-State-Hint mit bestehendem .empty-Pattern.
-        sect_gone = _section(
-            "Nicht mehr verfügbar", 0,
-            '<div class="empty">Seit dem letzten Lauf sind keine Katzen verschwunden.</div>',
-        )
-    # else: had_prior_state == False (Erstlauf / --reset / Cold-Start) — sect_gone bleibt "" (D-07: Sektion komplett ausblenden).
+    # Nichts verschwunden: keine leere Sektion, sondern ein Vermerk in der Statuszeile
+    # (nur mit vorigem State — beim Erstlauf gibt es nichts, was verschwinden könnte).
+    gone_note = " · keine verschwunden" if (had_prior_state and not no_longer_listed) else ""
 
     # Sektion 3 — Katzen mit festen Interessenten (faktisch vergeben, aber sichtbar)
     sect_int = ""
@@ -1066,14 +1066,15 @@ def render_report(
     sect2 = ""
     if still_known:
         cards = [_render_card(cat, rating) for cat, rating in sorted(still_known, key=_card_sort_key)]
-        sect2 = _section("Weiterhin verfügbar", len(still_known), f'<div class="grid">{"".join(cards)}</div>')
+        sect2 = _section("Weiterhin verfügbar", len(still_known), f'<div class="grid">{"".join(cards)}</div>',
+                         is_open=not evaluated_sorted)
 
     return HTML_TEMPLATE.format(
         today=_today_line(evaluated),
         timestamp=datetime.now().strftime("%d.%m.%Y %H:%M"),
         total_listed=total_listed,
-        new_count=len(evaluated),
-        scope_note=scope_note,
+        new_part=f" · <strong>{len(evaluated)} neu bewertet</strong>" if evaluated else "",
+        scope_note=scope_note + gone_note,
         filter_bar=filter_bar,
         body=sect1 + sect_gone + sect_int + sect2,
     )

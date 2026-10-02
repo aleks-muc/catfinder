@@ -200,7 +200,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 ### Cold-start / `--all` Flow
 - If state is empty or `--all` is passed, `to_evaluate = cats` (the whole listing) and `still_known = []`. `scope_note` is set to `" · Erstlauf"` or `" · alle bewertet"` and shown in the report header (in `main()` in `catfinder.py`).
 ### "No new cats" Flow
-- When `to_evaluate` is empty, the pipeline skips Claude entirely and renders a report from up to three of the report's four sections — "Nicht mehr verfügbar", "Interessenten vorhanden", "Weiterhin verfügbar" (each shown only if it has content; "Neu seit letztem Lauf" renders an empty-state message) — then writes `reports/report.html` and emits `new_count=0` to `$GITHUB_OUTPUT` (in `render_report` and `main()` in `catfinder.py`).
+- When `to_evaluate` is empty, the pipeline skips Claude entirely and renders a report from the sections that have content — "Nicht mehr verfügbar", "Interessenten vorhanden", "Weiterhin verfügbar". "Neu seit letztem Lauf" is omitted (the header line already says "Nichts Neues"), "Weiterhin verfügbar" starts open, and "nothing disappeared" is a note in the status line instead of an empty section — then writes `reports/report.html` and emits `new_count=0` to `$GITHUB_OUTPUT` (in `render_report` and `main()` in `catfinder.py`).
 ### CI / Scheduled Flow (`.github/workflows/catfinder.yml`)
 - Single source of truth: `state/seen_cats.json` (entries keyed by `cat_id`). Each entry stores listing metadata, `first_seen`, plus `rating`, `reason`, `has_interested`, `companion_count`, `partner_name`.
 - Atomic writes via `tempfile.mkstemp` + `os.replace` so a crash never leaves a half-written JSON (in `save_state` in `catfinder.py`).
