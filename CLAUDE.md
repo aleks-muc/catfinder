@@ -1,4 +1,3 @@
-<!-- GSD:project-start source:PROJECT.md -->
 ## Project
 
 **Catfinder**
@@ -14,9 +13,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - **State-Format**: JSON in `state/seen_cats.json`. Änderungen am Format dürfen vorhandene gültige Einträge nicht zerstören (lediglich verschwundene Einträge dürfen wegfallen).
 - **CI-Verhalten**: Nach dem Milestone muss der Bot-Commit (`chore: state & report aktualisiert`) weiterhin gleich aussehen (gleiche Pfade, gleiche Permissions); ntfy-Notification-Titel und Pages-URL bleiben unverändert.
 - **Performance**: Nicht relevant — Listing < 100 Katzen, Reportrender < 1 s, kein Skalierungsdruck.
-<!-- GSD:project-end -->
 
-<!-- GSD:stack-start source:codebase/STACK.md -->
 ## Technology Stack
 
 ## Languages
@@ -70,10 +67,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - Scheduled once daily via cron (`30 10 * * *` UTC) plus on-demand `workflow_dispatch`.
 - Requires `contents: write` permission so the workflow can commit `state/seen_cats.json` and `docs/index.html` back to `main`.
 - GitHub Pages serves `docs/index.html` as the public report (a banner linking to the Pages URL is injected into the report HTML during the CI run, in `.github/workflows/catfinder.yml`).
-## Build & Test Scripts
-<!-- GSD:stack-end -->
 
-<!-- GSD:conventions-start source:CONVENTIONS.md -->
 ## Conventions
 
 ## Naming Patterns
@@ -148,14 +142,9 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - New data shapes: extend the `Cat` dataclass or add a new `BaseModel` near `CatRating` (both in `catfinder.py`). Keep state-serialisable fields as plain types so `dataclasses.asdict` and `json.dumps` keep working (in `render_report` and `save_state` in `catfinder.py`).
 - New CLI flags: extend `argparse` in `main()` in `catfinder.py`.
 - If the file grows past ~1500 lines, split out the HTML/JS rendering (`_build_filter_bar`, `HTML_TEMPLATE`, `render_report`) into a sibling `report.py` first — that section is the most self-contained.
-<!-- GSD:conventions-end -->
 
-<!-- GSD:architecture-start source:ARCHITECTURE.md -->
 ## Architecture
 
-## System Overview
-```text
-```
 ## Component Responsibilities
 | Component | Responsibility | File |
 |-----------|----------------|------|
@@ -208,7 +197,6 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - Depends on: `html.escape`, `datetime`, `webbrowser`.
 - Used by: `main()`.
 ## Data Flow
-### Primary Request Path (interactive run, default mode)
 ### Cold-start / `--all` Flow
 - If state is empty or `--all` is passed, `to_evaluate = cats` (the whole listing) and `still_known = []`. `scope_note` is set to `" · Erstlauf"` or `" · alle bewertet"` and shown in the report header (in `main()` in `catfinder.py`).
 ### "No new cats" Flow
@@ -244,11 +232,6 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - **Network dependencies:** every run does live HTTP to `tierschutzverein-muenchen.de` and `api.anthropic.com`. There is no offline mode and no fixture-replay testing scaffold.
 - **No pytest/tests-directory framework, no lint config:** there is no `tests/` directory, `pyproject.toml`, `pytest`, `ruff`, or `mypy` configuration in the repo. Verification instead relies on the framework-free, assert-based self-checks (`test_pairs.py`, `test_report_sections.py`, `test_interested_refresh.py`) run directly with `.venv/bin/python <file>`.
 - **External secret dependence:** `ANTHROPIC_API_KEY` is required (script aborts otherwise, in `main()` in `catfinder.py`). CI additionally needs `NTFY_TOPIC`.
-## Anti-Patterns
-### Monolithic single file
-### Inline HTML/CSS/JS as Python f-strings
-### Best-effort scraping with substring `_pick`
-### Mixing rendering and business logic
 ## Error Handling
 - Hard exit on missing API key with a remediation hint (in `main()` in `catfinder.py`).
 - `RuntimeError` with diagnostic message if the listing has zero cats (in `scrape_listing` in `catfinder.py`) — protects against silent breakage when the source site changes.
@@ -257,36 +240,6 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - `load_state` recovers from corrupt JSON / OS errors with a warning print and an empty dict (in `catfinder.py`).
 - `save_state` cleans up the temp file on exception before re-raising (in `catfinder.py`).
 - Profile fetch errors are caught in `main()` and become an empty `profile_text`, which `evaluate_cat` translates into `unbekannt` (in `catfinder.py`).
-## Cross-Cutting Concerns
-<!-- GSD:architecture-end -->
-
-<!-- GSD:skills-start source:skills/ -->
-## Project Skills
-
-No project skills found. Add skills to any of: `.claude/skills/`, `.agents/skills/`, `.cursor/skills/`, `.github/skills/`, or `.codex/skills/` with a `SKILL.md` index file.
-<!-- GSD:skills-end -->
-
-<!-- GSD:workflow-start source:GSD defaults -->
-## GSD Workflow Enforcement
-
-Before using Edit, Write, or other file-changing tools, start work through a GSD command so planning artifacts and execution context stay in sync.
-
-Use these entry points:
-- `/gsd-quick` for small fixes, doc updates, and ad-hoc tasks
-- `/gsd-debug` for investigation and bug fixing
-- `/gsd-execute-phase` for planned phase work
-
-Do not make direct repo edits outside a GSD workflow unless the user explicitly asks to bypass it.
-<!-- GSD:workflow-end -->
-
-
-
-<!-- GSD:profile-start -->
-## Developer Profile
-
-> Profile not yet configured. Run `/gsd-profile-user` to generate your developer profile.
-> This section is managed by `generate-claude-profile` -- do not edit manually.
-<!-- GSD:profile-end -->
 
 ## Agent skills
 
