@@ -287,3 +287,17 @@ Do not make direct repo edits outside a GSD workflow unless the user explicitly 
 > Profile not yet configured. Run `/gsd-profile-user` to generate your developer profile.
 > This section is managed by `generate-claude-profile` -- do not edit manually.
 <!-- GSD:profile-end -->
+
+## Agent skills
+
+### Issue tracker
+
+Lokale Markdown-Tickets unter `.scratch/<feature>/`. See `agent-docs/issue-tracker.md`.
+
+### Triage labels
+
+Die fünf Default-Rollen (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`) als `Status:`-Zeile. See `agent-docs/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` im Root, ADRs in `agent-docs/adr/` (nicht `docs/` — das ist der Pages-Ordner). See `agent-docs/domain.md`.
