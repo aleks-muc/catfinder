@@ -1128,7 +1128,7 @@ def render_report(
     else:
         sect1 = f'<section>{sect1_inner}</section>'
 
-    # Sektion 2 — nicht mehr verfügbare Katzen
+    # Sektion 4 — nicht mehr verfügbare Katzen
     sect_gone = ""
     if no_longer_listed:
         cards = [_render_card(cat, rating, dimmed=True) for cat, rating in sorted(no_longer_listed, key=sort_key)]
@@ -1143,7 +1143,7 @@ def render_report(
         cards = [_render_card(cat, rating) for cat, rating in interested]
         sect_int = _section("Interessenten vorhanden", len(interested), f'<div class="grid">{"".join(cards)}</div>')
 
-    # Sektion 4 — weiterhin verfügbare Katzen (mit gespeicherter Ampelbewertung)
+    # Sektion 2 — weiterhin verfügbare Katzen (mit gespeicherter Ampelbewertung)
     sect2 = ""
     if still_known:
         cards = [_render_card(cat, rating) for cat, rating in sorted(still_known, key=sort_key)]
@@ -1157,7 +1157,7 @@ def render_report(
         new_part=f" · <strong>{len(evaluated)} neu bewertet</strong>" if evaluated else "",
         scope_note=scope_note + gone_note,
         filter_bar=filter_bar,
-        body=sect1 + sect_gone + sect_int + sect2,
+        body=sect1 + sect2 + sect_int + sect_gone,
     )
 
 

@@ -30,7 +30,7 @@ def _rating() -> CatRating:
 def _sections(html_text: str) -> list[int]:
     """Zeichenpositionen der vier Sektions-Ueberschriften, falls vorhanden."""
     return [html_text.find(t) for t in (
-        "Neu seit letztem Lauf", "Nicht mehr verf", "Interessenten vorhanden (", _WEITERHIN,
+        "Neu seit letztem Lauf", _WEITERHIN, "Interessenten vorhanden (", "Nicht mehr verf",
     )]
 
 
@@ -51,9 +51,9 @@ def main() -> None:
         still_known=[(b_int, _rating()), (b_free, _rating())],
         had_prior_state=True,
     )
-    sect_int = h.split("Interessenten vorhanden (")[1].split(_WEITERHIN)[0]
-    rest_new = h.split("Neu seit letztem Lauf")[1].split("Interessenten vorhanden (")[0]
-    rest_still = h.split(_WEITERHIN)[1]
+    sect_int = h.split("Interessenten vorhanden (")[1]
+    rest_new = h.split("Neu seit letztem Lauf")[1].split(_WEITERHIN)[0]
+    rest_still = h.split(_WEITERHIN)[1].split("Interessenten vorhanden (")[0]
     assert _marker("1") in sect_int and _marker("3") in sect_int, "beide Interessenten-Katzen fehlen in der neuen Sektion"
     assert _marker("2") not in sect_int and _marker("4") not in sect_int, "Katzen ohne Interessenten landen faelschlich in der neuen Sektion"
     assert _marker("1") not in rest_new, "SASCHA steht noch in Neu seit letztem Lauf"
@@ -66,10 +66,10 @@ def main() -> None:
     gone = _cat("5", "URSULA", True)
     h = render_report([], 0, no_longer_listed=[(gone, _rating())], had_prior_state=True)
     assert "Interessenten vorhanden (" not in h, "leere Interessenten-Sektion haette nicht rendern duerfen"
-    gone_sect = h.split("Nicht mehr verf")[1].split(_WEITERHIN)[0]
+    gone_sect = h.split("Nicht mehr verf")[1]
     assert _marker("5") in gone_sect, "URSULA fehlt in Nicht mehr verfuegbar"
 
-    # Fall 3 (D-04): Sektionsreihenfolge Neu -> Nicht mehr verfuegbar -> Interessenten -> Weiterhin.
+    # Fall 3 (D-04): Sektionsreihenfolge Neu -> Weiterhin -> Interessenten -> Nicht mehr verfuegbar.
     h = render_report(
         [(_cat("6", "A"), _rating())], 3,
         still_known=[(_cat("7", "B"), _rating()), (_cat("9", "D", True), _rating())],
@@ -151,8 +151,8 @@ def main() -> None:
         return
 
     h = render_report([], len(pairs), still_known=pairs, had_prior_state=True)
-    sect_int = h.split("Interessenten vorhanden (")[1].split(_WEITERHIN)[0]
-    rest = h.split(_WEITERHIN)[1]
+    sect_int = h.split("Interessenten vorhanden (")[1]
+    rest = h.split(_WEITERHIN)[1].split("Interessenten vorhanden (")[0]
     for cid in hits:
         assert _marker(cid) in sect_int, (cid, "fehlt im Smoke-Test in der neuen Sektion")
         assert _marker(cid) not in rest, (cid, "steht im Smoke-Test noch in Weiterhin verfuegbar")
