@@ -512,7 +512,9 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   .filters[open]>summary::after{{content:'\u2212';}}
   #filterBar{{padding:.25rem 0 1rem;gap:.9rem 1.25rem;}}
   .cf-age,.cf-seg{{flex-basis:100%;}}
-  .cf-seg{{padding-right:0;border-right:0;}}
+  .cf-seg{{padding-right:0;border-right:0;row-gap:0;}}
+  /* Überschrift eigene Zeile, damit die drei Stufen nebeneinander passen */
+  .cf-seg .cf-cap{{flex-basis:100%;}}
   .cf-track{{flex:1;width:auto;}}
 }}
 /* Querformat am Handy: angeheftete Leiste würde den halben Bildschirm belegen */
@@ -528,13 +530,18 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 <details class="filters" id="filterWrap"><summary>Filter<span id="filterCount"></span></summary>
 <div id="filterBar">{slider}
   <div class="cf-seg" role="radiogroup" aria-label="Kinder">
-    <span class="cf-cap">Kinder</span>
+    <span class="cf-cap" aria-hidden="true">Kinder</span>
     <label class="cf-opt"><input type="radio" name="kids" value="alle" checked><span>Alle</span></label>
     <label class="cf-opt"><input type="radio" name="kids" value="ohne"><span>Ohne „Nicht für Kinder“</span></label>
-    <label class="cf-opt"><input type="radio" name="kids" value="nur"><span>Nur „Kinder geeignet“</span></label>
+    <label class="cf-opt"><input type="radio" name="kids" value="nur"><span>Nur geeignet</span></label>
+  </div>
+  <div class="cf-seg" role="radiogroup" aria-label="Gesundheit">
+    <span class="cf-cap" aria-hidden="true">Gesundheit</span>
+    <label class="cf-opt"><input type="radio" name="health" value="alle" checked><span>Alle</span></label>
+    <label class="cf-opt"><input type="radio" name="health" value="ohne"><span>Ohne Dauerbehandlung</span></label>
+    <label class="cf-opt"><input type="radio" name="health" value="nur"><span>Nur gesund</span></label>
   </div>
   <button type="button" class="cf-tog" id="pairBtn" aria-pressed="false">Nur Pärchen</button>
-  <button type="button" class="cf-tog" id="healthBtn" aria-pressed="false">Ohne „Dauerbehandlung nötig“</button>
   <button type="button" id="resetBtn">Filter zurücksetzen</button>
 </div></details>
 <script>
@@ -542,9 +549,9 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   var minR=document.getElementById('ageMin'),maxR=document.getElementById('ageMax'),
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
       kidsInputs=document.querySelectorAll('input[name=kids]'),pairBtn=document.getElementById('pairBtn'),
-      healthBtn=document.getElementById('healthBtn'),resetBtn=document.getElementById('resetBtn');
+      healthInputs=document.querySelectorAll('input[name=health]'),resetBtn=document.getElementById('resetBtn');
   // kids: 'alle' | 'ohne' (ohne "Nicht für Kinder") | 'nur' (nur "Kinder geeignet")
-  var LO={age_min},HI={age_max},kids='alle',onlyPair=false,hideTreat=false;
+  var LO={age_min},HI={age_max},kids='alle',onlyPair=false,health='alle';
   function fmt(m){{if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}}
   function fmtLong(m){{if(m<12)return m+(m===1?' Monat':' Monate');var y=Math.floor(m/12);return y+(y===1?' Jahr':' Jahre');}}
   function pct(v){{return HI>LO?(v-LO)/(HI-LO)*100:0;}}
@@ -566,11 +573,13 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
       var show=kids==='nur'?r==='geeignet':kids==='ohne'?r!=='nicht_geeignet':true;
       if(show){{show=(!a||a==='unknown')||(parseInt(a)>=lo&&parseInt(a)<=hi);}}
       if(show&&onlyPair){{show=c.dataset.companions==='2';}}
-      if(show&&hideTreat){{show=c.dataset.health!=='dauerbehandlung';}}
+      // health: 'alle' | 'ohne' (ohne "Dauerbehandlung nötig") | 'nur' (nur "Keine Erkrankung bekannt")
+      if(show&&health==='ohne'){{show=c.dataset.health!=='dauerbehandlung';}}
+      if(show&&health==='nur'){{show=c.dataset.health==='keine';}}
       c.style.display=show?'':'none';
       if(show)visible++;
     }});
-    var n=(lo>LO||hi<HI?1:0)+(kids!=='alle'?1:0)+(onlyPair?1:0)+(hideTreat?1:0),
+    var n=(lo>LO||hi<HI?1:0)+(kids!=='alle'?1:0)+(onlyPair?1:0)+(health!=='alle'?1:0),
         fc=document.getElementById('filterCount');
     if(fc)fc.textContent=n?'· '+n+' aktiv':'';
     var vc=document.getElementById('visibleCount');
@@ -589,14 +598,14 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   function render(){{
     kidsInputs.forEach(function(i){{i.checked=(i.value===kids);}});
     pairBtn.setAttribute('aria-pressed',String(onlyPair));
-    healthBtn.setAttribute('aria-pressed',String(hideTreat));
+    healthInputs.forEach(function(i){{i.checked=(i.value===health);}});
     update();
   }}
   kidsInputs.forEach(function(i){{i.addEventListener('change',function(){{kids=i.value;render();}});}});
   pairBtn.addEventListener('click',function(){{onlyPair=!onlyPair;render();}});
-  healthBtn.addEventListener('click',function(){{hideTreat=!hideTreat;render();}});
+  healthInputs.forEach(function(i){{i.addEventListener('change',function(){{health=i.value;render();}});}});
   resetBtn.addEventListener('click',function(){{
-    kids='alle';onlyPair=false;hideTreat=false;
+    kids='alle';onlyPair=false;health='alle';
     if(minR)minR.value=LO;
     if(maxR)maxR.value=HI;
     render();
