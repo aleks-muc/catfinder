@@ -21,7 +21,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - HTML/CSS/JavaScript — embedded as f-string templates inside `catfinder.py` (see `HTML_TEMPLATE` and `_build_filter_bar` in `catfinder.py`). Generated client-side filter UI (range sliders + toggle buttons) for the report.
 - YAML — single GitHub Actions workflow at `.github/workflows/catfinder.yml`.
 - JSON — state persistence format (`state/seen_cats.json`).
-- Bash — inline `python3 - <<'EOF'` heredoc inside the workflow (in `.github/workflows/catfinder.yml`) for post-processing the HTML report.
+- Bash — short inline `run:` steps inside the workflow (in `.github/workflows/catfinder.yml`), e.g. copying the report to `docs/index.html`.
 ## Runtime
 - Local: Python 3.9.6 in `.venv/` (per `.venv/pyvenv.cfg`, sourced from Xcode developer toolchain).
 - CI: Python 3.12 (per `actions/setup-python@v6` step in the workflow).
@@ -66,7 +66,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - `ubuntu-latest` GitHub-hosted runner.
 - Scheduled once daily via cron (`30 10 * * *` UTC) plus on-demand `workflow_dispatch`.
 - Requires `contents: write` permission so the workflow can commit `state/seen_cats.json` and `docs/index.html` back to `main`.
-- GitHub Pages serves `docs/index.html` as the public report (a banner linking to the Pages URL is injected into the report HTML during the CI run, in `.github/workflows/catfinder.yml`).
+- GitHub Pages serves `docs/index.html` as the public report (a 1:1 copy of `reports/report.html`, made during the CI run in `.github/workflows/catfinder.yml`).
 
 ## Conventions
 

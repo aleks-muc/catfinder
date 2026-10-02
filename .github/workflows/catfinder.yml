@@ -34,20 +34,7 @@ jobs:
       - name: Report für GitHub Pages vorbereiten
         run: |
           mkdir -p docs
-          python3 - <<'EOF'
-          content = open("reports/report.html", encoding="utf-8").read()
-          banner = (
-            '<div style="background:#141310;color:#f5f3ef;text-align:center;padding:12px;'
-            'font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif;font-size:15px;">'
-            '<a href="https://aleks-muc.github.io/catfinder/" '
-            'style="color:#f5f3ef;font-weight:600;text-decoration:none;'
-            'border-bottom:1px solid #f5f3ef;">Im Browser öffnen &rarr;</a>'
-            '</div>'
-          )
-          content = content.replace("<body>", "<body>" + banner, 1)
-          open("reports/report.html", "w", encoding="utf-8").write(content)
-          open("docs/index.html", "w", encoding="utf-8").write(content)
-          EOF
+          cp reports/report.html docs/index.html
 
       - name: State committen
         run: |
