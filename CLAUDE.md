@@ -236,7 +236,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - Hard exit on missing API key with a remediation hint (in `main()` in `catfinder.py`).
 - `RuntimeError` with diagnostic message if the listing has zero cats (in `scrape_listing` in `catfinder.py`) — protects against silent breakage when the source site changes.
 - `evaluate_cat` retries 429 / "rate_limit" exceptions on the schedule `[10, 30, 60]` seconds, then re-raises a `RuntimeError` (in `catfinder.py`); other exceptions surface immediately.
-- `evaluate_all` catches per-cat exceptions inside its worker and converts them to a `CatRating(rating="unbekannt", reason=f"Bewertungsfehler: {e}")` so one bad cat never sinks the whole run (in `catfinder.py`).
+- `evaluate_all` catches per-cat exceptions inside its worker and converts them to a `CatRating(rating="unbekannt", reason=EVAL_FAILED_REASON)` so one bad cat never sinks the whole run; `store_ratings` keeps such failures out of the state so the next run retries them (in `catfinder.py`).
 - `load_state` recovers from corrupt JSON / OS errors with a warning print and an empty dict (in `catfinder.py`).
 - `save_state` cleans up the temp file on exception before re-raising (in `catfinder.py`).
 - Profile fetch errors are caught in `main()` and become an empty `profile_text`, which `evaluate_cat` translates into `unbekannt` (in `catfinder.py`).
