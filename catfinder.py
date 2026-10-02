@@ -485,9 +485,9 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     return f"""<style>
 .cf-age{{display:flex;align-items:center;gap:.6rem;}}
 .cf-cap{{font-size:.8rem;color:var(--mute);white-space:nowrap;}}
-.cf-track{{position:relative;width:130px;height:1px;background:var(--hair);margin:.2rem 0;}}
+.cf-track{{position:relative;width:130px;height:1px;background:var(--hair);margin:.2rem 7px;}}
 .cf-fill{{position:absolute;top:-1px;height:3px;background:var(--ink);pointer-events:none;}}
-.cf-range{{position:absolute;width:100%;height:0;top:0;pointer-events:none;-webkit-appearance:none;appearance:none;background:transparent;outline:none;}}
+.cf-range{{--thumb:14px;position:absolute;left:calc(var(--thumb)/-2);width:calc(100% + var(--thumb));height:0;top:0;pointer-events:none;-webkit-appearance:none;appearance:none;background:transparent;outline:none;}}
 .cf-range::-webkit-slider-thumb{{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--paper);cursor:pointer;pointer-events:all;}}
 .cf-range:focus-visible::-webkit-slider-thumb{{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--act);}}
 .cf-range:focus-visible::-moz-range-thumb{{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--act);}}
@@ -523,6 +523,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 @media (pointer:coarse){{
   .cf-tog,#resetBtn,.cf-opt{{min-height:44px;}}
   .cf-age{{min-height:44px;}}
+  .cf-range{{--thumb:26px;}}
+  .cf-track{{margin:.2rem 13px;}}
   .cf-range::-webkit-slider-thumb{{width:26px;height:26px;}}
   .cf-range::-moz-range-thumb{{width:26px;height:26px;}}
 }}
@@ -808,7 +810,7 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .card {{ background: var(--card); display: flex; flex-direction: column;
          border: 1px solid var(--hair); }}
 .card img, .card .nophoto {{ width: 100%; height: 220px; object-fit: cover; display: block; background: var(--hair); }}
-.card .nophoto {{ display: flex; align-items: center; justify-content: center; color: var(--mute); font-size: .8rem; }}
+.card .nophoto {{ display: flex; align-items: center; justify-content: center; text-align: center; padding: .5rem; color: var(--mute); font-size: .8rem; }}
 .card .body {{ padding: 1rem 1.1rem 1.1rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }}
 .card .name {{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .4rem; }}
 .card .cid {{ font-size: .72rem; color: var(--mute); }}
@@ -982,7 +984,8 @@ def render_report(
 
     def _img(cat: Cat) -> str:
         return (
-            f'<img src="{html.escape(cat.image_url)}" alt="{html.escape(cat.name)}" loading="lazy">'
+            f'<img src="{html.escape(cat.image_url)}" alt="{html.escape(cat.name)}" loading="lazy" '
+            f'onerror="this.outerHTML=\'<div class=&quot;nophoto&quot;>Foto nicht geladen</div>\'">'
             if cat.image_url
             else '<div class="nophoto">kein Foto</div>'
         )
@@ -1022,7 +1025,7 @@ def render_report(
         hm = HEALTH_META.get(rating.health, HEALTH_META["unbekannt"])
         outlined = (
             f'<span class="lab" style="background:var(--card);'
-            f'border-color:{hm["color"]};color:{hm["text"]}">{hm["label"]}</span>'
+            f'border-color:{hm["text"]};color:{hm["text"]}">{hm["label"]}</span>'
         )
         return f'<div class="labels">{filled.format(cls="", text=rm["label"])}{outlined}</div>'
 
