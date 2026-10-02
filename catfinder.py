@@ -20,6 +20,7 @@ import time
 import webbrowser
 from dataclasses import dataclass, asdict
 from datetime import date, datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from typing import Literal
 
@@ -1180,7 +1181,8 @@ def render_report(
 
     return HTML_TEMPLATE.format(
         today=_today_line(evaluated, still_known),
-        timestamp=datetime.now().strftime("%d.%m.%Y %H:%M"),
+        # CI läuft in UTC, die Familie liest deutsche Zeit
+        timestamp=datetime.now(ZoneInfo("Europe/Berlin")).strftime("%d.%m.%Y %H:%M"),
         total_listed=total_listed,
         new_part=f" · <strong>{len(evaluated)} neu bewertet</strong>" if evaluated else "",
         scope_note=scope_note + gone_note,
