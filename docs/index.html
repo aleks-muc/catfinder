@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Catfinder — 02.10.2026 19:45</title>
+<title>Catfinder — 02.10.2026 22:16</title>
 <style>
 * { box-sizing: border-box; }
 :root {
@@ -119,9 +119,9 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
 <body>
 <header>
   <p class="brand">Catfinder</p>
-  <h1 class="today"><span class="today-n">Nichts Neues</span></h1><p class="today-avail"><span>Weiterhin verfügbar und passend:</span><span><span class="dot" style="background:#1e7a35"></span>3 Geeignet und gesund</span><span><span class="dot" style="border:2px solid #1e7a35"></span>1 Kinder geeignet, Gesundheit prüfen</span><span><span class="dot" style="background:#6b6560"></span>1 Keine Angabe</span></p>
+  <h1 class="today"><span class="today-n">Nichts Neues</span></h1><p class="today-avail"><span>Weiterhin verfügbar und passend:</span><span><span class="dot" style="background:#1e7a35"></span>2 Geeignet und gesund</span><span><span class="dot" style="background:#c9880a"></span>4 Nur ältere Kinder</span></p>
   <div class="stats">
-    Lauf vom 02.10.2026 19:45 · 43 Katzen gelistet · keine verschwunden<span id="visibleCount" aria-live="polite"></span>
+    Lauf vom 02.10.2026 22:16 · 43 Katzen gelistet · keine verschwunden<span id="visibleCount" aria-live="polite"></span>
   </div>
 </header>
 <main>
@@ -187,19 +187,19 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
   <div class="cf-seg" role="radiogroup" aria-label="Kinder">
     <span class="cf-cap" aria-hidden="true">Kinder</span>
     <label class="cf-opt"><input type="radio" name="kids" value="alle"><span>Alle</span></label>
-    <label class="cf-opt"><input type="radio" name="kids" value="passend" checked><span>Geeignet oder keine Angabe</span></label>
+    <label class="cf-opt"><input type="radio" name="kids" value="ohne" checked><span>Ohne „Nicht für Kinder“</span></label>
     <label class="cf-opt"><input type="radio" name="kids" value="nur"><span>Nur geeignet</span></label>
   </div>
   <div class="cf-seg" role="radiogroup" aria-label="Gesundheit">
     <span class="cf-cap" aria-hidden="true">Gesundheit</span>
-    <label class="cf-opt"><input type="radio" name="health" value="alle" checked><span>Alle</span></label>
+    <label class="cf-opt"><input type="radio" name="health" value="alle"><span>Alle</span></label>
     <label class="cf-opt"><input type="radio" name="health" value="ohne"><span>Ohne Dauerbehandlung</span></label>
-    <label class="cf-opt"><input type="radio" name="health" value="nur"><span>Nur gesund</span></label>
+    <label class="cf-opt"><input type="radio" name="health" value="nur" checked><span>Nur gesund</span></label>
   </div>
   <div class="cf-seg" role="radiogroup" aria-label="Pärchen">
     <span class="cf-cap" aria-hidden="true">Pärchen</span>
-    <label class="cf-opt"><input type="radio" name="pair" value="alle" checked><span>Alle</span></label>
-    <label class="cf-opt"><input type="radio" name="pair" value="nur"><span>Nur Pärchen</span></label>
+    <label class="cf-opt"><input type="radio" name="pair" value="alle"><span>Alle</span></label>
+    <label class="cf-opt"><input type="radio" name="pair" value="nur" checked><span>Nur Pärchen</span></label>
   </div>
   <button type="button" id="resetBtn">Filter zurücksetzen</button>
 </div></details>
@@ -209,8 +209,8 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
       kidsInputs=document.querySelectorAll('input[name=kids]'),pairInputs=document.querySelectorAll('input[name=pair]'),
       healthInputs=document.querySelectorAll('input[name=health]'),resetBtn=document.getElementById('resetBtn');
-  // kids: 'passend' (Standard) | 'nur' (nur "Kinder geeignet") | 'alle'
-  var LO=3,HI=168,kids='passend',onlyPair=false,health='alle';
+  // Standard = "passend" (CONTEXT.md): kids 'ohne' (ohne "Nicht für Kinder") | 'nur' | 'alle'
+  var LO=3,HI=168,kids='ohne',onlyPair=true,health='nur';
   function fmt(m){if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}
   function fmtLong(m){if(m<12)return m+(m===1?' Monat':' Monate');var y=Math.floor(m/12);return y+(y===1?' Jahr':' Jahre');}
   function pct(v){return HI>LO?(v-LO)/(HI-LO)*100:0;}
@@ -225,22 +225,27 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
     if(maxR)maxR.setAttribute('aria-valuetext',fmtLong(hi));
     filter(lo,hi);
   }
+  function own(c,lo,hi){
+    var r=c.dataset.rating,a=c.dataset.ageMonths;
+    var show=kids==='nur'?r==='geeignet':kids==='ohne'?r!=='nicht_geeignet':true;
+    if(show){show=(!a||a==='unknown')||(parseInt(a)>=lo&&parseInt(a)<=hi);}
+    // health: 'alle' | 'ohne' (ohne "Dauerbehandlung nötig") | 'nur' (nur "Keine Erkrankung bekannt")
+    if(show&&health==='ohne'){show=c.dataset.health!=='dauerbehandlung';}
+    if(show&&health==='nur'){show=c.dataset.health==='keine';}
+    return show;
+  }
   function filter(lo,hi){
-    var visible=0;
+    var visible=0,byName={};
+    document.querySelectorAll('.card:not(.gone)').forEach(function(c){byName[c.dataset.name]=c;});
     document.querySelectorAll('.card').forEach(function(c){
-      var r=c.dataset.rating,a=c.dataset.ageMonths;
-      // kids: 'passend' (Standard: geeignet oder keine Angabe — "Nur ältere Kinder" passt nicht) | 'nur' | 'alle'
-      var show=kids==='nur'?r==='geeignet':kids==='passend'?(r==='geeignet'||r==='unbekannt'):true;
-      if(show){show=(!a||a==='unknown')||(parseInt(a)>=lo&&parseInt(a)<=hi);}
-      if(show&&onlyPair){show=c.dataset.companions==='2';}
-      // health: 'alle' | 'ohne' (ohne "Dauerbehandlung nötig") | 'nur' (nur "Keine Erkrankung bekannt")
-      if(show&&health==='ohne'){show=c.dataset.health!=='dauerbehandlung';}
-      if(show&&health==='nur'){show=c.dataset.health==='keine';}
+      var show=own(c,lo,hi);
+      // "Nur Pärchen": beide Partner müssen passen; ist der Partner nicht gelistet, zählt die Katze allein
+      if(show&&onlyPair){var p=byName[c.dataset.partner];show=c.dataset.companions==='2'&&(!p||own(p,lo,hi));}
       c.style.display=show?'':'none';
       if(show)visible++;
     });
-    // aktiv = abweichend vom Standard; 'passend' ist der Standard, sonst bleibt nach dem Zurücksetzen "1 aktiv"
-    var n=(lo>LO||hi<HI?1:0)+(kids!=='passend'?1:0)+(onlyPair?1:0)+(health!=='alle'?1:0),
+    // aktiv = abweichend vom Standard, sonst bleibt nach dem Zurücksetzen "3 aktiv"
+    var n=(lo>LO||hi<HI?1:0)+(kids!=='ohne'?1:0)+(onlyPair?0:1)+(health!=='nur'?1:0),
         fc=document.getElementById('filterCount');
     if(fc)fc.textContent=n?'· '+n+' aktiv':'';
     var vc=document.getElementById('visibleCount');
@@ -254,7 +259,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
       if(cards.length&&!e){e=document.createElement('div');e.className='empty empty-filter';
         e.textContent='Keine Katze in diesem Abschnitt passt zu den Filtern. ';
         var b=document.createElement('button');b.type='button';b.className='show-all';b.textContent='Alle zeigen';
-        b.addEventListener('click',function(){setFilters('alle');});e.appendChild(b);d.appendChild(e);}
+        b.addEventListener('click',function(){setFilters('alle','alle',false);});e.appendChild(b);d.appendChild(e);}
       if(e)e.style.display=(cards.length&&!vis)?'':'none';
     });
   }
@@ -267,13 +272,13 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
   kidsInputs.forEach(function(i){i.addEventListener('change',function(){kids=i.value;render();});});
   pairInputs.forEach(function(i){i.addEventListener('change',function(){onlyPair=(i.value==='nur');render();});});
   healthInputs.forEach(function(i){i.addEventListener('change',function(){health=i.value;render();});});
-  function setFilters(k){
-    kids=k;onlyPair=false;health='alle';
+  function setFilters(k,h,p){
+    kids=k;health=h;onlyPair=p;
     if(minR)minR.value=LO;
     if(maxR)maxR.value=HI;
     render();
   }
-  resetBtn.addEventListener('click',function(){setFilters('passend');});
+  resetBtn.addEventListener('click',function(){setFilters('ohne','nur',true);});
   if(minR)minR.addEventListener('input',update);
   if(maxR)maxR.addEventListener('input',update);
   var fw=document.getElementById('filterWrap');
@@ -284,7 +289,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
 })();
 </script>
 <details class="sect" open><summary><h2 class="group">Weiterhin verfügbar (<span class="cnt">34</span>)</h2></summary><div class="grid">
-    <div class="card" data-cid="263433" data-age-months="24" data-rating="geeignet" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263433" data-age-months="24" data-rating="geeignet" data-companions="2" data-health="keine" data-name="GORDO" data-partner="PLASTIKA">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263433-1-134346289600568145.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>GORDO</h3></div>
@@ -297,7 +302,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263433" target="_blank" rel="noopener" aria-label="Steckbrief von GORDO (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263580" data-age-months="24" data-rating="geeignet" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263580" data-age-months="24" data-rating="geeignet" data-companions="2" data-health="keine" data-name="PLASTIKA" data-partner="GORDO">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263580-1-134346290429147922.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>PLASTIKA</h3></div>
@@ -310,7 +315,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263580" target="_blank" rel="noopener" aria-label="Steckbrief von PLASTIKA (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="260105" data-age-months="24" data-rating="geeignet" data-companions="0" data-health="keine">
+    <div class="card" data-cid="260105" data-age-months="24" data-rating="geeignet" data-companions="0" data-health="keine" data-name="NALA" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260105-1-134166764245155395.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>NALA</h3></div>
@@ -323,7 +328,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260105" target="_blank" rel="noopener" aria-label="Steckbrief von NALA (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263428" data-age-months="132" data-rating="geeignet" data-companions="0" data-health="erwaehnt">
+    <div class="card" data-cid="263428" data-age-months="132" data-rating="geeignet" data-companions="0" data-health="erwaehnt" data-name="SUNSHINE" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263428-1-134348782338452218.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>SUNSHINE</h3></div>
@@ -336,7 +341,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263428" target="_blank" rel="noopener" aria-label="Steckbrief von SUNSHINE (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263615" data-age-months="48" data-rating="unbekannt" data-companions="0" data-health="erwaehnt">
+    <div class="card" data-cid="263615" data-age-months="48" data-rating="unbekannt" data-companions="0" data-health="erwaehnt" data-name="ZICKY" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263615-1-134340189776099978.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>ZICKY</h3></div>
@@ -349,7 +354,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263615" target="_blank" rel="noopener" aria-label="Steckbrief von ZICKY (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263739" data-age-months="24" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263739" data-age-months="24" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="LOKI" data-partner="SCHATZI">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263739-1-134354046644340689.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>LOKI</h3></div>
@@ -362,7 +367,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263739" target="_blank" rel="noopener" aria-label="Steckbrief von LOKI (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263740" data-age-months="72" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263740" data-age-months="72" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="SCHATZI" data-partner="LOKI">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263740-1-134354030446834279.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>SCHATZI</h3></div>
@@ -375,7 +380,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263740" target="_blank" rel="noopener" aria-label="Steckbrief von SCHATZI (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="262324" data-age-months="144" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="262324" data-age-months="144" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="MIMI-SUN" data-partner="SILVER">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262324-1-134354027575876195.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>MIMI-SUN</h3></div>
@@ -388,7 +393,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262324" target="_blank" rel="noopener" aria-label="Steckbrief von MIMI-SUN (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="262327" data-age-months="144" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung">
+    <div class="card" data-cid="262327" data-age-months="144" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung" data-name="SILVER" data-partner="MIMI-SUN">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262327-1-134354025709056332.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>SILVER</h3></div>
@@ -401,7 +406,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262327" target="_blank" rel="noopener" aria-label="Steckbrief von SILVER (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263761" data-age-months="12" data-rating="aeltere_kinder" data-companions="0" data-health="keine">
+    <div class="card" data-cid="263761" data-age-months="12" data-rating="aeltere_kinder" data-companions="0" data-health="keine" data-name="MINNOS" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263761-1-134340181290170851.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>MINNOS</h3></div>
@@ -414,7 +419,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263761" target="_blank" rel="noopener" aria-label="Steckbrief von MINNOS (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="261963" data-age-months="108" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
+    <div class="card" data-cid="261963" data-age-months="108" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung" data-name="MOLLY" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261963-1-134348788293755265.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>MOLLY</h3></div>
@@ -427,7 +432,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261963" target="_blank" rel="noopener" aria-label="Steckbrief von MOLLY (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263623" data-age-months="3" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263623" data-age-months="3" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="BROOKLYN" data-partner="QUEENS">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263623-1-134333394436832789.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>BROOKLYN</h3></div>
@@ -440,7 +445,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263623" target="_blank" rel="noopener" aria-label="Steckbrief von BROOKLYN (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263622" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263622" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="QUEENS" data-partner="BROOKLYN">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263622-1-134333394436832789.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>QUEENS</h3></div>
@@ -453,7 +458,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263622" target="_blank" rel="noopener" aria-label="Steckbrief von QUEENS (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263439" data-age-months="36" data-rating="aeltere_kinder" data-companions="0" data-health="erwaehnt">
+    <div class="card" data-cid="263439" data-age-months="36" data-rating="aeltere_kinder" data-companions="0" data-health="erwaehnt" data-name="OBELIX" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263439-1-134332582388934710.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>OBELIX</h3></div>
@@ -466,7 +471,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263439" target="_blank" rel="noopener" aria-label="Steckbrief von OBELIX (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="262531" data-age-months="24" data-rating="aeltere_kinder" data-companions="0" data-health="keine">
+    <div class="card" data-cid="262531" data-age-months="24" data-rating="aeltere_kinder" data-companions="0" data-health="keine" data-name="TIGERLILLY" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262531-1-134302959067744066.JPG" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>TIGERLILLY</h3></div>
@@ -479,7 +484,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262531" target="_blank" rel="noopener" aria-label="Steckbrief von TIGERLILLY (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263410" data-age-months="108" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung">
+    <div class="card" data-cid="263410" data-age-months="108" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung" data-name="DORI" data-partner="POPPY">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263410-1-134311922601472925.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>DORI</h3></div>
@@ -492,7 +497,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263410" target="_blank" rel="noopener" aria-label="Steckbrief von DORI (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263409" data-age-months="96" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung">
+    <div class="card" data-cid="263409" data-age-months="96" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung" data-name="POPPY" data-partner="DORI">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263409-1-134315081109008790.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>POPPY</h3></div>
@@ -505,7 +510,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263409" target="_blank" rel="noopener" aria-label="Steckbrief von POPPY (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="260205" data-age-months="96" data-rating="aeltere_kinder" data-companions="0" data-health="erwaehnt">
+    <div class="card" data-cid="260205" data-age-months="96" data-rating="aeltere_kinder" data-companions="0" data-health="erwaehnt" data-name="BAZI" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260205-1-134183842916671148.JPG" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>BAZI</h3></div>
@@ -518,7 +523,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260205" target="_blank" rel="noopener" aria-label="Steckbrief von BAZI (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="256408" data-age-months="96" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
+    <div class="card" data-cid="256408" data-age-months="96" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung" data-name="MINI" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/256408-1-134354028580037580.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>MINI</h3></div>
@@ -531,7 +536,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256408" target="_blank" rel="noopener" aria-label="Steckbrief von MINI (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="261949" data-age-months="36" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung">
+    <div class="card" data-cid="261949" data-age-months="36" data-rating="aeltere_kinder" data-companions="2" data-health="dauerbehandlung" data-name="DUMAN" data-partner="PAMUK">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261949-1-134287520261695845.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>DUMAN</h3></div>
@@ -544,7 +549,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261949" target="_blank" rel="noopener" aria-label="Steckbrief von DUMAN (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="261948" data-age-months="36" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="261948" data-age-months="36" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="PAMUK" data-partner="DUMAN">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261948-1-134287513623255342.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>PAMUK</h3></div>
@@ -557,7 +562,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261948" target="_blank" rel="noopener" aria-label="Steckbrief von PAMUK (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="260757" data-age-months="60" data-rating="aeltere_kinder" data-companions="0" data-health="erwaehnt">
+    <div class="card" data-cid="260757" data-age-months="60" data-rating="aeltere_kinder" data-companions="0" data-health="erwaehnt" data-name="LUCIA" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260757-1-134227244811972043.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>LUCIA</h3></div>
@@ -570,7 +575,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260757" target="_blank" rel="noopener" aria-label="Steckbrief von LUCIA (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="255562" data-age-months="108" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
+    <div class="card" data-cid="255562" data-age-months="108" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung" data-name="MIU-MIU" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255562-1-134227244325597148.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>MIU-MIU</h3></div>
@@ -583,7 +588,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/255562" target="_blank" rel="noopener" aria-label="Steckbrief von MIU-MIU (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="256395" data-age-months="9" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
+    <div class="card" data-cid="256395" data-age-months="9" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt" data-name="RAFFAELO" data-partner="TWINGO">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/256395-1-134259964776292835.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>RAFFAELO</h3></div>
@@ -596,7 +601,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/256395" target="_blank" rel="noopener" aria-label="Steckbrief von RAFFAELO (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="255715" data-age-months="12" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt">
+    <div class="card" data-cid="255715" data-age-months="12" data-rating="aeltere_kinder" data-companions="2" data-health="erwaehnt" data-name="TWINGO" data-partner="RAFFAELO">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255715-1-134259962217153583.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>TWINGO</h3></div>
@@ -609,7 +614,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/255715" target="_blank" rel="noopener" aria-label="Steckbrief von TWINGO (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263390" data-age-months="168" data-rating="nicht_geeignet" data-companions="0" data-health="dauerbehandlung">
+    <div class="card" data-cid="263390" data-age-months="168" data-rating="nicht_geeignet" data-companions="0" data-health="dauerbehandlung" data-name="ELLI" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263390-1-134332585785712069.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>ELLI</h3></div>
@@ -622,7 +627,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263390" target="_blank" rel="noopener" aria-label="Steckbrief von ELLI (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="262238" data-age-months="72" data-rating="nicht_geeignet" data-companions="0" data-health="erwaehnt">
+    <div class="card" data-cid="262238" data-age-months="72" data-rating="nicht_geeignet" data-companions="0" data-health="erwaehnt" data-name="INCI" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262238-1-134311042628172189.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>INCI</h3></div>
@@ -635,7 +640,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262238" target="_blank" rel="noopener" aria-label="Steckbrief von INCI (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="262397" data-age-months="72" data-rating="nicht_geeignet" data-companions="0" data-health="keine">
+    <div class="card" data-cid="262397" data-age-months="72" data-rating="nicht_geeignet" data-companions="0" data-health="keine" data-name="ZERO" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262397-1-134287413927454077.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>ZERO</h3></div>
@@ -648,7 +653,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262397" target="_blank" rel="noopener" aria-label="Steckbrief von ZERO (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="260880" data-age-months="48" data-rating="nicht_geeignet" data-companions="0" data-health="keine">
+    <div class="card" data-cid="260880" data-age-months="48" data-rating="nicht_geeignet" data-companions="0" data-health="keine" data-name="BELLA" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260880-1-134219451799899992.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>BELLA</h3></div>
@@ -661,7 +666,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260880" target="_blank" rel="noopener" aria-label="Steckbrief von BELLA (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="242724" data-age-months="84" data-rating="nicht_geeignet" data-companions="0" data-health="keine">
+    <div class="card" data-cid="242724" data-age-months="84" data-rating="nicht_geeignet" data-companions="0" data-health="keine" data-name="PEPPI" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/242724-1-133862521652766182.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>PEPPI</h3></div>
@@ -674,7 +679,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/242724" target="_blank" rel="noopener" aria-label="Steckbrief von PEPPI (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="255223" data-age-months="108" data-rating="nicht_geeignet" data-companions="0" data-health="erwaehnt">
+    <div class="card" data-cid="255223" data-age-months="108" data-rating="nicht_geeignet" data-companions="0" data-health="erwaehnt" data-name="PFU" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/255223-1-134272767101928820.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>PFU</h3></div>
@@ -687,7 +692,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/255223" target="_blank" rel="noopener" aria-label="Steckbrief von PFU (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="260884" data-age-months="108" data-rating="nicht_geeignet" data-companions="0" data-health="dauerbehandlung">
+    <div class="card" data-cid="260884" data-age-months="108" data-rating="nicht_geeignet" data-companions="0" data-health="dauerbehandlung" data-name="SCHNECKERL" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/260884-1-134201953854748334.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>SCHNECKERL</h3></div>
@@ -700,7 +705,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260884" target="_blank" rel="noopener" aria-label="Steckbrief von SCHNECKERL (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="254724" data-age-months="60" data-rating="nicht_geeignet" data-companions="0" data-health="keine">
+    <div class="card" data-cid="254724" data-age-months="60" data-rating="nicht_geeignet" data-companions="0" data-health="keine" data-name="SUCUK" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/254724-1-134272770427996081.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>SUCUK</h3></div>
@@ -713,7 +718,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/254724" target="_blank" rel="noopener" aria-label="Steckbrief von SUCUK (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="251280" data-age-months="156" data-rating="nicht_geeignet" data-companions="0" data-health="dauerbehandlung">
+    <div class="card" data-cid="251280" data-age-months="156" data-rating="nicht_geeignet" data-companions="0" data-health="dauerbehandlung" data-name="WALLACE" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/251280-1-134272764854112656.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>WALLACE</h3></div>
@@ -726,7 +731,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/251280" target="_blank" rel="noopener" aria-label="Steckbrief von WALLACE (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div></div></details><details class="sect"><summary><h2 class="group">Interessenten vorhanden (<span class="cnt">9</span>)</h2></summary><div class="grid">
-    <div class="card" data-cid="262970" data-age-months="5" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="262970" data-age-months="5" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="AVERELL DALTON" data-partner="WILLIAM DALTON">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262970-1-134343654282927488.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>AVERELL DALTON</h3></div>
@@ -739,7 +744,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262970" target="_blank" rel="noopener" aria-label="Steckbrief von AVERELL DALTON (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="262969" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="262969" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="WILLIAM DALTON" data-partner="AVERELL DALTON">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/262969-1-134343653616170136.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>WILLIAM DALTON</h3></div>
@@ -752,7 +757,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/262969" target="_blank" rel="noopener" aria-label="Steckbrief von WILLIAM DALTON (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263798" data-age-months="5" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263798" data-age-months="5" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="ALI BABA" data-partner="BRONX">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263798-1-134333400026871397.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>ALI BABA</h3></div>
@@ -765,7 +770,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263798" target="_blank" rel="noopener" aria-label="Steckbrief von ALI BABA (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263624" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263624" data-age-months="4" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="BRONX" data-partner="ALI BABA">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263624-1-134333394009301386.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>BRONX</h3></div>
@@ -778,7 +783,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263624" target="_blank" rel="noopener" aria-label="Steckbrief von BRONX (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263220" data-age-months="48" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263220" data-age-months="48" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="JADINE" data-partner="SUSKA">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263220-1-134341074818712155.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>JADINE</h3></div>
@@ -791,7 +796,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263220" target="_blank" rel="noopener" aria-label="Steckbrief von JADINE (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263221" data-age-months="48" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263221" data-age-months="48" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="SUSKA" data-partner="JADINE">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263221-1-134341076203115076.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>SUSKA</h3></div>
@@ -804,7 +809,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263221" target="_blank" rel="noopener" aria-label="Steckbrief von SUSKA (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="261680" data-age-months="108" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung">
+    <div class="card" data-cid="261680" data-age-months="108" data-rating="aeltere_kinder" data-companions="0" data-health="dauerbehandlung" data-name="NALA" data-partner="">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/261680-1-134340179140251413.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>NALA</h3></div>
@@ -817,7 +822,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261680" target="_blank" rel="noopener" aria-label="Steckbrief von NALA (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263453" data-age-months="24" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263453" data-age-months="24" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="BUBBI" data-partner="MORITZ">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263453-1-134327396546508099.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>BUBBI</h3></div>
@@ -830,7 +835,7 @@ summary h2.group { font-family: var(--serif); font-weight: 400; font-size: 1.4re
           <a href="https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263453" target="_blank" rel="noopener" aria-label="Steckbrief von BUBBI (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>
-    <div class="card" data-cid="263226" data-age-months="72" data-rating="aeltere_kinder" data-companions="2" data-health="keine">
+    <div class="card" data-cid="263226" data-age-months="72" data-rating="aeltere_kinder" data-companions="2" data-health="keine" data-name="MORITZ" data-partner="BUBBI">
       <img src="https://assets-tiervermittlung.tierschutzverein-muenchen.de/263226-1-134327396043368681.jpg" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;nophoto&quot;>Foto nicht geladen</div>'">
       <div class="body">
         <div class="name"><h3>MORITZ</h3></div>
