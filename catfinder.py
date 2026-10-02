@@ -492,9 +492,12 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 .cf-range:focus-visible::-webkit-slider-thumb{{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--act);}}
 .cf-range:focus-visible::-moz-range-thumb{{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--act);}}
 .cf-range::-moz-range-thumb{{width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--paper);cursor:pointer;pointer-events:all;}}
-.cf-tog{{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;color:var(--mute);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;}}
-.cf-tog:hover{{color:var(--ink);}}
-.cf-tog[aria-pressed="true"]{{color:var(--ink);border-bottom-color:var(--ink);font-weight:600;}}
+.cf-tog,.cf-opt span{{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;color:var(--mute);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;}}
+.cf-tog:hover,.cf-opt:hover span{{color:var(--ink);}}
+.cf-tog[aria-pressed="true"],.cf-opt input:checked+span{{color:var(--ink);border-bottom-color:var(--ink);font-weight:600;}}
+.cf-opt{{position:relative;display:inline-flex;align-items:center;}}
+.cf-opt input{{position:absolute;opacity:0;width:1px;height:1px;margin:0;}}
+.cf-opt input:focus-visible+span{{outline:2px solid var(--act);outline-offset:2px;}}
 .cf-seg{{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;padding-right:1.25rem;border-right:1px solid var(--hair);}}
 #resetBtn{{margin-left:auto;background:none;border:none;padding:.2rem 0;color:var(--mute);cursor:pointer;font:inherit;font-size:.85rem;text-decoration:underline;text-underline-offset:3px;}}
 #resetBtn:hover{{color:var(--ink);}}
@@ -516,7 +519,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 @media (max-height:500px){{.filters{{position:static;}}}}
 /* Touch: Trefferflächen mindestens 44px, Regler-Griffe greifbar */
 @media (pointer:coarse){{
-  .cf-tog,#resetBtn{{min-height:44px;}}
+  .cf-tog,#resetBtn,.cf-opt{{min-height:44px;}}
   .cf-age{{min-height:44px;}}
   .cf-range::-webkit-slider-thumb{{width:26px;height:26px;}}
   .cf-range::-moz-range-thumb{{width:26px;height:26px;}}
@@ -524,11 +527,11 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 </style>
 <details class="filters" id="filterWrap"><summary>Filter<span id="filterCount"></span></summary>
 <div id="filterBar">{slider}
-  <div class="cf-seg" role="group" aria-label="Kinder">
+  <div class="cf-seg" role="radiogroup" aria-label="Kinder">
     <span class="cf-cap">Kinder</span>
-    <button type="button" class="cf-tog" data-kids="alle" aria-pressed="true">Alle</button>
-    <button type="button" class="cf-tog" data-kids="ohne" aria-pressed="false">Ohne „Nicht für Kinder“</button>
-    <button type="button" class="cf-tog" data-kids="nur" aria-pressed="false">Nur „Kinder geeignet“</button>
+    <label class="cf-opt"><input type="radio" name="kids" value="alle" checked><span>Alle</span></label>
+    <label class="cf-opt"><input type="radio" name="kids" value="ohne"><span>Ohne „Nicht für Kinder“</span></label>
+    <label class="cf-opt"><input type="radio" name="kids" value="nur"><span>Nur „Kinder geeignet“</span></label>
   </div>
   <button type="button" class="cf-tog" id="pairBtn" aria-pressed="false">Nur Pärchen</button>
   <button type="button" class="cf-tog" id="healthBtn" aria-pressed="false">Ohne „Dauerbehandlung nötig“</button>
@@ -538,11 +541,12 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 (function(){{
   var minR=document.getElementById('ageMin'),maxR=document.getElementById('ageMax'),
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
-      kidsBtns=document.querySelectorAll('[data-kids]'),pairBtn=document.getElementById('pairBtn'),
+      kidsInputs=document.querySelectorAll('input[name=kids]'),pairBtn=document.getElementById('pairBtn'),
       healthBtn=document.getElementById('healthBtn'),resetBtn=document.getElementById('resetBtn');
   // kids: 'alle' | 'ohne' (ohne "Nicht für Kinder") | 'nur' (nur "Kinder geeignet")
   var LO={age_min},HI={age_max},kids='alle',onlyPair=false,hideTreat=false;
   function fmt(m){{if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}}
+  function fmtLong(m){{if(m<12)return m+(m===1?' Monat':' Monate');var y=Math.floor(m/12);return y+(y===1?' Jahr':' Jahre');}}
   function pct(v){{return HI>LO?(v-LO)/(HI-LO)*100:0;}}
   function range(){{return [minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI];}}
   function update(){{
@@ -551,6 +555,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     if(minR)minR.style.zIndex=(lo===hi&&hi>LO)?'2':'';
     if(fill){{fill.style.left=pct(lo)+'%';fill.style.width=Math.max(0,pct(hi)-pct(lo))+'%';}}
     if(lbl)lbl.textContent=fmt(lo)+' \u2013 '+fmt(hi);
+    if(minR)minR.setAttribute('aria-valuetext',fmtLong(lo));
+    if(maxR)maxR.setAttribute('aria-valuetext',fmtLong(hi));
     filter(lo,hi);
   }}
   function filter(lo,hi){{
@@ -581,12 +587,12 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     }});
   }}
   function render(){{
-    kidsBtns.forEach(function(b){{b.setAttribute('aria-pressed',String(b.dataset.kids===kids));}});
+    kidsInputs.forEach(function(i){{i.checked=(i.value===kids);}});
     pairBtn.setAttribute('aria-pressed',String(onlyPair));
     healthBtn.setAttribute('aria-pressed',String(hideTreat));
     update();
   }}
-  kidsBtns.forEach(function(b){{b.addEventListener('click',function(){{kids=b.dataset.kids;render();}});}});
+  kidsInputs.forEach(function(i){{i.addEventListener('change',function(){{kids=i.value;render();}});}});
   pairBtn.addEventListener('click',function(){{onlyPair=!onlyPair;render();}});
   healthBtn.addEventListener('click',function(){{hideTreat=!hideTreat;render();}});
   resetBtn.addEventListener('click',function(){{
@@ -598,7 +604,9 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   if(minR)minR.addEventListener('input',update);
   if(maxR)maxR.addEventListener('input',update);
   var fw=document.getElementById('filterWrap');
-  if(fw&&window.matchMedia('(min-width: 641px)').matches)fw.open=true;
+  var wide=window.matchMedia('(min-width: 641px)');
+  if(fw&&wide.matches)fw.open=true;
+  if(fw&&wide.addEventListener)wide.addEventListener('change',function(e){{if(e.matches)fw.open=true;}});
   document.addEventListener('DOMContentLoaded',update);
 }})();
 </script>"""
@@ -1016,7 +1024,7 @@ def render_report(
         <div class="reason">{html.escape(rating.reason)}</div>
         {_health_note(rating)}
         <div class="foot"><span>{listed}</span>
-          <a href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener">Steckbrief &rarr;</a></div>
+          <a href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener" aria-label="Steckbrief von {html.escape(cat.name)} (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>"""
 
