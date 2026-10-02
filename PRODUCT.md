@@ -26,7 +26,7 @@ Kein weiteres Tierportal, sondern ein persönlicher Tagesfilter: Er merkt sich, 
 - Jede Karte verlinkt auf den Original-Steckbrief beim Tierschutzverein; dort passiert der echte nächste Schritt (Kontakt, Besuch).
 
 ## Capabilities and Constraints
-- Report-Abschnitte: *Neu seit letztem Lauf*, *Nicht mehr verfügbar*, *Interessenten vorhanden*, *Weiterhin verfügbar*.
+- Report-Abschnitte: *Neu seit letztem Lauf*, *Weiterhin verfügbar*, *Interessenten vorhanden*, *Nicht mehr verfügbar*.
 - Bewertung Kinder: *Kinder geeignet* · *Nur ältere Kinder* · *Nicht für Kinder* · *Keine Angabe*. Bewertung Gesundheit: *Keine Erkrankung bekannt* · *Gesundheit beachten* · *Dauerbehandlung nötig* · *Gesundheit unbekannt*.
 - Filterleiste: Alter, Bewertung, Gesundheit, Pärchen.
 - Report ist eine einzelne, statische HTML-Datei, erzeugt aus Python-f-Strings in `catfinder.py` (`HTML_TEMPLATE`, `_build_filter_bar`, `render_report`). Inline CSS/JS, kein Framework, kein Build-Step, keine neuen Runtime-Dependencies.
