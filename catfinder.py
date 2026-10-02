@@ -434,7 +434,7 @@ def age_hint_to_months(age_hint: str) -> int | None:
 
 
 def _build_filter_bar(age_min: int, age_max: int) -> str:
-    """Baut den HTML/CSS/JS-Block für Altersfilter und Sorgenkinder-Toggle."""
+    """Baut den HTML/CSS/JS-Block der Filterleiste (Alter, Kinder, Pärchen, Dauerbehandlung)."""
     def fmt(m: int) -> str:
         if m < 12:
             return f"{m} Mon."
@@ -465,10 +465,10 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 .cf-range{{position:absolute;width:100%;height:0;top:0;pointer-events:none;-webkit-appearance:none;appearance:none;background:transparent;outline:none;}}
 .cf-range::-webkit-slider-thumb{{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:#141310;border:2px solid #f5f3ef;cursor:pointer;pointer-events:all;}}
 .cf-range::-moz-range-thumb{{width:14px;height:14px;border-radius:50%;background:#141310;border:2px solid #f5f3ef;cursor:pointer;pointer-events:all;}}
-#sorgBtn,#fitBtn,#pairBtn,#healthBtn{{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;color:#5c574f;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;}}
-#fitBtn.active,#pairBtn.active,#healthBtn.active{{color:#141310;border-bottom-color:#141310;font-weight:600;}}
-#sorgBtn{{color:#971616;}}
-#sorgBtn.hidden{{color:#5c574f;}}
+.cf-tog{{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;color:#5c574f;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;}}
+.cf-tog:hover{{color:#141310;}}
+.cf-tog[aria-pressed="true"]{{color:#141310;border-bottom-color:#141310;font-weight:600;}}
+.cf-seg{{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;padding-right:1.25rem;border-right:1px solid #d2cbc0;}}
 #resetBtn{{margin-left:auto;background:none;border:none;padding:.2rem 0;color:#5c574f;cursor:pointer;font:inherit;font-size:.85rem;text-decoration:underline;text-underline-offset:3px;}}
 #resetBtn:hover{{color:#141310;}}
 .filters{{position:sticky;top:0;z-index:100;background:#f5f3ef;border-bottom:1px solid #d2cbc0;}}
@@ -481,14 +481,15 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   .filters>summary::after{{content:'+';margin-left:auto;font-weight:400;font-size:1.2rem;color:#5c574f;}}
   .filters[open]>summary::after{{content:'\u2212';}}
   #filterBar{{padding:.25rem 0 1rem;gap:.9rem 1.25rem;}}
-  .cf-age{{flex-basis:100%;}}
+  .cf-age,.cf-seg{{flex-basis:100%;}}
+  .cf-seg{{padding-right:0;border-right:0;}}
   .cf-track{{flex:1;width:auto;}}
 }}
 /* Querformat am Handy: angeheftete Leiste würde den halben Bildschirm belegen */
 @media (max-height:500px){{.filters{{position:static;}}}}
 /* Touch: Trefferflächen mindestens 44px, Regler-Griffe greifbar */
 @media (pointer:coarse){{
-  #sorgBtn,#fitBtn,#pairBtn,#healthBtn,#resetBtn{{min-height:44px;}}
+  .cf-tog,#resetBtn{{min-height:44px;}}
   .cf-age{{min-height:44px;}}
   .cf-range::-webkit-slider-thumb{{width:26px;height:26px;}}
   .cf-range::-moz-range-thumb{{width:26px;height:26px;}}
@@ -496,24 +497,29 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 </style>
 <details class="filters" id="filterWrap"><summary>Filter<span id="filterCount"></span></summary>
 <div id="filterBar">{slider}
-  <button id="fitBtn">Nur geeignet</button>
-  <button id="pairBtn">Nur Pärchen</button>
-  <button id="sorgBtn">Sorgenkinder ausblenden</button>
-  <button id="healthBtn">Dauerbehandlung ausblenden</button>
-  <button id="resetBtn">Alle Katzen zeigen</button>
+  <div class="cf-seg" role="group" aria-label="Kinder">
+    <span class="cf-cap">Kinder</span>
+    <button type="button" class="cf-tog" data-kids="alle" aria-pressed="true">Alle</button>
+    <button type="button" class="cf-tog" data-kids="ohne" aria-pressed="false">Ohne „Nicht für Kinder“</button>
+    <button type="button" class="cf-tog" data-kids="nur" aria-pressed="false">Nur „Kinder geeignet“</button>
+  </div>
+  <button type="button" class="cf-tog" id="pairBtn" aria-pressed="false">Nur Pärchen</button>
+  <button type="button" class="cf-tog" id="healthBtn" aria-pressed="false">Ohne „Dauerbehandlung nötig“</button>
+  <button type="button" id="resetBtn">Filter zurücksetzen</button>
 </div></details>
 <script>
 (function(){{
   var minR=document.getElementById('ageMin'),maxR=document.getElementById('ageMax'),
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
-      sorgBtn=document.getElementById('sorgBtn'),fitBtn=document.getElementById('fitBtn'),
-      pairBtn=document.getElementById('pairBtn'),resetBtn=document.getElementById('resetBtn'),
-      healthBtn=document.getElementById('healthBtn');
-  var LO={age_min},HI={age_max},showSorg=true,showOnlyFit=false,showOnlyPair=false,hideTreat=false;
+      kidsBtns=document.querySelectorAll('[data-kids]'),pairBtn=document.getElementById('pairBtn'),
+      healthBtn=document.getElementById('healthBtn'),resetBtn=document.getElementById('resetBtn');
+  // kids: 'alle' | 'ohne' (ohne "Nicht für Kinder") | 'nur' (nur "Kinder geeignet")
+  var LO={age_min},HI={age_max},kids='alle',onlyPair=false,hideTreat=false;
   function fmt(m){{if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}}
   function pct(v){{return HI>LO?(v-LO)/(HI-LO)*100:0;}}
+  function range(){{return [minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI];}}
   function update(){{
-    var lo=minR?parseInt(minR.value):LO,hi=maxR?parseInt(maxR.value):HI;
+    var lo=range()[0],hi=range()[1];
     if(lo>hi){{if(document.activeElement===minR){{minR.value=hi;lo=hi;}}else{{maxR.value=lo;hi=lo;}}}}
     if(fill){{fill.style.left=pct(lo)+'%';fill.style.width=Math.max(0,pct(hi)-pct(lo))+'%';}}
     if(lbl)lbl.textContent=fmt(lo)+' \u2013 '+fmt(hi);
@@ -522,17 +528,15 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   function filter(lo,hi){{
     var visible=0;
     document.querySelectorAll('.card').forEach(function(c){{
-      var r=c.dataset.rating,a=c.dataset.ageMonths,show;
-      if(showOnlyFit){{show=(r==='geeignet');}}
-      else if(r==='nicht_geeignet'&&!showSorg){{show=false;}}
-      else{{show=true;}}
+      var r=c.dataset.rating,a=c.dataset.ageMonths;
+      var show=kids==='nur'?r==='geeignet':kids==='ohne'?r!=='nicht_geeignet':true;
       if(show){{show=(!a||a==='unknown')||(parseInt(a)>=lo&&parseInt(a)<=hi);}}
-      if(show&&showOnlyPair){{show=c.dataset.companions==='2';}}
+      if(show&&onlyPair){{show=c.dataset.companions==='2';}}
       if(show&&hideTreat){{show=c.dataset.health!=='dauerbehandlung';}}
       c.style.display=show?'':'none';
       if(show)visible++;
     }});
-    var n=(lo>LO||hi<HI?1:0)+(showOnlyFit?1:0)+(!showSorg?1:0)+(showOnlyPair?1:0)+(hideTreat?1:0),
+    var n=(lo>LO||hi<HI?1:0)+(kids!=='alle'?1:0)+(onlyPair?1:0)+(hideTreat?1:0),
         fc=document.getElementById('filterCount');
     if(fc)fc.textContent=n?'· '+n+' aktiv':'';
     var vc=document.getElementById('visibleCount');
@@ -544,43 +548,20 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
       if(s)s.textContent=(vis===cards.length?cards.length:vis+' von '+cards.length);
     }});
   }}
-  pairBtn.addEventListener('click',function(){{
-    showOnlyPair=!showOnlyPair;
-    pairBtn.textContent=showOnlyPair?'Nur Pärchen (aktiv)':'Nur Pärchen';
-    pairBtn.classList.toggle('active',showOnlyPair);
-    filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
-  }});
-  fitBtn.addEventListener('click',function(){{
-    showOnlyFit=!showOnlyFit;
-    fitBtn.textContent=showOnlyFit?'Nur geeignet':'Alle Bewertungen';
-    fitBtn.classList.toggle('active',showOnlyFit);
-    filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
-  }});
-  healthBtn.addEventListener('click',function(){{
-    hideTreat=!hideTreat;
-    healthBtn.textContent=hideTreat?'Dauerbehandlung ausgeblendet':'Dauerbehandlung ausblenden';
-    healthBtn.classList.toggle('active',hideTreat);
-    filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
-  }});
-  sorgBtn.addEventListener('click',function(){{
-    showSorg=!showSorg;
-    sorgBtn.textContent=showSorg?'Sorgenkinder ausblenden':'Sorgenkinder einblenden';
-    sorgBtn.classList.toggle('hidden',!showSorg);
-    filter(minR?parseInt(minR.value):LO,maxR?parseInt(maxR.value):HI);
-  }});
+  function render(){{
+    kidsBtns.forEach(function(b){{b.setAttribute('aria-pressed',String(b.dataset.kids===kids));}});
+    pairBtn.setAttribute('aria-pressed',String(onlyPair));
+    healthBtn.setAttribute('aria-pressed',String(hideTreat));
+    update();
+  }}
+  kidsBtns.forEach(function(b){{b.addEventListener('click',function(){{kids=b.dataset.kids;render();}});}});
+  pairBtn.addEventListener('click',function(){{onlyPair=!onlyPair;render();}});
+  healthBtn.addEventListener('click',function(){{hideTreat=!hideTreat;render();}});
   resetBtn.addEventListener('click',function(){{
-    showSorg=true;showOnlyFit=false;showOnlyPair=false;hideTreat=false;
+    kids='alle';onlyPair=false;hideTreat=false;
     if(minR)minR.value=LO;
     if(maxR)maxR.value=HI;
-    fitBtn.textContent='Nur geeignet';
-    fitBtn.classList.remove('active');
-    pairBtn.textContent='Nur Pärchen';
-    pairBtn.classList.remove('active');
-    sorgBtn.textContent='Sorgenkinder ausblenden';
-    sorgBtn.classList.remove('hidden');
-    healthBtn.textContent='Dauerbehandlung ausblenden';
-    healthBtn.classList.remove('active');
-    update();
+    render();
   }});
   if(minR)minR.addEventListener('input',update);
   if(maxR)maxR.addEventListener('input',update);
