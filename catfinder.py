@@ -539,19 +539,19 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   <div class="cf-seg" role="radiogroup" aria-label="Kinder">
     <span class="cf-cap" aria-hidden="true">Kinder</span>
     <label class="cf-opt"><input type="radio" name="kids" value="alle"><span>Alle</span></label>
-    <label class="cf-opt"><input type="radio" name="kids" value="passend" checked><span>Geeignet oder keine Angabe</span></label>
+    <label class="cf-opt"><input type="radio" name="kids" value="ohne" checked><span>Ohne „Nicht für Kinder“</span></label>
     <label class="cf-opt"><input type="radio" name="kids" value="nur"><span>Nur geeignet</span></label>
   </div>
   <div class="cf-seg" role="radiogroup" aria-label="Gesundheit">
     <span class="cf-cap" aria-hidden="true">Gesundheit</span>
-    <label class="cf-opt"><input type="radio" name="health" value="alle" checked><span>Alle</span></label>
+    <label class="cf-opt"><input type="radio" name="health" value="alle"><span>Alle</span></label>
     <label class="cf-opt"><input type="radio" name="health" value="ohne"><span>Ohne Dauerbehandlung</span></label>
-    <label class="cf-opt"><input type="radio" name="health" value="nur"><span>Nur gesund</span></label>
+    <label class="cf-opt"><input type="radio" name="health" value="nur" checked><span>Nur gesund</span></label>
   </div>
   <div class="cf-seg" role="radiogroup" aria-label="Pärchen">
     <span class="cf-cap" aria-hidden="true">Pärchen</span>
-    <label class="cf-opt"><input type="radio" name="pair" value="alle" checked><span>Alle</span></label>
-    <label class="cf-opt"><input type="radio" name="pair" value="nur"><span>Nur Pärchen</span></label>
+    <label class="cf-opt"><input type="radio" name="pair" value="alle"><span>Alle</span></label>
+    <label class="cf-opt"><input type="radio" name="pair" value="nur" checked><span>Nur Pärchen</span></label>
   </div>
   <button type="button" id="resetBtn">Filter zurücksetzen</button>
 </div></details>
@@ -561,8 +561,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
       kidsInputs=document.querySelectorAll('input[name=kids]'),pairInputs=document.querySelectorAll('input[name=pair]'),
       healthInputs=document.querySelectorAll('input[name=health]'),resetBtn=document.getElementById('resetBtn');
-  // kids: 'passend' (Standard) | 'nur' (nur "Kinder geeignet") | 'alle'
-  var LO={age_min},HI={age_max},kids='passend',onlyPair=false,health='alle';
+  // Standard = "passend" (CONTEXT.md): kids 'ohne' (ohne "Nicht für Kinder") | 'nur' | 'alle'
+  var LO={age_min},HI={age_max},kids='ohne',onlyPair=true,health='nur';
   function fmt(m){{if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}}
   function fmtLong(m){{if(m<12)return m+(m===1?' Monat':' Monate');var y=Math.floor(m/12);return y+(y===1?' Jahr':' Jahre');}}
   function pct(v){{return HI>LO?(v-LO)/(HI-LO)*100:0;}}
@@ -577,22 +577,27 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     if(maxR)maxR.setAttribute('aria-valuetext',fmtLong(hi));
     filter(lo,hi);
   }}
+  function own(c,lo,hi){{
+    var r=c.dataset.rating,a=c.dataset.ageMonths;
+    var show=kids==='nur'?r==='geeignet':kids==='ohne'?r!=='nicht_geeignet':true;
+    if(show){{show=(!a||a==='unknown')||(parseInt(a)>=lo&&parseInt(a)<=hi);}}
+    // health: 'alle' | 'ohne' (ohne "Dauerbehandlung nötig") | 'nur' (nur "Keine Erkrankung bekannt")
+    if(show&&health==='ohne'){{show=c.dataset.health!=='dauerbehandlung';}}
+    if(show&&health==='nur'){{show=c.dataset.health==='keine';}}
+    return show;
+  }}
   function filter(lo,hi){{
-    var visible=0;
+    var visible=0,byName={{}};
+    document.querySelectorAll('.card:not(.gone)').forEach(function(c){{byName[c.dataset.name]=c;}});
     document.querySelectorAll('.card').forEach(function(c){{
-      var r=c.dataset.rating,a=c.dataset.ageMonths;
-      // kids: 'passend' (Standard: geeignet oder keine Angabe — "Nur ältere Kinder" passt nicht) | 'nur' | 'alle'
-      var show=kids==='nur'?r==='geeignet':kids==='passend'?(r==='geeignet'||r==='unbekannt'):true;
-      if(show){{show=(!a||a==='unknown')||(parseInt(a)>=lo&&parseInt(a)<=hi);}}
-      if(show&&onlyPair){{show=c.dataset.companions==='2';}}
-      // health: 'alle' | 'ohne' (ohne "Dauerbehandlung nötig") | 'nur' (nur "Keine Erkrankung bekannt")
-      if(show&&health==='ohne'){{show=c.dataset.health!=='dauerbehandlung';}}
-      if(show&&health==='nur'){{show=c.dataset.health==='keine';}}
+      var show=own(c,lo,hi);
+      // "Nur Pärchen": beide Partner müssen passen; ist der Partner nicht gelistet, zählt die Katze allein
+      if(show&&onlyPair){{var p=byName[c.dataset.partner];show=c.dataset.companions==='2'&&(!p||own(p,lo,hi));}}
       c.style.display=show?'':'none';
       if(show)visible++;
     }});
-    // aktiv = abweichend vom Standard; 'passend' ist der Standard, sonst bleibt nach dem Zurücksetzen "1 aktiv"
-    var n=(lo>LO||hi<HI?1:0)+(kids!=='passend'?1:0)+(onlyPair?1:0)+(health!=='alle'?1:0),
+    // aktiv = abweichend vom Standard, sonst bleibt nach dem Zurücksetzen "3 aktiv"
+    var n=(lo>LO||hi<HI?1:0)+(kids!=='ohne'?1:0)+(onlyPair?0:1)+(health!=='nur'?1:0),
         fc=document.getElementById('filterCount');
     if(fc)fc.textContent=n?'· '+n+' aktiv':'';
     var vc=document.getElementById('visibleCount');
@@ -606,7 +611,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
       if(cards.length&&!e){{e=document.createElement('div');e.className='empty empty-filter';
         e.textContent='Keine Katze in diesem Abschnitt passt zu den Filtern. ';
         var b=document.createElement('button');b.type='button';b.className='show-all';b.textContent='Alle zeigen';
-        b.addEventListener('click',function(){{setFilters('alle');}});e.appendChild(b);d.appendChild(e);}}
+        b.addEventListener('click',function(){{setFilters('alle','alle',false);}});e.appendChild(b);d.appendChild(e);}}
       if(e)e.style.display=(cards.length&&!vis)?'':'none';
     }});
   }}
@@ -619,13 +624,13 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   kidsInputs.forEach(function(i){{i.addEventListener('change',function(){{kids=i.value;render();}});}});
   pairInputs.forEach(function(i){{i.addEventListener('change',function(){{onlyPair=(i.value==='nur');render();}});}});
   healthInputs.forEach(function(i){{i.addEventListener('change',function(){{health=i.value;render();}});}});
-  function setFilters(k){{
-    kids=k;onlyPair=false;health='alle';
+  function setFilters(k,h,p){{
+    kids=k;health=h;onlyPair=p;
     if(minR)minR.value=LO;
     if(maxR)maxR.value=HI;
     render();
   }}
-  resetBtn.addEventListener('click',function(){{setFilters('passend');}});
+  resetBtn.addEventListener('click',function(){{setFilters('ohne','nur',true);}});
   if(minR)minR.addEventListener('input',update);
   if(maxR)maxR.addEventListener('input',update);
   var fw=document.getElementById('filterWrap');
@@ -940,8 +945,8 @@ def _section(title: str, total: int, inner: str, is_open: bool = False) -> str:
             f'{inner}</details>')
 
 
-# Was für die Familie in Frage kommt (PRODUCT.md, Users): "Nur ältere Kinder" passt nicht.
-FITTING_RATINGS = ("geeignet", "unbekannt")
+# Kinder-Bewertungen, die für die Familie in Frage kommen (CONTEXT.md, Passend).
+FITTING_RATINGS = ("geeignet", "unbekannt", "aeltere_kinder")
 
 
 def _rating_mix(pairs: list[tuple[Cat, CatRating]], keys: tuple[str, ...]) -> str:
@@ -963,12 +968,26 @@ def _rating_mix(pairs: list[tuple[Cat, CatRating]], keys: tuple[str, ...]) -> st
     )
 
 
-def _fits(pairs: list[tuple[Cat, CatRating]]) -> bool:
-    """Ist eine Katze dabei, die für die Familie in Frage kommt und keine Interessenten hat?"""
-    return any(r.rating in FITTING_RATINGS and not c.has_interested for c, r in pairs)
+def _fitting(cat: Cat, rating: CatRating, listed: dict[str, tuple[Cat, CatRating]]) -> bool:
+    """Passend (CONTEXT.md) und ohne Interessenten — ein Pärchen nur, wenn beide Partner es sind.
+
+    Ist der Partner nicht gelistet (listed: alle gelisteten Katzen nach Name), zählt die Katze allein.
+    """
+    def ok(c: Cat, r: CatRating) -> bool:
+        return r.rating in FITTING_RATINGS and r.health == "keine" and not c.has_interested
+    if cat.companion_count != 2 or not ok(cat, rating):
+        return False
+    partner = listed.get(cat.partner_name)
+    return partner is None or ok(*partner)
 
 
-def _today_line(evaluated: list[tuple[Cat, CatRating]], available: list[tuple[Cat, CatRating]]) -> str:
+def _fits(pairs: list[tuple[Cat, CatRating]], listed: dict[str, tuple[Cat, CatRating]]) -> bool:
+    """Ist eine Katze dabei, die für die Familie in Frage kommt?"""
+    return any(_fitting(c, r, listed) for c, r in pairs)
+
+
+def _today_line(evaluated: list[tuple[Cat, CatRating]], available: list[tuple[Cat, CatRating]],
+                listed: dict[str, tuple[Cat, CatRating]]) -> str:
     """Kopfzeile mit der Antwort auf 'passt heute eine Neue?' — Neuzugänge nach Bewertung gezählt.
 
     Passt keine Neue, beantwortet eine zweite Zeile 'gibt es überhaupt jemanden für uns?':
@@ -977,11 +996,11 @@ def _today_line(evaluated: list[tuple[Cat, CatRating]], available: list[tuple[Ca
     if evaluated:
         mix = _rating_mix(evaluated, tuple(RATING_META))
         head = f'<h1 class="today"><span class="today-n">{len(evaluated)} neu</span><span class="today-mix">{mix}</span></h1>'
-        if _fits(evaluated):
+        if _fits(evaluated, listed):
             return head
     else:
         head = '<h1 class="today"><span class="today-n">Nichts Neues</span></h1>'
-    mix = _rating_mix([p for p in available if p[1].rating in FITTING_RATINGS], FITTING_RATINGS)
+    mix = _rating_mix([p for p in available if _fitting(*p, listed)], FITTING_RATINGS)
     if not mix:
         return head
     return f'{head}<p class="today-avail"><span>Weiterhin verfügbar und passend:</span>{mix}</p>'
@@ -1008,6 +1027,8 @@ def render_report(
         return _card_sort_key(pair, seen_by_name)
 
     evaluated_sorted = sorted(evaluated, key=sort_key)
+    # Partner-Nachschlag für "passend"; Verschwundene zählen nicht als gelistet.
+    listed = {c.name: (c, r) for c, r in evaluated + still_known}
 
     # Katzen mit festen Interessenten haben geringere Chancen, sind aber noch zu
     # haben — eigene Sektion statt Verwässerung der beiden Hauptlisten, jedoch
@@ -1106,7 +1127,7 @@ def render_report(
         age_data = str(age_months) if age_months is not None else "unknown"
         listed = "" if dimmed else _listed_line(cat)
         return f"""
-    <div class="card{' gone' if dimmed else ''}" data-cid="{html.escape(cat.cat_id)}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}">
+    <div class="card{' gone' if dimmed else ''}" data-cid="{html.escape(cat.cat_id)}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}" data-name="{html.escape(cat.name)}" data-partner="{html.escape(cat.partner_name or '')}">
       {_img(cat)}
       <div class="body">
         <div class="name"><h3>{html.escape(cat.name)}</h3></div>
@@ -1177,10 +1198,10 @@ def render_report(
     sect2 = ""
     if still_known:
         sect2 = _section("Weiterhin verfügbar", len(still_known), _cards(sorted(still_known, key=sort_key)),
-                         is_open=not _fits(evaluated_sorted))
+                         is_open=not _fits(evaluated_sorted, listed))
 
     return HTML_TEMPLATE.format(
-        today=_today_line(evaluated, still_known),
+        today=_today_line(evaluated, still_known, listed),
         # CI läuft in UTC, die Familie liest deutsche Zeit
         timestamp=datetime.now(ZoneInfo("Europe/Berlin")).strftime("%d.%m.%Y %H:%M"),
         total_listed=total_listed,

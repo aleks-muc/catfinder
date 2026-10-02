@@ -12,7 +12,7 @@ hat keins.
 import dataclasses
 import json
 
-from catfinder import Cat, CatRating, _rating_from_entry, render_report
+from catfinder import Cat, CatRating, _fitting, _rating_from_entry, render_report
 
 STATE_FILE = "state/seen_cats.json"
 # Sektions-Ueberschrift, nicht nur der Text — die Kopfzeile nennt "Weiterhin verfuegbar und passend".
@@ -21,6 +21,11 @@ _WEITERHIN = 'class="group">Weiterhin verf'
 
 def _cat(cat_id: str, name: str, interested: bool = False) -> Cat:
     return Cat(cat_id=cat_id, name=name, profile_url="", has_interested=interested)
+
+
+def _paired(cat_id: str, name: str) -> Cat:
+    """Pärchen-Katze, deren Partner nicht gelistet ist — zählt allein (CONTEXT.md, Passend)."""
+    return Cat(cat_id=cat_id, name=name, profile_url="", companion_count=2, partner_name="UNGELISTET")
 
 
 def _rating() -> CatRating:
@@ -71,7 +76,7 @@ def main() -> None:
 
     # Fall 3 (D-04): Sektionsreihenfolge Neu -> Weiterhin -> Interessenten -> Nicht mehr verfuegbar.
     h = render_report(
-        [(_cat("6", "A"), _rating())], 3,
+        [(_paired("6", "A"), _rating())], 3,
         still_known=[(_cat("7", "B"), _rating()), (_cat("9", "D", True), _rating())],
         no_longer_listed=[(_cat("8", "C"), _rating())],
         had_prior_state=True,
@@ -98,7 +103,7 @@ def main() -> None:
 
     # Fall 7: Lauf ohne Neue und ohne Verschwundene -> keine leeren Sektionen,
     # "Weiterhin verfuegbar" startet offen, Vermerk in der Statuszeile.
-    h = render_report([], 1, still_known=[(_cat("16", "K"), _rating())], had_prior_state=True)
+    h = render_report([], 1, still_known=[(_paired("16", "K"), _rating())], had_prior_state=True)
     assert "Neu seit letztem Lauf" not in h, "leere Neu-Sektion haette entfallen muessen"
     assert "Nicht mehr verf" not in h, "leere Verschwunden-Sektion haette entfallen muessen"
     assert "keine verschwunden" in h, "Vermerk 'keine verschwunden' fehlt"
@@ -107,7 +112,9 @@ def main() -> None:
         "ohne Neue muss 'Weiterhin verfuegbar' offen starten"
     assert 'class="today-avail"' in h and "1 Geeignet und gesund" in h, \
         "ohne Neue muss die Kopfzeile die passenden verfuegbaren Katzen nennen"
-    assert 'name="kids" value="passend" checked' in h, "Kinder-Filter muss mit 'passend' starten"
+    assert 'name="kids" value="ohne" checked' in h, "Kinder-Filter muss mit 'ohne' starten"
+    assert 'name="health" value="nur" checked' in h and 'name="pair" value="nur" checked' in h, \
+        "Gesundheit muss mit 'Nur gesund', Paerchen mit 'Nur Paerchen' starten"
 
     # Fall 8: gleiche Bewertung -> zuletzt gelistete zuerst; ein Paerchen bleibt zusammen
     # und zaehlt mit dem juengeren Datum (Partner "PA" ist neuer als alle anderen).
@@ -132,12 +139,12 @@ def main() -> None:
     # Fall 9: Neue, aber keine passt -> "Weiterhin verfuegbar" startet offen und die
     # Kopfzeile nennt die passenden Verfuegbaren. Passt eine Neue, bleibt es beim Alten.
     unfit = CatRating(rating="nicht_geeignet", reason="Testfall", health="keine")
-    h = render_report([(_cat("30", "N"), unfit)], 2, still_known=[(_cat("31", "O"), _rating())],
+    h = render_report([(_cat("30", "N"), unfit)], 2, still_known=[(_paired("31", "O"), _rating())],
                       had_prior_state=True)
     assert '<details class="sect" open><summary><h2 class="group">Weiterhin verf' in h, \
         "passt keine Neue, muss 'Weiterhin verfuegbar' offen starten"
     assert 'class="today-avail"' in h, "passt keine Neue, muss die Kopfzeile die passenden Verfuegbaren nennen"
-    h = render_report([(_cat("32", "P"), _rating())], 2, still_known=[(_cat("33", "Q"), _rating())],
+    h = render_report([(_paired("32", "P"), _rating())], 2, still_known=[(_cat("33", "Q"), _rating())],
                       had_prior_state=True)
     assert '<details class="sect"><summary><h2 class="group">Weiterhin verf' in h, \
         "passt eine Neue, startet 'Weiterhin verfuegbar' zu"
@@ -151,7 +158,23 @@ def main() -> None:
     h = render_report([], 2, still_known=[(pa, ra), (pb, rb)], had_prior_state=True)
     assert h.count("Wie bei <strong>") == 1, "genau ein Partner muss auf den anderen verweisen"
 
-    print("test_report_sections: 10 Faelle ok")
+    # Fall 11: "passend" (CONTEXT.md) — Paerchen als Ganzes, Einzelkatze nie.
+    def pair(cid: str, name: str, partner: str, interested: bool = False) -> Cat:
+        return Cat(cat_id=cid, name=name, profile_url="", companion_count=2,
+                   partner_name=partner, has_interested=interested)
+    older = CatRating(rating="aeltere_kinder", reason="Testfall", health="keine")
+    sick = CatRating(rating="geeignet", reason="Testfall", health="dauerbehandlung")
+    unknown_health = CatRating(rating="geeignet", reason="Testfall", health="unbekannt")
+    pamuk, duman = pair("50", "PAMUK", "DUMAN"), pair("51", "DUMAN", "PAMUK")
+    assert not _fitting(pamuk, _rating(), {"DUMAN": (duman, sick)}), "kranker Partner -> Paerchen passt nicht"
+    assert _fitting(pamuk, _rating(), {"DUMAN": (duman, older)}), "Nur aeltere Kinder passt jetzt"
+    assert _fitting(pamuk, _rating(), {}), "Partner nicht gelistet -> Katze zaehlt allein"
+    assert not _fitting(_cat("52", "SOLO"), _rating(), {}), "Einzelkatze ist nie passend"
+    assert not _fitting(pamuk, unknown_health, {}), "Gesundheit unbekannt ist nicht gesund"
+    assert not _fitting(pamuk, _rating(), {"DUMAN": (pair("51", "DUMAN", "PAMUK", True), _rating())}), \
+        "Interessenten beim Partner -> Paerchen passt nicht"
+
+    print("test_report_sections: 11 Faelle ok")
 
     # Smoke-Test gegen den realen State — keine festen Namen/Anzahlen, der State
     # aendert sich zweimal taeglich per CI.
