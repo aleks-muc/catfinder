@@ -762,14 +762,23 @@ def evaluate_all(cats: list[Cat], profile_texts: dict[str, str]) -> dict[str, Ca
     return results
 
 
-def _card_sort_key(pair: tuple) -> tuple:
-    """Primär nach Rating, dann Pärchen vor Einzelkatzen, Partner direkt nebeneinander."""
+def _card_sort_key(pair: tuple, seen_by_name: dict[str, str] | None = None) -> tuple:
+    """Primär nach Rating, dann zuletzt gelistete zuerst, Partner direkt nebeneinander.
+
+    Ein Pärchen zählt mit dem jüngeren der beiden Listungsdaten, damit beide Karten
+    denselben Schlüssel bis auf den Namen haben und nicht auseinanderfallen.
+    """
     cat, rating = pair
     r = RATING_META[rating.rating]["order"]
-    if cat.companion_count == 2:
-        group = min(cat.name.lower(), cat.partner_name.lower()) if cat.partner_name else cat.name.lower()
-        return (r, 0, group, cat.name.lower())
-    return (r, 1, "", cat.name.lower())
+    is_pair = cat.companion_count == 2 and cat.partner_name
+    names = {cat.name, cat.partner_name} if is_pair else {cat.name}
+    seen = max((seen_by_name or {}).get(n, "") for n in names)
+    try:
+        newest_first = -datetime.fromisoformat(seen).toordinal() if seen else 0
+    except ValueError:
+        newest_first = 0
+    group = min(n.lower() for n in names)
+    return (r, newest_first, group, cat.name.lower())
 
 
 # ---------------------------------------------------------------------------
@@ -967,7 +976,15 @@ def render_report(
 ) -> str:
     still_known = still_known or []
     no_longer_listed = no_longer_listed or []
-    evaluated_sorted = sorted(evaluated, key=_card_sort_key)
+    seen_by_name = {
+        c.name: (first_seen_map or {}).get(c.cat_id, "")
+        for c, _ in evaluated + still_known + no_longer_listed
+    }
+
+    def sort_key(pair: tuple) -> tuple:
+        return _card_sort_key(pair, seen_by_name)
+
+    evaluated_sorted = sorted(evaluated, key=sort_key)
 
     # Katzen mit festen Interessenten haben geringere Chancen, sind aber noch zu
     # haben — eigene Sektion statt Verwässerung der beiden Hauptlisten, jedoch
@@ -975,7 +992,7 @@ def render_report(
     # Verschwundene Katzen (no_longer_listed) sind hiervon bewusst ausgenommen.
     interested = sorted(
         [p for p in evaluated_sorted + still_known if p[0].has_interested],
-        key=_card_sort_key,
+        key=sort_key,
     )
     evaluated_sorted = [p for p in evaluated_sorted if not p[0].has_interested]
     still_known = [p for p in still_known if not p[0].has_interested]
@@ -1110,7 +1127,7 @@ def render_report(
     # Sektion 2 — nicht mehr verfügbare Katzen
     sect_gone = ""
     if no_longer_listed:
-        cards = [_render_card(cat, rating, dimmed=True) for cat, rating in sorted(no_longer_listed, key=_card_sort_key)]
+        cards = [_render_card(cat, rating, dimmed=True) for cat, rating in sorted(no_longer_listed, key=sort_key)]
         sect_gone = _section("Nicht mehr verfügbar", len(no_longer_listed), f'<div class="grid">{"".join(cards)}</div>')
     # Nichts verschwunden: keine leere Sektion, sondern ein Vermerk in der Statuszeile
     # (nur mit vorigem State — beim Erstlauf gibt es nichts, was verschwinden könnte).
@@ -1125,7 +1142,7 @@ def render_report(
     # Sektion 4 — weiterhin verfügbare Katzen (mit gespeicherter Ampelbewertung)
     sect2 = ""
     if still_known:
-        cards = [_render_card(cat, rating) for cat, rating in sorted(still_known, key=_card_sort_key)]
+        cards = [_render_card(cat, rating) for cat, rating in sorted(still_known, key=sort_key)]
         sect2 = _section("Weiterhin verfügbar", len(still_known), f'<div class="grid">{"".join(cards)}</div>',
                          is_open=not evaluated_sorted)
 

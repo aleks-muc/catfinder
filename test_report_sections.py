@@ -109,6 +109,18 @@ def main() -> None:
         "ohne Neue muss die Kopfzeile die passenden verfuegbaren Katzen nennen"
     assert 'name="kids" value="passend" checked' in h, "Kinder-Filter muss mit 'passend' starten"
 
+    # Fall 8: gleiche Bewertung -> zuletzt gelistete zuerst; ein Paerchen bleibt zusammen
+    # und zaehlt mit dem juengeren Datum (Partner "PA" ist neuer als alle anderen).
+    old_c, new_c = _cat("20", "ALT"), _cat("21", "NEU")
+    pa = Cat(cat_id="22", name="PA", profile_url="", companion_count=2, partner_name="PB")
+    pb = Cat(cat_id="23", name="PB", profile_url="", companion_count=2, partner_name="PA")
+    fs = {"20": "2026-09-01T10:00:00", "21": "2026-09-20T10:00:00",
+          "22": "2026-09-25T10:00:00", "23": "2026-08-01T10:00:00"}
+    h = render_report([], 4, still_known=[(c, _rating()) for c in (old_c, pb, new_c, pa)],
+                      had_prior_state=True, first_seen_map=fs)
+    order = [h.find(_marker(cid)) for cid in ("22", "23", "21", "20")]
+    assert order == sorted(order), ("Sortierung nach Listungsdatum/Paerchen falsch", order)
+
     # Fall 6: new_count (Header/CI) bleibt die Gesamtzahl UNgefilterter evaluated-Katzen,
     # auch wenn eine davon in die neue Sektion abwandert. Nur die Neu-Ueberschrift schrumpft.
     h = render_report(
@@ -117,7 +129,7 @@ def main() -> None:
     assert "<strong>3 neu bewertet</strong>" in h, "new_count im Header muss die Gesamtzahl bleiben"
     assert 'Neu seit letztem Lauf (<span class="cnt">2</span>)' in h, "Neu-Ueberschrift muss um die Interessenten-Katze schrumpfen"
 
-    print("test_report_sections: 7 Faelle ok")
+    print("test_report_sections: 8 Faelle ok")
 
     # Smoke-Test gegen den realen State — keine festen Namen/Anzahlen, der State
     # aendert sich zweimal taeglich per CI.

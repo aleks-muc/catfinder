@@ -215,7 +215,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - Purpose: single dictionary mapping rating → emoji, label, color, sort order. Used for both the report rendering (CSS accent + label) and for `_card_sort_key`.
 - Examples: `RATING_META` in `catfinder.py`.
 - Pattern: lookup table; the `order` field is a string used as the primary sort key, ensuring `"geeignet" < "unbekannt" < "aeltere_kinder" < "nicht_geeignet"` lexicographically by `"0".."3"`.
-- Purpose: deterministic ordering — by rating, then pairs (`companion_count == 2`) before singles, then partners adjacent.
+- Purpose: deterministic ordering — by rating, then most recently listed first (`first_seen`, a pair counts with the newer of its two dates), then partners adjacent.
 - Examples: `_card_sort_key` in `catfinder.py`.
 - Pattern: function returning a tuple consumed by `sorted(..., key=...)`.
 ## Entry Points
