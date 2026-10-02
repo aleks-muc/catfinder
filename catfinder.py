@@ -533,8 +533,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 <div id="filterBar">{slider}
   <div class="cf-seg" role="radiogroup" aria-label="Kinder">
     <span class="cf-cap" aria-hidden="true">Kinder</span>
-    <label class="cf-opt"><input type="radio" name="kids" value="alle" checked><span>Alle</span></label>
-    <label class="cf-opt"><input type="radio" name="kids" value="ohne"><span>Ohne „Nicht für Kinder“</span></label>
+    <label class="cf-opt"><input type="radio" name="kids" value="alle"><span>Alle</span></label>
+    <label class="cf-opt"><input type="radio" name="kids" value="passend" checked><span>Geeignet oder keine Angabe</span></label>
     <label class="cf-opt"><input type="radio" name="kids" value="nur"><span>Nur geeignet</span></label>
   </div>
   <div class="cf-seg" role="radiogroup" aria-label="Gesundheit">
@@ -552,8 +552,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
       kidsInputs=document.querySelectorAll('input[name=kids]'),pairBtn=document.getElementById('pairBtn'),
       healthInputs=document.querySelectorAll('input[name=health]'),resetBtn=document.getElementById('resetBtn');
-  // kids: 'alle' | 'ohne' (ohne "Nicht für Kinder") | 'nur' (nur "Kinder geeignet")
-  var LO={age_min},HI={age_max},kids='alle',onlyPair=false,health='alle';
+  // kids: 'passend' (Standard) | 'nur' (nur "Kinder geeignet") | 'alle'
+  var LO={age_min},HI={age_max},kids='passend',onlyPair=false,health='alle';
   function fmt(m){{if(m<12)return m+' Mon.';var y=Math.floor(m/12),r=m%12;return y+(r>=6?'.5':'')+' J.';}}
   function fmtLong(m){{if(m<12)return m+(m===1?' Monat':' Monate');var y=Math.floor(m/12);return y+(y===1?' Jahr':' Jahre');}}
   function pct(v){{return HI>LO?(v-LO)/(HI-LO)*100:0;}}
@@ -572,7 +572,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     var visible=0;
     document.querySelectorAll('.card').forEach(function(c){{
       var r=c.dataset.rating,a=c.dataset.ageMonths;
-      var show=kids==='nur'?r==='geeignet':kids==='ohne'?r!=='nicht_geeignet':true;
+      // kids: 'passend' (Standard: geeignet oder keine Angabe — "Nur ältere Kinder" passt nicht) | 'nur' | 'alle'
+      var show=kids==='nur'?r==='geeignet':kids==='passend'?(r==='geeignet'||r==='unbekannt'):true;
       if(show){{show=(!a||a==='unknown')||(parseInt(a)>=lo&&parseInt(a)<=hi);}}
       if(show&&onlyPair){{show=c.dataset.companions==='2';}}
       // health: 'alle' | 'ohne' (ohne "Dauerbehandlung nötig") | 'nur' (nur "Keine Erkrankung bekannt")
@@ -607,7 +608,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   pairBtn.addEventListener('click',function(){{onlyPair=!onlyPair;render();}});
   healthInputs.forEach(function(i){{i.addEventListener('change',function(){{health=i.value;render();}});}});
   resetBtn.addEventListener('click',function(){{
-    kids='alle';onlyPair=false;health='alle';
+    kids='passend';onlyPair=false;health='alle';
     if(minR)minR.value=LO;
     if(maxR)maxR.value=HI;
     render();
@@ -802,6 +803,10 @@ header .today-n {{ letter-spacing: -.01em; }}
 header .today-mix {{ display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
                     font-size: .95rem; line-height: 1.4; color: var(--soft); }}
 header .today-mix span {{ white-space: nowrap; }}
+header .today-avail {{ margin: -.4rem 0 1rem; display: flex; flex-wrap: wrap; gap: .3rem 1rem;
+                      font-size: .95rem; line-height: 1.4; color: var(--soft); }}
+header .today-avail span {{ white-space: nowrap; }}
+header .today-avail > span:first-child {{ color: var(--mute); }}
 header .dot {{ display: inline-block; width: .6rem; height: .6rem; margin-right: .4rem; vertical-align: .05em; }}
 header .stats {{ color: var(--mute); font-size: .85rem; line-height: 1.5;
                  border-top: 2px solid var(--ink); padding-top: .75rem; }}
@@ -914,22 +919,40 @@ def _section(title: str, total: int, inner: str, is_open: bool = False) -> str:
             f'{inner}</details>')
 
 
-def _today_line(evaluated: list[tuple[Cat, CatRating]]) -> str:
-    """Kopfzeile mit der Antwort auf 'passt heute eine Neue?' — Neuzugänge nach Bewertung gezählt."""
-    if not evaluated:
-        return '<h1 class="today"><span class="today-n">Nichts Neues</span></h1>'
-    best = sum(1 for _, r in evaluated if r.rating == "geeignet" and r.health == "keine")
-    counts = {k: sum(1 for _, r in evaluated if r.rating == k) for k in RATING_META}
-    counts["geeignet"] -= best
+# Was für die Familie in Frage kommt (PRODUCT.md, Users): "Nur ältere Kinder" passt nicht.
+FITTING_RATINGS = ("geeignet", "unbekannt")
+
+
+def _rating_mix(pairs: list[tuple[Cat, CatRating]], keys: tuple[str, ...]) -> str:
+    """Zählt Katzen nach Bewertung als Farbpunkt-Liste; der Bestfall wird eigens gezählt."""
+    best = sum(1 for _, r in pairs if r.rating == "geeignet" and r.health == "keine")
+    counts = {k: sum(1 for _, r in pairs if r.rating == k) for k in keys}
+    if "geeignet" in counts:
+        counts["geeignet"] -= best
     parts = [(best, BEST_LABEL, RATING_META["geeignet"]["color"])] + [
-        (counts[k], m["label"], m["color"])
-        for k, m in sorted(RATING_META.items(), key=lambda kv: kv[1]["order"])
+        (counts[k], RATING_META[k]["label"], RATING_META[k]["color"])
+        for k in sorted(keys, key=lambda k: RATING_META[k]["order"])
     ]
-    mix = "".join(
+    return "".join(
         f'<span><span class="dot" style="background:{color}"></span>{n} {label}</span>'
         for n, label, color in parts if n
     )
-    return f'<h1 class="today"><span class="today-n">{len(evaluated)} neu</span><span class="today-mix">{mix}</span></h1>'
+
+
+def _today_line(evaluated: list[tuple[Cat, CatRating]], available: list[tuple[Cat, CatRating]]) -> str:
+    """Kopfzeile mit der Antwort auf 'passt heute eine Neue?' — Neuzugänge nach Bewertung gezählt.
+
+    Ohne Neuzugänge beantwortet eine zweite Zeile 'gibt es überhaupt jemanden für uns?':
+    die weiterhin verfügbaren, passenden Katzen (ohne Interessenten).
+    """
+    if evaluated:
+        mix = _rating_mix(evaluated, tuple(RATING_META))
+        return f'<h1 class="today"><span class="today-n">{len(evaluated)} neu</span><span class="today-mix">{mix}</span></h1>'
+    head = '<h1 class="today"><span class="today-n">Nichts Neues</span></h1>'
+    mix = _rating_mix([p for p in available if p[1].rating in FITTING_RATINGS], FITTING_RATINGS)
+    if not mix:
+        return head
+    return f'{head}<p class="today-avail"><span>Weiterhin verfügbar und passend:</span>{mix}</p>'
 
 
 def render_report(
@@ -1107,7 +1130,7 @@ def render_report(
                          is_open=not evaluated_sorted)
 
     return HTML_TEMPLATE.format(
-        today=_today_line(evaluated),
+        today=_today_line(evaluated, still_known),
         timestamp=datetime.now().strftime("%d.%m.%Y %H:%M"),
         total_listed=total_listed,
         new_part=f" · <strong>{len(evaluated)} neu bewertet</strong>" if evaluated else "",

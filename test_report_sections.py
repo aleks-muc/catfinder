@@ -15,6 +15,8 @@ import json
 from catfinder import Cat, CatRating, _rating_from_entry, render_report
 
 STATE_FILE = "state/seen_cats.json"
+# Sektions-Ueberschrift, nicht nur der Text — die Kopfzeile nennt "Weiterhin verfuegbar und passend".
+_WEITERHIN = 'class="group">Weiterhin verf'
 
 
 def _cat(cat_id: str, name: str, interested: bool = False) -> Cat:
@@ -28,7 +30,7 @@ def _rating() -> CatRating:
 def _sections(html_text: str) -> list[int]:
     """Zeichenpositionen der vier Sektions-Ueberschriften, falls vorhanden."""
     return [html_text.find(t) for t in (
-        "Neu seit letztem Lauf", "Nicht mehr verf", "Interessenten vorhanden (", "Weiterhin verf",
+        "Neu seit letztem Lauf", "Nicht mehr verf", "Interessenten vorhanden (", _WEITERHIN,
     )]
 
 
@@ -49,9 +51,9 @@ def main() -> None:
         still_known=[(b_int, _rating()), (b_free, _rating())],
         had_prior_state=True,
     )
-    sect_int = h.split("Interessenten vorhanden (")[1].split("Weiterhin verf")[0]
+    sect_int = h.split("Interessenten vorhanden (")[1].split(_WEITERHIN)[0]
     rest_new = h.split("Neu seit letztem Lauf")[1].split("Interessenten vorhanden (")[0]
-    rest_still = h.split("Weiterhin verf")[1]
+    rest_still = h.split(_WEITERHIN)[1]
     assert _marker("1") in sect_int and _marker("3") in sect_int, "beide Interessenten-Katzen fehlen in der neuen Sektion"
     assert _marker("2") not in sect_int and _marker("4") not in sect_int, "Katzen ohne Interessenten landen faelschlich in der neuen Sektion"
     assert _marker("1") not in rest_new, "SASCHA steht noch in Neu seit letztem Lauf"
@@ -64,7 +66,7 @@ def main() -> None:
     gone = _cat("5", "URSULA", True)
     h = render_report([], 0, no_longer_listed=[(gone, _rating())], had_prior_state=True)
     assert "Interessenten vorhanden (" not in h, "leere Interessenten-Sektion haette nicht rendern duerfen"
-    gone_sect = h.split("Nicht mehr verf")[1].split("Weiterhin verf")[0]
+    gone_sect = h.split("Nicht mehr verf")[1].split(_WEITERHIN)[0]
     assert _marker("5") in gone_sect, "URSULA fehlt in Nicht mehr verfuegbar"
 
     # Fall 3 (D-04): Sektionsreihenfolge Neu -> Nicht mehr verfuegbar -> Interessenten -> Weiterhin.
@@ -103,6 +105,9 @@ def main() -> None:
     assert "neu bewertet" not in h, "'0 neu bewertet' doppelt die Kopfzeile"
     assert '<details class="sect" open><summary><h2 class="group">Weiterhin verf' in h, \
         "ohne Neue muss 'Weiterhin verfuegbar' offen starten"
+    assert 'class="today-avail"' in h and "1 Geeignet und gesund" in h, \
+        "ohne Neue muss die Kopfzeile die passenden verfuegbaren Katzen nennen"
+    assert 'name="kids" value="passend" checked' in h, "Kinder-Filter muss mit 'passend' starten"
 
     # Fall 6: new_count (Header/CI) bleibt die Gesamtzahl UNgefilterter evaluated-Katzen,
     # auch wenn eine davon in die neue Sektion abwandert. Nur die Neu-Ueberschrift schrumpft.
@@ -134,8 +139,8 @@ def main() -> None:
         return
 
     h = render_report([], len(pairs), still_known=pairs, had_prior_state=True)
-    sect_int = h.split("Interessenten vorhanden (")[1].split("Weiterhin verf")[0]
-    rest = h.split("Weiterhin verf")[1]
+    sect_int = h.split("Interessenten vorhanden (")[1].split(_WEITERHIN)[0]
+    rest = h.split(_WEITERHIN)[1]
     for cid in hits:
         assert _marker(cid) in sect_int, (cid, "fehlt im Smoke-Test in der neuen Sektion")
         assert _marker(cid) not in rest, (cid, "steht im Smoke-Test noch in Weiterhin verfuegbar")
