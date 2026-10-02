@@ -492,9 +492,9 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 .cf-range:focus-visible::-webkit-slider-thumb{{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--act);}}
 .cf-range:focus-visible::-moz-range-thumb{{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--act);}}
 .cf-range::-moz-range-thumb{{width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--paper);cursor:pointer;pointer-events:all;}}
-.cf-tog,.cf-opt span{{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;color:var(--mute);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;}}
-.cf-tog:hover,.cf-opt:hover span{{color:var(--ink);}}
-.cf-tog[aria-pressed="true"],.cf-opt input:checked+span{{color:var(--ink);border-bottom-color:var(--ink);font-weight:600;}}
+.cf-opt span{{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;color:var(--mute);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;}}
+.cf-opt:hover span{{color:var(--ink);}}
+.cf-opt input:checked+span{{color:var(--ink);border-bottom-color:var(--ink);font-weight:600;}}
 .cf-opt{{position:relative;display:inline-flex;align-items:center;}}
 .cf-opt input{{position:absolute;opacity:0;width:1px;height:1px;margin:0;}}
 .cf-opt input:focus-visible+span{{outline:2px solid var(--act);outline-offset:2px;}}
@@ -521,7 +521,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 @media (max-height:500px){{.filters{{position:static;}}}}
 /* Touch: Trefferflächen mindestens 44px, Regler-Griffe greifbar */
 @media (pointer:coarse){{
-  .cf-tog,#resetBtn,.cf-opt{{min-height:44px;}}
+  #resetBtn,.cf-opt{{min-height:44px;}}
   .cf-age{{min-height:44px;}}
   .cf-range{{--thumb:26px;}}
   .cf-track{{margin:.2rem 13px;}}
@@ -543,14 +543,18 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     <label class="cf-opt"><input type="radio" name="health" value="ohne"><span>Ohne Dauerbehandlung</span></label>
     <label class="cf-opt"><input type="radio" name="health" value="nur"><span>Nur gesund</span></label>
   </div>
-  <button type="button" class="cf-tog" id="pairBtn" aria-pressed="false">Nur Pärchen</button>
+  <div class="cf-seg" role="radiogroup" aria-label="Pärchen">
+    <span class="cf-cap" aria-hidden="true">Pärchen</span>
+    <label class="cf-opt"><input type="radio" name="pair" value="alle" checked><span>Alle</span></label>
+    <label class="cf-opt"><input type="radio" name="pair" value="nur"><span>Nur Pärchen</span></label>
+  </div>
   <button type="button" id="resetBtn">Filter zurücksetzen</button>
 </div></details>
 <script>
 (function(){{
   var minR=document.getElementById('ageMin'),maxR=document.getElementById('ageMax'),
       fill=document.getElementById('sliderFill'),lbl=document.getElementById('ageLabel'),
-      kidsInputs=document.querySelectorAll('input[name=kids]'),pairBtn=document.getElementById('pairBtn'),
+      kidsInputs=document.querySelectorAll('input[name=kids]'),pairInputs=document.querySelectorAll('input[name=pair]'),
       healthInputs=document.querySelectorAll('input[name=health]'),resetBtn=document.getElementById('resetBtn');
   // kids: 'passend' (Standard) | 'nur' (nur "Kinder geeignet") | 'alle'
   var LO={age_min},HI={age_max},kids='passend',onlyPair=false,health='alle';
@@ -600,12 +604,12 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   }}
   function render(){{
     kidsInputs.forEach(function(i){{i.checked=(i.value===kids);}});
-    pairBtn.setAttribute('aria-pressed',String(onlyPair));
+    pairInputs.forEach(function(i){{i.checked=(i.value==='nur')===onlyPair;}});
     healthInputs.forEach(function(i){{i.checked=(i.value===health);}});
     update();
   }}
   kidsInputs.forEach(function(i){{i.addEventListener('change',function(){{kids=i.value;render();}});}});
-  pairBtn.addEventListener('click',function(){{onlyPair=!onlyPair;render();}});
+  pairInputs.forEach(function(i){{i.addEventListener('change',function(){{onlyPair=(i.value==='nur');render();}});}});
   healthInputs.forEach(function(i){{i.addEventListener('change',function(){{health=i.value;render();}});}});
   resetBtn.addEventListener('click',function(){{
     kids='passend';onlyPair=false;health='alle';
@@ -1024,7 +1028,7 @@ def render_report(
 
     def _img(cat: Cat) -> str:
         return (
-            f'<img src="{html.escape(cat.image_url)}" alt="{html.escape(cat.name)}" loading="lazy" '
+            f'<img src="{html.escape(cat.image_url)}" alt="" loading="lazy" '
             f'onerror="this.outerHTML=\'<div class=&quot;nophoto&quot;>Foto nicht geladen</div>\'">'
             if cat.image_url
             else '<div class="nophoto">kein Foto</div>'
