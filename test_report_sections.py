@@ -35,10 +35,10 @@ def _sections(html_text: str) -> list[int]:
 
 
 def _marker(cat_id: str) -> str:
-    """Eindeutiges Suchtoken fuer eine Karte — die Card rendert die cat_id nur im
-    h2-Span mit class="cid"; die blosse cat_id als Substring kollidiert sonst mit
-    CSS-Zahlen und den Sektions-Zaehlern (span.cnt)."""
-    return f'class="cid">{cat_id}</span>'
+    """Eindeutiges Suchtoken fuer eine Karte — die Card traegt die cat_id nur als data-cid;
+    die blosse cat_id als Substring kollidiert sonst mit CSS-Zahlen und den
+    Sektions-Zaehlern (span.cnt)."""
+    return f'data-cid="{cat_id}"'
 
 
 def main() -> None:
@@ -129,7 +129,29 @@ def main() -> None:
     assert "<strong>3 neu bewertet</strong>" in h, "new_count im Header muss die Gesamtzahl bleiben"
     assert 'Neu seit letztem Lauf (<span class="cnt">2</span>)' in h, "Neu-Ueberschrift muss um die Interessenten-Katze schrumpfen"
 
-    print("test_report_sections: 8 Faelle ok")
+    # Fall 9: Neue, aber keine passt -> "Weiterhin verfuegbar" startet offen und die
+    # Kopfzeile nennt die passenden Verfuegbaren. Passt eine Neue, bleibt es beim Alten.
+    unfit = CatRating(rating="nicht_geeignet", reason="Testfall", health="keine")
+    h = render_report([(_cat("30", "N"), unfit)], 2, still_known=[(_cat("31", "O"), _rating())],
+                      had_prior_state=True)
+    assert '<details class="sect" open><summary><h2 class="group">Weiterhin verf' in h, \
+        "passt keine Neue, muss 'Weiterhin verfuegbar' offen starten"
+    assert 'class="today-avail"' in h, "passt keine Neue, muss die Kopfzeile die passenden Verfuegbaren nennen"
+    h = render_report([(_cat("32", "P"), _rating())], 2, still_known=[(_cat("33", "Q"), _rating())],
+                      had_prior_state=True)
+    assert '<details class="sect"><summary><h2 class="group">Weiterhin verf' in h, \
+        "passt eine Neue, startet 'Weiterhin verfuegbar' zu"
+    assert 'class="today-avail"' not in h
+
+    # Fall 10: Paerchen mit (fast) gleicher Begruendung -> der zweite Partner verweist auf den ersten.
+    pa = Cat(cat_id="40", name="PA", profile_url="", companion_count=2, partner_name="PB")
+    pb = Cat(cat_id="41", name="PB", profile_url="", companion_count=2, partner_name="PA")
+    ra = CatRating(rating="geeignet", reason="Die beiden passen gut zu Kindern ab 6 Jahren.", health="keine")
+    rb = CatRating(rating="geeignet", reason="Die beiden passen sehr gut zu Kindern ab 6 Jahren.", health="keine")
+    h = render_report([], 2, still_known=[(pa, ra), (pb, rb)], had_prior_state=True)
+    assert h.count("Wie bei <strong>") == 1, "genau ein Partner muss auf den anderen verweisen"
+
+    print("test_report_sections: 10 Faelle ok")
 
     # Smoke-Test gegen den realen State — keine festen Namen/Anzahlen, der State
     # aendert sich zweimal taeglich per CI.

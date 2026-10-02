@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import difflib
 import html
 import json
 import os
@@ -91,6 +92,8 @@ HEALTH_META: dict[str, dict[str, str]] = {
 # Bestfall: für Kinder geeignet und ohne bekannte Erkrankung. Statt zweier grüner Labels
 # wird eine zusammengezogene Aussage gerendert (Sketch 006, Vorschlag 2).
 BEST_LABEL = "Geeignet und gesund"
+# In der Kopfzeile ist "geeignet" schon um den Bestfall bereinigt — der Rest braucht den Hinweis.
+MIX_LABELS = {"geeignet": "Kinder geeignet, Gesundheit prüfen"}
 
 # Begründungen für Bewertungen, die nicht zustande kamen. Sie landen im Report, aber nicht
 # im State — sonst gilt die Katze als bewertet und wird nie wieder versucht.
@@ -501,6 +504,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 .cf-seg{{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;padding-right:1.25rem;border-right:1px solid var(--hair);}}
 #resetBtn{{margin-left:auto;background:none;border:none;padding:.2rem 0;color:var(--mute);cursor:pointer;font:inherit;font-size:.85rem;text-decoration:underline;text-underline-offset:3px;}}
 #resetBtn:hover{{color:var(--ink);}}
+.show-all{{background:none;border:none;padding:.2rem 0;color:var(--act);cursor:pointer;font:inherit;text-decoration:underline;text-underline-offset:3px;}}
 .filters{{position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:1px solid var(--hair);}}
 .filters>summary{{display:none;}}
 #filterBar{{padding:1rem 0;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;}}
@@ -521,7 +525,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 @media (max-height:500px){{.filters{{position:static;}}}}
 /* Touch: Trefferflächen mindestens 44px, Regler-Griffe greifbar */
 @media (pointer:coarse){{
-  #resetBtn,.cf-opt{{min-height:44px;}}
+  #resetBtn,.cf-opt,.show-all{{min-height:44px;}}
   .cf-age{{min-height:44px;}}
   .cf-range{{--thumb:26px;}}
   .cf-track{{margin:.2rem 13px;}}
@@ -586,7 +590,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
       c.style.display=show?'':'none';
       if(show)visible++;
     }});
-    var n=(lo>LO||hi<HI?1:0)+(kids!=='alle'?1:0)+(onlyPair?1:0)+(health!=='alle'?1:0),
+    // aktiv = abweichend vom Standard; 'passend' ist der Standard, sonst bleibt nach dem Zurücksetzen "1 aktiv"
+    var n=(lo>LO||hi<HI?1:0)+(kids!=='passend'?1:0)+(onlyPair?1:0)+(health!=='alle'?1:0),
         fc=document.getElementById('filterCount');
     if(fc)fc.textContent=n?'· '+n+' aktiv':'';
     var vc=document.getElementById('visibleCount');
@@ -598,7 +603,9 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
       if(s)s.textContent=(vis===cards.length?cards.length:vis+' von '+cards.length);
       var e=d.querySelector('.empty-filter');
       if(cards.length&&!e){{e=document.createElement('div');e.className='empty empty-filter';
-        e.textContent='Keine Katze in diesem Abschnitt passt zu den Filtern.';d.appendChild(e);}}
+        e.textContent='Keine Katze in diesem Abschnitt passt zu den Filtern. ';
+        var b=document.createElement('button');b.type='button';b.className='show-all';b.textContent='Alle zeigen';
+        b.addEventListener('click',function(){{setFilters('alle');}});e.appendChild(b);d.appendChild(e);}}
       if(e)e.style.display=(cards.length&&!vis)?'':'none';
     }});
   }}
@@ -611,12 +618,13 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   kidsInputs.forEach(function(i){{i.addEventListener('change',function(){{kids=i.value;render();}});}});
   pairInputs.forEach(function(i){{i.addEventListener('change',function(){{onlyPair=(i.value==='nur');render();}});}});
   healthInputs.forEach(function(i){{i.addEventListener('change',function(){{health=i.value;render();}});}});
-  resetBtn.addEventListener('click',function(){{
-    kids='passend';onlyPair=false;health='alle';
+  function setFilters(k){{
+    kids=k;onlyPair=false;health='alle';
     if(minR)minR.value=LO;
     if(maxR)maxR.value=HI;
     render();
-  }});
+  }}
+  resetBtn.addEventListener('click',function(){{setFilters('passend');}});
   if(minR)minR.addEventListener('input',update);
   if(maxR)maxR.addEventListener('input',update);
   var fw=document.getElementById('filterWrap');
@@ -820,7 +828,7 @@ header .today-avail {{ margin: -.4rem 0 1rem; display: flex; flex-wrap: wrap; ga
                       font-size: .95rem; line-height: 1.4; color: var(--soft); }}
 header .today-avail span {{ white-space: nowrap; }}
 header .today-avail > span:first-child {{ color: var(--mute); }}
-header .dot {{ display: inline-block; width: .6rem; height: .6rem; margin-right: .4rem; vertical-align: .05em; }}
+header .dot {{ display: inline-block; box-sizing: border-box; width: .6rem; height: .6rem; margin-right: .4rem; vertical-align: .05em; }}
 header .stats {{ color: var(--mute); font-size: .85rem; line-height: 1.5;
                  border-top: 2px solid var(--ink); padding-top: .75rem; }}
 main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
@@ -831,7 +839,6 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .card .nophoto {{ display: flex; align-items: center; justify-content: center; text-align: center; padding: .5rem; color: var(--mute); font-size: .8rem; }}
 .card .body {{ padding: 1rem 1.1rem 1.1rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }}
 .card .name {{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .4rem; }}
-.card .cid {{ font-size: .72rem; color: var(--mute); }}
 .card h3 {{ font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin: 0; line-height: 1.25;
              overflow-wrap: anywhere; }}
 .card > *, .card .body > * {{ min-width: 0; }}
@@ -942,26 +949,37 @@ def _rating_mix(pairs: list[tuple[Cat, CatRating]], keys: tuple[str, ...]) -> st
     counts = {k: sum(1 for _, r in pairs if r.rating == k) for k in keys}
     if "geeignet" in counts:
         counts["geeignet"] -= best
-    parts = [(best, BEST_LABEL, RATING_META["geeignet"]["color"])] + [
-        (counts[k], RATING_META[k]["label"], RATING_META[k]["color"])
+    green = RATING_META["geeignet"]["color"]
+    parts = [(best, BEST_LABEL, f"background:{green}")] + [
+        (counts[k], MIX_LABELS.get(k, RATING_META[k]["label"]),
+         # geeignet, aber nicht gesund: umrandet statt gefüllt — sonst gleicher Punkt wie der Bestfall
+         f"border:2px solid {green}" if k == "geeignet" else f"background:{RATING_META[k]['color']}")
         for k in sorted(keys, key=lambda k: RATING_META[k]["order"])
     ]
     return "".join(
-        f'<span><span class="dot" style="background:{color}"></span>{n} {label}</span>'
-        for n, label, color in parts if n
+        f'<span><span class="dot" style="{style}"></span>{n} {label}</span>'
+        for n, label, style in parts if n
     )
+
+
+def _fits(pairs: list[tuple[Cat, CatRating]]) -> bool:
+    """Ist eine Katze dabei, die für die Familie in Frage kommt und keine Interessenten hat?"""
+    return any(r.rating in FITTING_RATINGS and not c.has_interested for c, r in pairs)
 
 
 def _today_line(evaluated: list[tuple[Cat, CatRating]], available: list[tuple[Cat, CatRating]]) -> str:
     """Kopfzeile mit der Antwort auf 'passt heute eine Neue?' — Neuzugänge nach Bewertung gezählt.
 
-    Ohne Neuzugänge beantwortet eine zweite Zeile 'gibt es überhaupt jemanden für uns?':
+    Passt keine Neue, beantwortet eine zweite Zeile 'gibt es überhaupt jemanden für uns?':
     die weiterhin verfügbaren, passenden Katzen (ohne Interessenten).
     """
     if evaluated:
         mix = _rating_mix(evaluated, tuple(RATING_META))
-        return f'<h1 class="today"><span class="today-n">{len(evaluated)} neu</span><span class="today-mix">{mix}</span></h1>'
-    head = '<h1 class="today"><span class="today-n">Nichts Neues</span></h1>'
+        head = f'<h1 class="today"><span class="today-n">{len(evaluated)} neu</span><span class="today-mix">{mix}</span></h1>'
+        if _fits(evaluated):
+            return head
+    else:
+        head = '<h1 class="today"><span class="today-n">Nichts Neues</span></h1>'
     mix = _rating_mix([p for p in available if p[1].rating in FITTING_RATINGS], FITTING_RATINGS)
     if not mix:
         return head
@@ -1081,25 +1099,38 @@ def render_report(
         return (f'<div class="health" style="color:{hm["text"]};border-color:{hm["color"]}">'
                 f'{html.escape(rating.health_note)}</div>')
 
-    def _render_card(cat: Cat, rating: CatRating, *, dimmed: bool = False) -> str:
+    def _render_card(cat: Cat, rating: CatRating, *, dimmed: bool = False, same_as: str = "") -> str:
         """Erzeugt das HTML-Markup für eine Katzen-Card; dimmed=True für nicht mehr verfügbare Katzen."""
         age_months = get_age(cat.cat_id, cat.age_hint)
         age_data = str(age_months) if age_months is not None else "unknown"
         listed = "" if dimmed else _listed_line(cat)
         return f"""
-    <div class="card{' gone' if dimmed else ''}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}">
+    <div class="card{' gone' if dimmed else ''}" data-cid="{html.escape(cat.cat_id)}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}">
       {_img(cat)}
       <div class="body">
-        <div class="name"><h3>{html.escape(cat.name)}</h3> <span class="cid">{html.escape(cat.cat_id)}</span></div>
+        <div class="name"><h3>{html.escape(cat.name)}</h3></div>
         <div class="meta">{_meta_line(cat, age_months)}</div>
         {_status_line(cat)}
         {_labels(rating)}
         {_health_note(rating)}
-        <div class="reason">{html.escape(rating.reason)}</div>
+        <div class="reason">{f"Wie bei <strong>{html.escape(same_as)}</strong>." if same_as else html.escape(rating.reason)}</div>
         <div class="foot"><span>{listed}</span>
           <a href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener" aria-label="Steckbrief von {html.escape(cat.name)} (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
     </div>"""
+
+    def _cards(pairs: list[tuple[Cat, CatRating]], *, dimmed: bool = False) -> str:
+        """Karten einer Sektion; beim zweiten Partner eines Pärchens ersetzt ein Verweis die (fast) gleiche Begründung."""
+        reasons: dict[str, str] = {}
+        out = []
+        for cat, rating in pairs:
+            prev = reasons.get(cat.partner_name) if cat.companion_count == 2 else None
+            # ponytail: Ähnlichkeit statt Gleichheit, weil Claude dieselbe Begründung leicht umformuliert;
+            # filtert man den ersten Partner weg, zeigt der zweite nur den Verweis
+            same = prev is not None and difflib.SequenceMatcher(None, prev, rating.reason).ratio() >= 0.85
+            out.append(_render_card(cat, rating, dimmed=dimmed, same_as=cat.partner_name if same else ""))
+            reasons[cat.name] = rating.reason
+        return f'<div class="grid">{"".join(out)}</div>'
 
     # Slider-Grenzen aus allen angezeigten Katzen berechnen
     all_ages = [get_age(c.cat_id, c.age_hint) for c, _ in evaluated_sorted]
@@ -1115,11 +1146,11 @@ def render_report(
 
     # Sektion 1 — neue Katzen. Ohne Neuzugänge entfällt sie: die Kopfzeile sagt schon
     # "Nichts Neues", und der Vergleich in "Weiterhin verfügbar" rückt nach oben.
+    # Passt keine Neue, startet "Weiterhin verfügbar" ebenfalls offen.
     if not evaluated_sorted:
         sect1_inner = '<p class="empty-line">Die neuen Katzen haben schon Interessenten – siehe unten.</p>'
     else:
-        cards = [_render_card(cat, rating) for cat, rating in evaluated_sorted]
-        sect1_inner = f'<div class="grid">{"".join(cards)}</div>'
+        sect1_inner = _cards(evaluated_sorted)
 
     if not evaluated:
         sect1 = "" if two_sections else '<div class="empty">Keine Katzen gelistet.</div>'
@@ -1131,8 +1162,7 @@ def render_report(
     # Sektion 4 — nicht mehr verfügbare Katzen
     sect_gone = ""
     if no_longer_listed:
-        cards = [_render_card(cat, rating, dimmed=True) for cat, rating in sorted(no_longer_listed, key=sort_key)]
-        sect_gone = _section("Nicht mehr verfügbar", len(no_longer_listed), f'<div class="grid">{"".join(cards)}</div>')
+        sect_gone = _section("Nicht mehr verfügbar", len(no_longer_listed), _cards(sorted(no_longer_listed, key=sort_key), dimmed=True))
     # Nichts verschwunden: keine leere Sektion, sondern ein Vermerk in der Statuszeile
     # (nur mit vorigem State — beim Erstlauf gibt es nichts, was verschwinden könnte).
     gone_note = " · keine verschwunden" if (had_prior_state and not no_longer_listed) else ""
@@ -1140,15 +1170,13 @@ def render_report(
     # Sektion 3 — Katzen mit festen Interessenten (faktisch vergeben, aber sichtbar)
     sect_int = ""
     if interested:
-        cards = [_render_card(cat, rating) for cat, rating in interested]
-        sect_int = _section("Interessenten vorhanden", len(interested), f'<div class="grid">{"".join(cards)}</div>')
+        sect_int = _section("Interessenten vorhanden", len(interested), _cards(interested))
 
     # Sektion 2 — weiterhin verfügbare Katzen (mit gespeicherter Ampelbewertung)
     sect2 = ""
     if still_known:
-        cards = [_render_card(cat, rating) for cat, rating in sorted(still_known, key=sort_key)]
-        sect2 = _section("Weiterhin verfügbar", len(still_known), f'<div class="grid">{"".join(cards)}</div>',
-                         is_open=not evaluated_sorted)
+        sect2 = _section("Weiterhin verfügbar", len(still_known), _cards(sorted(still_known, key=sort_key)),
+                         is_open=not _fits(evaluated_sorted))
 
     return HTML_TEMPLATE.format(
         today=_today_line(evaluated, still_known),
