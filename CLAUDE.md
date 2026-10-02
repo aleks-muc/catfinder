@@ -32,7 +32,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 ## Frameworks
 - No web/application framework. The script is a pure CLI tool entered via `if __name__ == "__main__": sys.exit(main())` in `catfinder.py`.
 - `argparse` (stdlib) — CLI flag handling (`--reset`, `--all`, `--no-browser`) in `catfinder.py`, inside `main()`.
-- No `pytest`, `unittest`, or `tox` configuration, and no `tests/` directory. Instead, framework-free assert-based self-checks live at the project root as `test_pairs.py`, `test_report_sections.py`, and `test_interested_refresh.py` — run directly with `.venv/bin/python <file>`. Additional verification is done by running `python catfinder.py` manually or via the CI cron schedule.
+- No `pytest`, `unittest`, or `tox` configuration, and no `tests/` directory. Instead, framework-free assert-based self-checks live at the project root as `test_pairs.py`, `test_report_sections.py`, `test_interested_refresh.py`, and `test_failed_rating.py` — run directly with `.venv/bin/python <file>`. Additional verification is done by running `python catfinder.py` manually or via the CI cron schedule.
 - No build step (pure Python source, no compilation).
 - No formatter/linter config (`black`, `ruff`, `flake8`, `pylint`, `mypy` all absent).
 - No `pyproject.toml`, `setup.py`, or `setup.cfg` — project is not installable as a package.
@@ -230,7 +230,7 @@ Catfinder ist eine private CLI-Pipeline, die einmal täglich das Listing des Tie
 - **Global state:** Module-level constants (`BASE`, `STATE_FILE`, `REPORT_FILE`, `MODEL`, `API_RETRY_DELAYS`, `RATING_META`, regex patterns) are immutable singletons. The runtime `state` dict is local to `main()` only; no module-level mutable state.
 - **Filesystem layout is path-anchored:** `ROOT = Path(__file__).resolve().parent` (in `catfinder.py`). All artifact paths derive from this, so the script must live alongside `state/` and `reports/` directories.
 - **Network dependencies:** every run does live HTTP to `tierschutzverein-muenchen.de` and `api.anthropic.com`. There is no offline mode and no fixture-replay testing scaffold.
-- **No pytest/tests-directory framework, no lint config:** there is no `tests/` directory, `pyproject.toml`, `pytest`, `ruff`, or `mypy` configuration in the repo. Verification instead relies on the framework-free, assert-based self-checks (`test_pairs.py`, `test_report_sections.py`, `test_interested_refresh.py`) run directly with `.venv/bin/python <file>`.
+- **No pytest/tests-directory framework, no lint config:** there is no `tests/` directory, `pyproject.toml`, `pytest`, `ruff`, or `mypy` configuration in the repo. Verification instead relies on the framework-free, assert-based self-checks (`test_pairs.py`, `test_report_sections.py`, `test_interested_refresh.py`, `test_failed_rating.py`) run directly with `.venv/bin/python <file>`.
 - **External secret dependence:** `ANTHROPIC_API_KEY` is required (script aborts otherwise, in `main()` in `catfinder.py`). CI additionally needs `NTFY_TOPIC`.
 ## Error Handling
 - Hard exit on missing API key with a remediation hint (in `main()` in `catfinder.py`).

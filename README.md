@@ -37,6 +37,7 @@ Die Selbst-Checks laufen ohne Framework, ohne Netz und ohne API-Key direkt gegen
 .venv/bin/python test_pairs.py
 .venv/bin/python test_report_sections.py
 .venv/bin/python test_interested_refresh.py
+.venv/bin/python test_failed_rating.py
 ```
 
 ## Wie es funktioniert

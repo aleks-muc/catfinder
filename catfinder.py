@@ -92,6 +92,11 @@ HEALTH_META: dict[str, dict[str, str]] = {
 # wird eine zusammengezogene Aussage gerendert (Sketch 006, Vorschlag 2).
 BEST_LABEL = "Geeignet und gesund"
 
+# Begründungen für Bewertungen, die nicht zustande kamen. Sie landen im Report, aber nicht
+# im State — sonst gilt die Katze als bewertet und wird nie wieder versucht.
+PROFILE_MISSING_REASON = "Steckbriefseite konnte nicht geladen werden."
+EVAL_FAILED_REASON = "Bewertung fehlgeschlagen – bitte im Steckbrief nachlesen."
+
 
 # ---------------------------------------------------------------------------
 # Datenmodelle
@@ -244,6 +249,26 @@ def save_state(state: dict[str, dict]) -> None:
         if os.path.exists(tmp_path):
             os.unlink(tmp_path)
         raise
+
+
+def needs_rating(entry: dict | None) -> bool:
+    """True, wenn für die Katze noch keine gültige Claude-Bewertung im State liegt."""
+    return entry is None or "rating" not in entry
+
+
+def store_ratings(state: dict[str, dict], ratings: dict[str, CatRating]) -> None:
+    """Schreibt erfolgreiche Bewertungen in den State; fehlgeschlagene bleiben offen.
+
+    ponytail: Eine dauerhaft fehlschlagende Katze wird jeden Lauf erneut versucht und
+    zählt jedes Mal als neu (ntfy-Push). Zähler im State, falls das je vorkommt.
+    """
+    for cid, r in ratings.items():
+        if r.reason in (PROFILE_MISSING_REASON, EVAL_FAILED_REASON):
+            continue
+        state[cid]["rating"] = r.rating
+        state[cid]["reason"] = r.reason
+        state[cid]["health"] = r.health
+        state[cid]["health_note"] = r.health_note
 
 
 def sync_state_entries(cats: list[Cat], state: dict[str, dict], now_iso: str) -> None:
@@ -644,7 +669,7 @@ def refresh_interested_and_pairs(
 
 def evaluate_cat(client: Anthropic, cat: Cat, profile_text: str) -> CatRating:
     if not profile_text.strip():
-        return CatRating(rating="unbekannt", reason="Steckbriefseite konnte nicht geladen werden.")
+        return CatRating(rating="unbekannt", reason=PROFILE_MISSING_REASON)
 
     # Partnername steht aus dem Listing bereits fest (main setzt ihn vor der Bewertung) —
     # dem Modell nennen statt es aus dem Fließtext raten zu lassen.
@@ -700,7 +725,7 @@ def evaluate_all(cats: list[Cat], profile_texts: dict[str, str]) -> dict[str, Ca
             return c.cat_id, rating
         except Exception as e:
             print(f"  ! Fehler bei {c.name} ({c.cat_id}): {e}")
-            return c.cat_id, CatRating(rating="unbekannt", reason="Bewertung fehlgeschlagen – bitte im Steckbrief nachlesen.")
+            return c.cat_id, CatRating(rating="unbekannt", reason=EVAL_FAILED_REASON)
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_EVAL_WORKERS) as pool:
         futures = [pool.submit(work, c) for c in cats]
@@ -1097,8 +1122,9 @@ def main() -> int:
         still_known: list[Cat] = []
         scope_note = " · alle bewertet" if args.all else " · Erstlauf"
     else:
-        to_evaluate = [c for c in cats if c.cat_id not in known_ids]
-        still_known = [c for c in cats if c.cat_id in known_ids]
+        # Auch bekannte Katzen ohne gültige Bewertung (letzter Versuch gescheitert) neu bewerten
+        to_evaluate = [c for c in cats if needs_rating(state.get(c.cat_id))]
+        still_known = [c for c in cats if not needs_rating(state.get(c.cat_id))]
         scope_note = ""
 
     def _ratings_from_state(cat_list: list[Cat]) -> list[tuple[Cat, CatRating]]:
@@ -1187,12 +1213,7 @@ def main() -> int:
     # State: alle aktuell gelisteten Katzen eintragen (has_interested/Pärchen für alle,
     # Claude-Bewertung nur für tatsächlich neu bewertete Katzen).
     sync_state_entries(cats, state, now_iso)
-    for cat in to_evaluate:
-        if cat.cat_id in ratings:
-            state[cat.cat_id]["rating"] = ratings[cat.cat_id].rating
-            state[cat.cat_id]["reason"] = ratings[cat.cat_id].reason
-            state[cat.cat_id]["health"] = ratings[cat.cat_id].health
-            state[cat.cat_id]["health_note"] = ratings[cat.cat_id].health_note
+    store_ratings(state, ratings)
     # Purge: nur Katzen aus dem aktuellen Listing bleiben im State (D-02).
     for cid in list(state.keys()):
         if cid not in current_ids:
