@@ -470,14 +470,26 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 #sorgBtn.hidden{{color:#5c574f;}}
 #resetBtn{{margin-left:auto;background:none;border:none;padding:.2rem 0;color:#5c574f;cursor:pointer;font:inherit;font-size:.85rem;text-decoration:underline;text-underline-offset:3px;}}
 #resetBtn:hover{{color:#141310;}}
+.filters{{position:sticky;top:0;z-index:100;background:#f5f3ef;border-bottom:1px solid #d2cbc0;}}
+.filters>summary{{display:none;}}
+#filterBar{{padding:1rem 0;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;}}
+@media (max-width:640px){{
+  .filters{{position:static;border-top:1px solid #d2cbc0;}}
+  .filters>summary{{display:flex;align-items:center;min-height:44px;cursor:pointer;font-size:.9rem;font-weight:600;color:#141310;}}
+  #filterCount{{font-weight:400;color:#5c574f;margin-left:.4rem;}}
+  .filters>summary::after{{content:'+';margin-left:auto;font-weight:400;font-size:1.2rem;color:#5c574f;}}
+  .filters[open]>summary::after{{content:'\u2212';}}
+  #filterBar{{padding:.25rem 0 1rem;gap:.9rem 1.25rem;}}
+}}
 </style>
-<div id="filterBar" style="position:sticky;top:0;z-index:100;background:#f5f3ef;border-bottom:1px solid #d2cbc0;padding:1rem 0;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;">{slider}
+<details class="filters" id="filterWrap"><summary>Filter<span id="filterCount"></span></summary>
+<div id="filterBar">{slider}
   <button id="fitBtn">Nur geeignet</button>
   <button id="pairBtn">Nur Pärchen</button>
   <button id="sorgBtn">Sorgenkinder ausblenden</button>
   <button id="healthBtn">Dauerbehandlung ausblenden</button>
   <button id="resetBtn">Alle Katzen zeigen</button>
-</div>
+</div></details>
 <script>
 (function(){{
   var minR=document.getElementById('ageMin'),maxR=document.getElementById('ageMax'),
@@ -508,6 +520,9 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
       c.style.display=show?'':'none';
       if(show)visible++;
     }});
+    var n=(lo>LO||hi<HI?1:0)+(showOnlyFit?1:0)+(!showSorg?1:0)+(showOnlyPair?1:0)+(hideTreat?1:0),
+        fc=document.getElementById('filterCount');
+    if(fc)fc.textContent=n?'· '+n+' aktiv':'';
     var vc=document.getElementById('visibleCount');
     if(vc)vc.textContent=visible;
     document.querySelectorAll('details.sect').forEach(function(d){{
@@ -557,6 +572,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   }});
   if(minR)minR.addEventListener('input',update);
   if(maxR)maxR.addEventListener('input',update);
+  var fw=document.getElementById('filterWrap');
+  if(fw&&window.matchMedia('(min-width: 641px)').matches)fw.open=true;
   document.addEventListener('DOMContentLoaded',update);
 }})();
 </script>"""
@@ -728,16 +745,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 }}
 body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0;
         background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }}
-header {{ max-width: 1500px; margin: 0 auto; padding: 2.5rem 1.5rem 1.4rem; }}
-header h1 {{ font-family: var(--serif); font-weight: 400; font-size: 2.4rem; margin: 0 0 .35rem;
-             letter-spacing: -.01em; }}
+header {{ max-width: 1500px; margin: 0 auto; padding: 2rem 1.5rem 1.25rem; }}
+header h1 {{ font-family: var(--serif); font-weight: 400; font-size: 1.15rem; margin: 0 0 1.1rem;
+             color: var(--mute); }}
+header .today {{ margin: 0 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1.25rem; }}
+header .today-n {{ font-family: var(--serif); font-size: 2.4rem; line-height: 1.1; letter-spacing: -.01em; }}
+header .today-mix {{ display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-size: .95rem; color: var(--soft); }}
+header .today-mix span {{ white-space: nowrap; }}
+header .dot {{ display: inline-block; width: .6rem; height: .6rem; margin-right: .4rem; vertical-align: .05em; }}
 header .stats {{ color: var(--mute); font-size: .85rem; line-height: 1.5;
-                 border-top: 2px solid var(--ink); padding-top: .9rem; }}
+                 border-top: 2px solid var(--ink); padding-top: .75rem; }}
 main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem 1.75rem; }}
 .card {{ background: #fff; display: flex; flex-direction: column;
          border: 1px solid var(--hair); border-left: 4px solid var(--accent); }}
-.card img {{ width: 100%; height: 220px; object-fit: cover; display: block; background: #e6e3dd; }}
+.card img, .card .nophoto {{ width: 100%; height: 220px; object-fit: cover; display: block; background: #e6e3dd; }}
+.card .nophoto {{ display: flex; align-items: center; justify-content: center; color: var(--mute); font-size: .8rem; }}
 .card .body {{ padding: 1rem 1.1rem 1.1rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }}
 .card h2 {{ font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin: 0; line-height: 1.25; }}
 .card .meta {{ color: var(--mute); font-size: .82rem; }}
@@ -767,15 +790,29 @@ section h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4r
                     color: var(--soft); margin: 0 0 1.4rem; }}
 summary h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4rem;
                     color: var(--soft); margin: 0; display: inline; }}
-@media (max-width: 520px) {{
-  .grid {{ grid-template-columns: 1fr; }}
-  header h1 {{ font-size: 1.9rem; }}
+@media (max-width: 640px) {{
+  header {{ padding: 1.25rem 1rem 1rem; }}
+  header h1 {{ margin-bottom: .6rem; }}
+  header .today-n {{ font-size: 2rem; }}
+  main {{ padding: 0 1rem 4rem; }}
+  section, details.sect {{ margin-top: 2rem; }}
+  details.sect > summary {{ margin-bottom: 1rem; }}
+  .grid {{ grid-template-columns: 1fr; gap: 1rem; }}
+  /* Foto klein links, Name + Bewertung daneben: die Antwort steht ohne Scrollen im Blick */
+  .card {{ display: grid; grid-template-columns: 6.5rem 1fr; gap: .35rem .9rem; padding: .9rem; align-items: start; }}
+  .card .body {{ display: contents; }}
+  .card img, .card .nophoto {{ grid-row: 1 / span 4; width: 6.5rem; height: 6.5rem; }}
+  .card h2, .card .meta, .card .status, .card .labels {{ grid-column: 2; }}
+  .card h2 {{ font-size: 1.15rem; }}
+  .card .reason, .card .health, .card .foot {{ grid-column: 1 / -1; }}
+  .card .reason {{ margin-top: .4rem; }}
 }}
 </style>
 </head>
 <body>
 <header>
   <h1>Catfinder</h1>
+  {today}
   <div class="stats">
     Lauf vom {timestamp} · {total_listed} Katzen gelistet · <strong>{new_count} neu bewertet</strong>{scope_note} · <span id="visibleCount">{new_count}</span> angezeigt
   </div>
@@ -794,6 +831,24 @@ def _section(title: str, total: int, inner: str, is_open: bool = False) -> str:
     return (f'<details class="sect"{" open" if is_open else ""}>'
             f'<summary><h2 class="group">{title} (<span class="cnt">{total}</span>)</h2></summary>'
             f'{inner}</details>')
+
+
+def _today_line(evaluated: list[tuple[Cat, CatRating]]) -> str:
+    """Kopfzeile mit der Antwort auf 'passt heute eine Neue?' — Neuzugänge nach Bewertung gezählt."""
+    if not evaluated:
+        return '<p class="today"><span class="today-n">Nichts Neues</span></p>'
+    best = sum(1 for _, r in evaluated if r.rating == "geeignet" and r.health == "keine")
+    counts = {k: sum(1 for _, r in evaluated if r.rating == k) for k in RATING_META}
+    counts["geeignet"] -= best
+    parts = [(best, BEST_LABEL, RATING_META["geeignet"]["color"])] + [
+        (counts[k], m["label"], m["color"])
+        for k, m in sorted(RATING_META.items(), key=lambda kv: kv[1]["order"])
+    ]
+    mix = "".join(
+        f'<span><span class="dot" style="background:{color}"></span>{n} {label}</span>'
+        for n, label, color in parts if n
+    )
+    return f'<p class="today"><span class="today-n">{len(evaluated)} neu</span><span class="today-mix">{mix}</span></p>'
 
 
 def render_report(
@@ -850,7 +905,7 @@ def render_report(
         return (
             f'<img src="{html.escape(cat.image_url)}" alt="{html.escape(cat.name)}" loading="lazy">'
             if cat.image_url
-            else '<div style="height:220px;background:#e0e0e0;display:flex;align-items:center;justify-content:center;color:#999;">kein Foto</div>'
+            else '<div class="nophoto">kein Foto</div>'
         )
 
     def _meta_line(cat: Cat, age_months: int | None = None) -> str:
@@ -971,6 +1026,7 @@ def render_report(
         sect2 = _section("Weiterhin verfügbar", len(still_known), f'<div class="grid">{"".join(cards)}</div>')
 
     return HTML_TEMPLATE.format(
+        today=_today_line(evaluated),
         timestamp=datetime.now().strftime("%d.%m.%Y %H:%M"),
         total_listed=total_listed,
         new_count=len(evaluated),
