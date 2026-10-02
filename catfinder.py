@@ -476,8 +476,8 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     <span class="cf-cap">Alter</span>
     <div class="cf-track">
       <div id="sliderFill" class="cf-fill"></div>
-      <input type="range" class="cf-range" id="ageMin" min="{age_min}" max="{age_max}" value="{default_lo}">
-      <input type="range" class="cf-range" id="ageMax" min="{age_min}" max="{age_max}" value="{default_hi}">
+      <input type="range" class="cf-range" id="ageMin" aria-label="Mindestalter" min="{age_min}" max="{age_max}" value="{default_lo}">
+      <input type="range" class="cf-range" id="ageMax" aria-label="Höchstalter" min="{age_min}" max="{age_max}" value="{default_hi}">
     </div>
     <span id="ageLabel" class="cf-cap">{fmt(default_lo)} – {fmt(default_hi)}</span>
   </div>"""
@@ -548,6 +548,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   function update(){{
     var lo=range()[0],hi=range()[1];
     if(lo>hi){{if(document.activeElement===minR){{minR.value=hi;lo=hi;}}else{{maxR.value=lo;hi=lo;}}}}
+    if(minR)minR.style.zIndex=(lo===hi&&hi>LO)?'2':'';
     if(fill){{fill.style.left=pct(lo)+'%';fill.style.width=Math.max(0,pct(hi)-pct(lo))+'%';}}
     if(lbl)lbl.textContent=fmt(lo)+' \u2013 '+fmt(hi);
     filter(lo,hi);
@@ -792,7 +793,9 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .card img, .card .nophoto {{ width: 100%; height: 220px; object-fit: cover; display: block; background: var(--hair); }}
 .card .nophoto {{ display: flex; align-items: center; justify-content: center; color: var(--mute); font-size: .8rem; }}
 .card .body {{ padding: 1rem 1.1rem 1.1rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }}
-.card h2 {{ font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin: 0; line-height: 1.25;
+.card .name {{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .4rem; }}
+.card .cid {{ font-size: .72rem; color: var(--mute); }}
+.card h3 {{ font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin: 0; line-height: 1.25;
              overflow-wrap: anywhere; }}
 .card > *, .card .body > * {{ min-width: 0; }}
 .card .meta {{ color: var(--mute); font-size: .82rem; }}
@@ -813,7 +816,7 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
                  font-weight: 500; white-space: nowrap; }}
 .card .foot a:hover {{ color: var(--ink); border-color: var(--ink); }}
 .card.gone img {{ filter: grayscale(1); opacity: .55; }}
-.card.gone h2 {{ color: var(--mute); }}
+.card.gone h3 {{ color: var(--mute); }}
 .empty {{ text-align: center; color: var(--mute); padding: 4rem 1rem; background: var(--card);
           border: 1px solid var(--hair); }}
 .empty-filter {{ padding: 1.5rem 1rem; }}
@@ -836,8 +839,8 @@ summary h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4r
   .card {{ display: grid; grid-template-columns: 6.5rem 1fr; gap: .35rem .9rem; padding: .9rem; align-items: start; }}
   .card .body {{ display: contents; }}
   .card img, .card .nophoto {{ grid-row: 1 / span 4; width: 6.5rem; height: 6.5rem; }}
-  .card h2, .card .meta, .card .status, .card .labels {{ grid-column: 2; }}
-  .card h2 {{ font-size: 1.15rem; }}
+  .card .name, .card .meta, .card .status, .card .labels {{ grid-column: 2; }}
+  .card h3 {{ font-size: 1.15rem; }}
   .card .reason, .card .health, .card .foot {{ grid-column: 1 / -1; }}
   .card .reason {{ margin-top: .4rem; font-size: 1rem; }}
   .card .health {{ font-size: .95rem; }}
@@ -855,7 +858,7 @@ summary h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4r
   <p class="brand">Catfinder</p>
   {today}
   <div class="stats">
-    Lauf vom {timestamp} · {total_listed} Katzen gelistet · <strong>{new_count} neu bewertet</strong>{scope_note}<span id="visibleCount"></span>
+    Lauf vom {timestamp} · {total_listed} Katzen gelistet · <strong>{new_count} neu bewertet</strong>{scope_note}<span id="visibleCount" aria-live="polite"></span>
   </div>
 </header>
 <main>
@@ -1005,7 +1008,7 @@ def render_report(
     <div class="card{' gone' if dimmed else ''}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}">
       {_img(cat)}
       <div class="body">
-        <h2>{html.escape(cat.name)} <span style="font-family:-apple-system,sans-serif;color:var(--mute);font-size:.72rem;" class="cid">{html.escape(cat.cat_id)}</span></h2>
+        <div class="name"><h3>{html.escape(cat.name)}</h3> <span class="cid">{html.escape(cat.cat_id)}</span></div>
         <div class="meta">{_meta_line(cat, age_months)}</div>
         {_status_line(cat)}
         {_labels(rating)}
