@@ -815,7 +815,24 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .card .lab {{ font-size: .78rem; font-weight: 600; padding: .26rem .65rem; border-radius: 2px;
               border: 1px solid; line-height: 1.25; }}
 .card .lab-best {{ font-size: .85rem; padding: .35rem .8rem; }}
-.card .reason {{ font-size: .88rem; line-height: 1.55; color: var(--soft); flex: 1; margin-top: .3rem; }}
+.card .reason {{ font-size: .88rem; line-height: 1.55; color: var(--soft); margin-top: .3rem; }}
+.card .foot {{ margin-top: auto; }}
+.card .body > :empty {{ display: none; }}
+/* Ab Tablet-Breite: jede Karte nutzt die Zeilen des Rasters mit (subgrid). Name, Labels,
+   Begründung und Fußzeile stehen so quer über eine Reihe auf gleicher Höhe. */
+@supports (grid-template-rows: subgrid) {{
+  @media (min-width: 641px) {{
+    .card {{ display: grid; grid-row: span 8; grid-template-rows: subgrid; row-gap: 0; }}
+    .card .body {{ display: contents; }}
+    .card .body > * {{ margin-inline: 1.1rem; }}
+    .card .body > :empty {{ display: block; border: 0; padding: 0; }}
+    .card .health {{ align-self: start; }}
+    .card .body > :not(:empty) + * {{ margin-top: .5rem; }}
+    .card .body > :empty + * {{ margin-top: 0; }}
+    .card .name {{ margin-top: 1rem; }}
+    .card .foot {{ margin-top: .75rem; margin-bottom: 1.1rem; align-self: end; }}
+  }}
+}}
 .card .health {{ font-size: .85rem; line-height: 1.5; padding-left: .7rem; border-left: 2px solid; }}
 .card .foot {{ padding-top: .75rem; border-top: 1px solid var(--hair); display: flex;
                justify-content: space-between; align-items: baseline; gap: .75rem;
@@ -977,7 +994,7 @@ def render_report(
             bits.append(f'<span class="partner">Pärchen mit <strong>{html.escape(cat.partner_name)}</strong></span>')
         if cat.has_interested:
             bits.append('<span class="badge-int">Interessenten vorhanden</span>')
-        return f'<div class="status">{"".join(bits)}</div>' if bits else ""
+        return f'<div class="status">{"".join(bits)}</div>'
 
     def _labels(rating: CatRating) -> str:
         """Bewertung gefüllt, Gesundheit umrandet darunter.
@@ -1003,7 +1020,7 @@ def render_report(
     def _health_note(rating: CatRating) -> str:
         """Beschreibung aus Gesundheitssicht, im Ton der Kategorie. Leer wenn nichts vorliegt."""
         if not rating.health_note:
-            return ""
+            return '<div class="health"></div>'
         hm = HEALTH_META.get(rating.health, HEALTH_META["unbekannt"])
         return (f'<div class="health" style="color:{hm["text"]};border-color:{hm["color"]}">'
                 f'{html.escape(rating.health_note)}</div>')
@@ -1021,8 +1038,8 @@ def render_report(
         <div class="meta">{_meta_line(cat, age_months)}</div>
         {_status_line(cat)}
         {_labels(rating)}
-        <div class="reason">{html.escape(rating.reason)}</div>
         {_health_note(rating)}
+        <div class="reason">{html.escape(rating.reason)}</div>
         <div class="foot"><span>{listed}</span>
           <a href="{html.escape(cat.profile_url)}" target="_blank" rel="noopener" aria-label="Steckbrief von {html.escape(cat.name)} (neuer Tab)">Steckbrief &rarr;</a></div>
       </div>
