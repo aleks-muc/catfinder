@@ -484,26 +484,28 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
 
     return f"""<style>
 .cf-age{{display:flex;align-items:center;gap:.6rem;}}
-.cf-cap{{font-size:.8rem;color:#5c574f;white-space:nowrap;}}
-.cf-track{{position:relative;width:130px;height:1px;background:#c9c3b8;margin:.2rem 0;}}
-.cf-fill{{position:absolute;top:-1px;height:3px;background:#141310;pointer-events:none;}}
+.cf-cap{{font-size:.8rem;color:var(--mute);white-space:nowrap;}}
+.cf-track{{position:relative;width:130px;height:1px;background:var(--hair);margin:.2rem 0;}}
+.cf-fill{{position:absolute;top:-1px;height:3px;background:var(--ink);pointer-events:none;}}
 .cf-range{{position:absolute;width:100%;height:0;top:0;pointer-events:none;-webkit-appearance:none;appearance:none;background:transparent;outline:none;}}
-.cf-range::-webkit-slider-thumb{{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:#141310;border:2px solid #f5f3ef;cursor:pointer;pointer-events:all;}}
-.cf-range::-moz-range-thumb{{width:14px;height:14px;border-radius:50%;background:#141310;border:2px solid #f5f3ef;cursor:pointer;pointer-events:all;}}
-.cf-tog{{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;color:#5c574f;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;}}
-.cf-tog:hover{{color:#141310;}}
-.cf-tog[aria-pressed="true"]{{color:#141310;border-bottom-color:#141310;font-weight:600;}}
-.cf-seg{{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;padding-right:1.25rem;border-right:1px solid #d2cbc0;}}
-#resetBtn{{margin-left:auto;background:none;border:none;padding:.2rem 0;color:#5c574f;cursor:pointer;font:inherit;font-size:.85rem;text-decoration:underline;text-underline-offset:3px;}}
-#resetBtn:hover{{color:#141310;}}
-.filters{{position:sticky;top:0;z-index:100;background:#f5f3ef;border-bottom:1px solid #d2cbc0;}}
+.cf-range::-webkit-slider-thumb{{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--paper);cursor:pointer;pointer-events:all;}}
+.cf-range:focus-visible::-webkit-slider-thumb{{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--act);}}
+.cf-range:focus-visible::-moz-range-thumb{{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--act);}}
+.cf-range::-moz-range-thumb{{width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--paper);cursor:pointer;pointer-events:all;}}
+.cf-tog{{background:none;border:none;padding:.2rem 0;font:inherit;font-size:.85rem;color:var(--mute);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;}}
+.cf-tog:hover{{color:var(--ink);}}
+.cf-tog[aria-pressed="true"]{{color:var(--ink);border-bottom-color:var(--ink);font-weight:600;}}
+.cf-seg{{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;padding-right:1.25rem;border-right:1px solid var(--hair);}}
+#resetBtn{{margin-left:auto;background:none;border:none;padding:.2rem 0;color:var(--mute);cursor:pointer;font:inherit;font-size:.85rem;text-decoration:underline;text-underline-offset:3px;}}
+#resetBtn:hover{{color:var(--ink);}}
+.filters{{position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:1px solid var(--hair);}}
 .filters>summary{{display:none;}}
 #filterBar{{padding:1rem 0;display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;}}
 @media (max-width:640px){{
-  .filters{{position:static;border-top:1px solid #d2cbc0;}}
-  .filters>summary{{display:flex;align-items:center;min-height:44px;cursor:pointer;font-size:.9rem;font-weight:600;color:#141310;}}
-  #filterCount{{font-weight:400;color:#5c574f;margin-left:.4rem;}}
-  .filters>summary::after{{content:'+';margin-left:auto;font-weight:400;font-size:1.2rem;color:#5c574f;}}
+  .filters{{position:static;border-top:1px solid var(--hair);}}
+  .filters>summary{{display:flex;align-items:center;min-height:44px;cursor:pointer;font-size:.9rem;font-weight:600;color:var(--ink);}}
+  #filterCount{{font-weight:400;color:var(--mute);margin-left:.4rem;}}
+  .filters>summary::after{{content:'+';margin-left:auto;font-weight:400;font-size:1.2rem;color:var(--mute);}}
   .filters[open]>summary::after{{content:'\u2212';}}
   #filterBar{{padding:.25rem 0 1rem;gap:.9rem 1.25rem;}}
   .cf-age,.cf-seg{{flex-basis:100%;}}
@@ -763,8 +765,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 * {{ box-sizing: border-box; }}
 :root {{
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  --paper: #f5f3ef; --ink: #141310; --soft: #3a3630; --mute: #5c574f; --hair: #d2cbc0;
+  /* Neutral statt Creme: Fotos und Bewertungs-Labels tragen die Farbe.
+     Petrol (--act) ist die einzige Aktionsfarbe: Links, Fokus, Auswahl. */
+  --paper: #f3f4f5; --card: #ffffff; --ink: #141518; --soft: #3b3d42; --mute: #5d6067;
+  --hair: #d9dbdf; --act: #1f4453; --act-tint: #d3e2e8; --alert: #971616;
 }}
+:focus-visible {{ outline: 2px solid var(--act); outline-offset: 2px; }}
+::selection {{ background: var(--act-tint); color: var(--ink); }}
 body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0;
         background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }}
 header {{ max-width: 1500px; margin: 0 auto; padding: 2rem 1.5rem 1.25rem; }}
@@ -780,9 +787,9 @@ header .stats {{ color: var(--mute); font-size: .85rem; line-height: 1.5;
                  border-top: 2px solid var(--ink); padding-top: .75rem; }}
 main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem 1.75rem; }}
-.card {{ background: #fff; display: flex; flex-direction: column;
-         border: 1px solid var(--hair); border-left: 4px solid var(--accent); }}
-.card img, .card .nophoto {{ width: 100%; height: 220px; object-fit: cover; display: block; background: #e6e3dd; }}
+.card {{ background: var(--card); display: flex; flex-direction: column;
+         border: 1px solid var(--hair); }}
+.card img, .card .nophoto {{ width: 100%; height: 220px; object-fit: cover; display: block; background: var(--hair); }}
 .card .nophoto {{ display: flex; align-items: center; justify-content: center; color: var(--mute); font-size: .8rem; }}
 .card .body {{ padding: 1rem 1.1rem 1.1rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }}
 .card h2 {{ font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin: 0; line-height: 1.25;
@@ -790,9 +797,9 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .card > *, .card .body > * {{ min-width: 0; }}
 .card .meta {{ color: var(--mute); font-size: .82rem; }}
 .card .status {{ display: flex; flex-direction: column; gap: .2rem; }}
-.card .partner {{ font-size: .85rem; color: #1f4453; }}
+.card .partner {{ font-size: .85rem; color: var(--act); }}
 .badge-int {{ font-size: .74rem; letter-spacing: .06em; text-transform: uppercase;
-              font-weight: 700; color: #971616; }}
+              font-weight: 700; color: var(--alert); }}
 .card .labels {{ display: flex; flex-direction: column; align-items: flex-start; gap: .3rem; margin-top: .15rem; }}
 .card .lab {{ font-size: .78rem; font-weight: 600; padding: .26rem .65rem; border-radius: 2px;
               border: 1px solid; line-height: 1.25; }}
@@ -802,11 +809,12 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .card .foot {{ padding-top: .75rem; border-top: 1px solid var(--hair); display: flex;
                justify-content: space-between; align-items: baseline; gap: .75rem;
                font-size: .78rem; color: var(--mute); }}
-.card .foot a {{ color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--soft);
+.card .foot a {{ color: var(--act); text-decoration: none; border-bottom: 1px solid var(--act);
                  font-weight: 500; white-space: nowrap; }}
-.card .foot a:hover {{ color: #1f4453; border-color: #1f4453; }}
-.card.gone {{ opacity: .6; }}
-.empty {{ text-align: center; color: var(--mute); padding: 4rem 1rem; background: #fff;
+.card .foot a:hover {{ color: var(--ink); border-color: var(--ink); }}
+.card.gone img {{ filter: grayscale(1); opacity: .55; }}
+.card.gone h2 {{ color: var(--mute); }}
+.empty {{ text-align: center; color: var(--mute); padding: 4rem 1rem; background: var(--card);
           border: 1px solid var(--hair); }}
 .empty-filter {{ padding: 1.5rem 1rem; }}
 section, details.sect {{ margin-top: 3rem; }}
@@ -838,7 +846,7 @@ summary h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4r
   details.sect > summary {{ min-height: 44px; }}
   .card .foot {{ align-items: center; }}
   .card .foot a {{ display: inline-flex; align-items: center; min-height: 44px; border-bottom: 0;
-                   text-decoration: underline; text-decoration-color: var(--soft); text-underline-offset: 3px; }}
+                   text-decoration: underline; text-decoration-color: var(--act); text-underline-offset: 3px; }}
 }}
 </style>
 </head>
@@ -975,7 +983,7 @@ def render_report(
 
         hm = HEALTH_META.get(rating.health, HEALTH_META["unbekannt"])
         outlined = (
-            f'<span class="lab" style="background:#fff;'
+            f'<span class="lab" style="background:var(--card);'
             f'border-color:{hm["color"]};color:{hm["text"]}">{hm["label"]}</span>'
         )
         return f'<div class="labels">{filled.format(cls="", text=rm["label"])}{outlined}</div>'
@@ -990,15 +998,14 @@ def render_report(
 
     def _render_card(cat: Cat, rating: CatRating, *, dimmed: bool = False) -> str:
         """Erzeugt das HTML-Markup für eine Katzen-Card; dimmed=True für nicht mehr verfügbare Katzen."""
-        meta = RATING_META[rating.rating]
         age_months = get_age(cat.cat_id, cat.age_hint)
         age_data = str(age_months) if age_months is not None else "unknown"
         listed = "" if dimmed else _listed_line(cat)
         return f"""
-    <div class="card{' gone' if dimmed else ''}" style="--accent: {meta['color']};" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}">
+    <div class="card{' gone' if dimmed else ''}" data-age-months="{age_data}" data-rating="{rating.rating}" data-companions="{cat.companion_count}" data-health="{rating.health}">
       {_img(cat)}
       <div class="body">
-        <h2>{html.escape(cat.name)} <span style="font-family:-apple-system,sans-serif;color:#5c574f;font-size:.72rem;" class="cid">{html.escape(cat.cat_id)}</span></h2>
+        <h2>{html.escape(cat.name)} <span style="font-family:-apple-system,sans-serif;color:var(--mute);font-size:.72rem;" class="cid">{html.escape(cat.cat_id)}</span></h2>
         <div class="meta">{_meta_line(cat, age_months)}</div>
         {_status_line(cat)}
         {_labels(rating)}
