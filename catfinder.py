@@ -447,7 +447,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
     slider = ""
     if age_min < age_max:
         slider = f"""
-  <div style="display:flex;align-items:center;gap:.6rem;">
+  <div class="cf-age">
     <span class="cf-cap">Alter</span>
     <div class="cf-track">
       <div id="sliderFill" class="cf-fill"></div>
@@ -458,6 +458,7 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   </div>"""
 
     return f"""<style>
+.cf-age{{display:flex;align-items:center;gap:.6rem;}}
 .cf-cap{{font-size:.8rem;color:#5c574f;white-space:nowrap;}}
 .cf-track{{position:relative;width:130px;height:1px;background:#c9c3b8;margin:.2rem 0;}}
 .cf-fill{{position:absolute;top:-1px;height:3px;background:#141310;pointer-events:none;}}
@@ -480,6 +481,17 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
   .filters>summary::after{{content:'+';margin-left:auto;font-weight:400;font-size:1.2rem;color:#5c574f;}}
   .filters[open]>summary::after{{content:'\u2212';}}
   #filterBar{{padding:.25rem 0 1rem;gap:.9rem 1.25rem;}}
+  .cf-age{{flex-basis:100%;}}
+  .cf-track{{flex:1;width:auto;}}
+}}
+/* Querformat am Handy: angeheftete Leiste würde den halben Bildschirm belegen */
+@media (max-height:500px){{.filters{{position:static;}}}}
+/* Touch: Trefferflächen mindestens 44px, Regler-Griffe greifbar */
+@media (pointer:coarse){{
+  #sorgBtn,#fitBtn,#pairBtn,#healthBtn,#resetBtn{{min-height:44px;}}
+  .cf-age{{min-height:44px;}}
+  .cf-range::-webkit-slider-thumb{{width:26px;height:26px;}}
+  .cf-range::-moz-range-thumb{{width:26px;height:26px;}}
 }}
 </style>
 <details class="filters" id="filterWrap"><summary>Filter<span id="filterCount"></span></summary>
@@ -746,11 +758,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0;
         background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }}
 header {{ max-width: 1500px; margin: 0 auto; padding: 2rem 1.5rem 1.25rem; }}
-header h1 {{ font-family: var(--serif); font-weight: 400; font-size: 1.15rem; margin: 0 0 1.1rem;
+header .brand {{ font-family: var(--serif); font-weight: 400; font-size: 1.15rem; margin: 0 0 1.1rem;
              color: var(--mute); }}
-header .today {{ margin: 0 0 1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1.25rem; }}
-header .today-n {{ font-family: var(--serif); font-size: 2.4rem; line-height: 1.1; letter-spacing: -.01em; }}
-header .today-mix {{ display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-size: .95rem; color: var(--soft); }}
+header .today {{ margin: 0 0 1rem; font-weight: 400; font-family: var(--serif); font-size: 2.6rem; line-height: 1.1; display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1.25rem; }}
+header .today-n {{ letter-spacing: -.01em; }}
+header .today-mix {{ display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                    font-size: .95rem; line-height: 1.4; color: var(--soft); }}
 header .today-mix span {{ white-space: nowrap; }}
 header .dot {{ display: inline-block; width: .6rem; height: .6rem; margin-right: .4rem; vertical-align: .05em; }}
 header .stats {{ color: var(--mute); font-size: .85rem; line-height: 1.5;
@@ -792,8 +805,8 @@ summary h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4r
                     color: var(--soft); margin: 0; display: inline; }}
 @media (max-width: 640px) {{
   header {{ padding: 1.25rem 1rem 1rem; }}
-  header h1 {{ margin-bottom: .6rem; }}
-  header .today-n {{ font-size: 2rem; }}
+  header .brand {{ margin-bottom: .6rem; }}
+  header .today {{ font-size: 2.1rem; }}
   main {{ padding: 0 1rem 4rem; }}
   section, details.sect {{ margin-top: 2rem; }}
   details.sect > summary {{ margin-bottom: 1rem; }}
@@ -805,13 +818,20 @@ summary h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4r
   .card h2, .card .meta, .card .status, .card .labels {{ grid-column: 2; }}
   .card h2 {{ font-size: 1.15rem; }}
   .card .reason, .card .health, .card .foot {{ grid-column: 1 / -1; }}
-  .card .reason {{ margin-top: .4rem; }}
+  .card .reason {{ margin-top: .4rem; font-size: 1rem; }}
+  .card .health {{ font-size: .95rem; }}
+}}
+@media (pointer: coarse) {{
+  details.sect > summary {{ min-height: 44px; }}
+  .card .foot {{ align-items: center; }}
+  .card .foot a {{ display: inline-flex; align-items: center; min-height: 44px; border-bottom: 0;
+                   text-decoration: underline; text-decoration-color: var(--soft); text-underline-offset: 3px; }}
 }}
 </style>
 </head>
 <body>
 <header>
-  <h1>Catfinder</h1>
+  <p class="brand">Catfinder</p>
   {today}
   <div class="stats">
     Lauf vom {timestamp} · {total_listed} Katzen gelistet · <strong>{new_count} neu bewertet</strong>{scope_note} · <span id="visibleCount">{new_count}</span> angezeigt
@@ -836,7 +856,7 @@ def _section(title: str, total: int, inner: str, is_open: bool = False) -> str:
 def _today_line(evaluated: list[tuple[Cat, CatRating]]) -> str:
     """Kopfzeile mit der Antwort auf 'passt heute eine Neue?' — Neuzugänge nach Bewertung gezählt."""
     if not evaluated:
-        return '<p class="today"><span class="today-n">Nichts Neues</span></p>'
+        return '<h1 class="today"><span class="today-n">Nichts Neues</span></h1>'
     best = sum(1 for _, r in evaluated if r.rating == "geeignet" and r.health == "keine")
     counts = {k: sum(1 for _, r in evaluated if r.rating == k) for k in RATING_META}
     counts["geeignet"] -= best
@@ -848,7 +868,7 @@ def _today_line(evaluated: list[tuple[Cat, CatRating]]) -> str:
         f'<span><span class="dot" style="background:{color}"></span>{n} {label}</span>'
         for n, label, color in parts if n
     )
-    return f'<p class="today"><span class="today-n">{len(evaluated)} neu</span><span class="today-mix">{mix}</span></p>'
+    return f'<h1 class="today"><span class="today-n">{len(evaluated)} neu</span><span class="today-mix">{mix}</span></h1>'
 
 
 def render_report(
