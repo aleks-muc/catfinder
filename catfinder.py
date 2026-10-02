@@ -540,12 +540,16 @@ def _build_filter_bar(age_min: int, age_max: int) -> str:
         fc=document.getElementById('filterCount');
     if(fc)fc.textContent=n?'· '+n+' aktiv':'';
     var vc=document.getElementById('visibleCount');
-    if(vc)vc.textContent=visible;
+    if(vc)vc.textContent=n?' \u00b7 '+visible+(visible===1?' Katze passt':' Katzen passen')+' zum Filter':'';
     document.querySelectorAll('details.sect').forEach(function(d){{
       var cards=d.querySelectorAll('.card'),vis=0;
       cards.forEach(function(c){{if(c.style.display!=='none')vis++;}});
       var s=d.querySelector('.cnt');
       if(s)s.textContent=(vis===cards.length?cards.length:vis+' von '+cards.length);
+      var e=d.querySelector('.empty-filter');
+      if(cards.length&&!e){{e=document.createElement('div');e.className='empty empty-filter';
+        e.textContent='Keine Katze in diesem Abschnitt passt zu den Filtern.';d.appendChild(e);}}
+      if(e)e.style.display=(cards.length&&!vis)?'':'none';
     }});
   }}
   function render(){{
@@ -696,7 +700,7 @@ def evaluate_all(cats: list[Cat], profile_texts: dict[str, str]) -> dict[str, Ca
             return c.cat_id, rating
         except Exception as e:
             print(f"  ! Fehler bei {c.name} ({c.cat_id}): {e}")
-            return c.cat_id, CatRating(rating="unbekannt", reason=f"Bewertungsfehler: {e}")
+            return c.cat_id, CatRating(rating="unbekannt", reason="Bewertung fehlgeschlagen – bitte im Steckbrief nachlesen.")
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_EVAL_WORKERS) as pool:
         futures = [pool.submit(work, c) for c in cats]
@@ -756,7 +760,9 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .card img, .card .nophoto {{ width: 100%; height: 220px; object-fit: cover; display: block; background: #e6e3dd; }}
 .card .nophoto {{ display: flex; align-items: center; justify-content: center; color: var(--mute); font-size: .8rem; }}
 .card .body {{ padding: 1rem 1.1rem 1.1rem; flex: 1; display: flex; flex-direction: column; gap: .5rem; }}
-.card h2 {{ font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin: 0; line-height: 1.25; }}
+.card h2 {{ font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin: 0; line-height: 1.25;
+             overflow-wrap: anywhere; }}
+.card > *, .card .body > * {{ min-width: 0; }}
 .card .meta {{ color: var(--mute); font-size: .82rem; }}
 .card .status {{ display: flex; flex-direction: column; gap: .2rem; }}
 .card .partner {{ font-size: .85rem; color: #1f4453; }}
@@ -777,6 +783,7 @@ main {{ max-width: 1500px; margin: 0 auto; padding: 0 1.5rem 5rem; }}
 .card.gone {{ opacity: .6; }}
 .empty {{ text-align: center; color: var(--mute); padding: 4rem 1rem; background: #fff;
           border: 1px solid var(--hair); }}
+.empty-filter {{ padding: 1.5rem 1rem; }}
 section, details.sect {{ margin-top: 3rem; }}
 details.sect > summary {{ cursor: pointer; margin-bottom: 1.4rem; color: var(--soft); }}
 details.sect > summary::marker {{ font-size: .8rem; }}
@@ -815,7 +822,7 @@ summary h2.group {{ font-family: var(--serif); font-weight: 400; font-size: 1.4r
   <p class="brand">Catfinder</p>
   {today}
   <div class="stats">
-    Lauf vom {timestamp} · {total_listed} Katzen gelistet · <strong>{new_count} neu bewertet</strong>{scope_note} · <span id="visibleCount">{new_count}</span> angezeigt
+    Lauf vom {timestamp} · {total_listed} Katzen gelistet · <strong>{new_count} neu bewertet</strong>{scope_note}<span id="visibleCount"></span>
   </div>
 </header>
 <main>
