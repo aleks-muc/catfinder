@@ -253,4 +253,4 @@ Die fünf Default-Rollen (`needs-triage`, `needs-info`, `ready-for-agent`, `read
 
 ### Domain docs
 
-Single-context: `CONTEXT.md` im Root, ADRs in `agent-docs/adr/` (nicht `docs/` — das ist der Pages-Ordner). See `agent-docs/domain.md`.
+Single-context: `GLOSSARY.md` im Root, ADRs in `agent-docs/adr/` (nicht `docs/` — das ist der Pages-Ordner). See `agent-docs/domain.md`.

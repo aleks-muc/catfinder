@@ -9,7 +9,7 @@ web
 ## Users
 Ein einziger Nutzer: der Entwickler selbst, auf Katzensuche für seine Familie in München. Er liest gleichermaßen am Handy (ntfy-Push antippen → GitHub-Pages-Report öffnen, kurz scannen) und am Laptop (in Ruhe vergleichen) und will nicht täglich selbst beim Tierschutzverein nachsehen. Er kennt das Tool und weiß, woher die Bewertungen kommen — Erklärtexte für Fremde sind nicht nötig.
 
-**Was für die Familie in Frage kommt** (Stand 2026-10-02, Begriff *Passend* in `CONTEXT.md`): ein gesundes Pärchen, bei dem keine der beiden Katzen *Nicht für Kinder* ist — *Nur ältere Kinder* kommt inzwischen in Frage. Die Standard-Filter des Reports zeigen genau das.
+**Was für die Familie in Frage kommt** (Stand 2026-10-02, Begriff *Passend* in `GLOSSARY.md`): ein gesundes Pärchen, bei dem keine der beiden Katzen *Nicht für Kinder* ist — *Nur ältere Kinder* kommt inzwischen in Frage. Die Standard-Filter des Reports zeigen genau das.
 
 ## Product Purpose
 Catfinder scrapt einmal täglich das Katzen-Listing des Tierschutzvereins München, lässt neue Katzen von Claude gegen ein Familien-Eignungsprofil (Kinder, Gesundheit) einordnen und liefert einen filterbaren HTML-Report aus.
