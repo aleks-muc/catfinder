@@ -114,7 +114,7 @@ None — plan executed exactly as written.
 - **Slider-Null-Tolerance:** `if(minR)minR.value=DEFAULT_LO; if(maxR)maxR.value=DEFAULT_HI;` schützt den Edge-Case `age_min == age_max`, in dem der Slider-Block nicht gerendert wird (catfinder.py:310-322).
 - **Idempotenz via `classList.add`:** Bewusst nicht `classList.toggle(..., true)` — `add()` ist explicit "force the default" und macht den Reset bei Doppelklicks zum sicheren No-Op.
 - **Atomarität:** Genau ein `update()`-Call am Ende — `update()` aktualisiert `#sliderFill`, `#ageLabel` und ruft intern `filter(lo, hi)`. Eine direkte `filter(...)`-Aufruf-Sequenz hätte die Slider-Fill-/Label-Aktualisierung ausgelassen.
-- **Out-of-Scope-Items aus CONTEXT.md (D-04/D-05) bewusst nicht implementiert:** keine Animation, kein Toast, kein Esc-Shortcut, kein Disabled-State.
+- **Out-of-Scope-Items aus GLOSSARY.md (D-04/D-05) bewusst nicht implementiert:** keine Animation, kein Toast, kein Esc-Shortcut, kein Disabled-State.
 - **Kein Server-State-Change:** Im DevTools-Network-Tab wurde beim Klick kein Request beobachtet (Task 5 Schritt 4) — Threat T-02-03 mitigation verifiziert.
 
 ## Issues Encountered

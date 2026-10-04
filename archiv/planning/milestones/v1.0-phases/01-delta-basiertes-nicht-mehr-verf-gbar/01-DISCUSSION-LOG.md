@@ -1,7 +1,7 @@
 # Phase 1: Delta-basiertes "Nicht mehr verfügbar" - Discussion Log
 
 > **Audit trail only.** Do not use as input to planning, research, or execution agents.
-> Decisions are captured in CONTEXT.md — this log preserves the alternatives considered.
+> Decisions are captured in GLOSSARY.md — this log preserves the alternatives considered.
 
 **Date:** 2026-05-05
 **Phase:** 1-Delta-basiertes "Nicht mehr verfügbar"

@@ -63,13 +63,13 @@ Place on the same line as the existing `var LO=...` to keep the IIFE header comp
 - ID convention: lowercase camelCase suffixed with `Btn` (`#fitBtn`/`#pairBtn`/`#sorgBtn` → `#resetBtn`).
 - Emoji-prefixed German label inside the tag.
 - No `class` attribute (button is stateless — no active/hidden toggling), unlike the three siblings which carry an initial CSS class.
-- Inline `style="margin-left:auto"` on the new button to push it to the right end of the flex row (per CONTEXT.md D-01). This is the only inline style; all other visual rules go in the `<style>` block (sub-edit 3).
+- Inline `style="margin-left:auto"` on the new button to push it to the right end of the flex row (per GLOSSARY.md D-01). This is the only inline style; all other visual rules go in the `<style>` block (sub-edit 3).
 
 ---
 
 #### Sub-edit 3: Add `#resetBtn` CSS rule
 
-**Need:** Link-style appearance (transparent, no border, hover accent in `#1976d2`) per CONTEXT.md D-02.
+**Need:** Link-style appearance (transparent, no border, hover accent in `#1976d2`) per GLOSSARY.md D-02.
 
 **Analog:** the existing button rules in the same `<style>` block at `catfinder.py:330-333`.
 
@@ -128,7 +128,7 @@ Insert immediately after the three existing button rules (line 333), before `</s
 1. **`addEventListener('click', function(){{ ... }})`** — anonymous function, doubled braces for f-string. Trailing `}});` to close.
 2. **State mutation first**, then **DOM updates** (label + class), then **filter/render call last**. The reset handler keeps this ordering: assign all four state vars + slider values → reassign all four button labels + classes → call `update()` once.
 3. **Slider null-check pattern** (`minR?parseInt(minR.value):LO`) appears in every existing handler at lines 375, 381, 387. The reset handler must use `if(minR)minR.value=DEFAULT_LO;` and `if(maxR)maxR.value=DEFAULT_HI;` to tolerate the single-input edge case (lines 310-322 only emit `<input>` elements when `age_min < age_max`; otherwise `minR`/`maxR` are `null`).
-4. **`classList.toggle(name, bool)`** is the existing pattern when the boolean is dynamic (lines 374, 380, 386). For the reset handler the desired class state is **fixed** (always-active for fit/pair, always-hidden for sorg), so the planner should prefer **`classList.add(name)`** over `toggle(name, true)` — both work, but `add` makes intent ("force the default") explicit and matches CONTEXT.md "Known Pitfalls" guidance (avoid invert-on-second-click bugs).
+4. **`classList.toggle(name, bool)`** is the existing pattern when the boolean is dynamic (lines 374, 380, 386). For the reset handler the desired class state is **fixed** (always-active for fit/pair, always-hidden for sorg), so the planner should prefer **`classList.add(name)`** over `toggle(name, true)` — both work, but `add` makes intent ("force the default") explicit and matches GLOSSARY.md "Known Pitfalls" guidance (avoid invert-on-second-click bugs).
 5. **Re-render call:** existing handlers call `filter(lo, hi)` directly with re-parsed slider values. The reset handler should call **`update()` instead** (defined at lines 349-355). `update()` already re-parses sliders, repositions `#sliderFill`, refreshes `#ageLabel`, and then calls `filter(lo, hi)` — exactly the post-reset state we need with one call. Calling `filter()` directly would skip the slider-fill/label refresh.
 6. **Default-label strings** for fit/pair/sorg must match the initial `<button>` text (lines 336-338): `'🟢 Nur geeignet'`, `'🐱🐱 Nur Pärchen (aktiv)'`, `'🔴 Sorgenkinder einblenden'`. These are the same strings the existing handlers produce on the "active/default" branch of their ternaries (lines 373, 379, 385) — copy them verbatim to keep one source of truth per label.
 
@@ -175,5 +175,5 @@ None. Every new construct (button HTML, CSS rule, JS state injection, click hand
 ## Metadata
 
 **Analog search scope:** `catfinder.py:297-393` (`_build_filter_bar` only — single-file project, all relevant patterns colocated).
-**Files scanned:** 1 (`catfinder.py`) plus context (`02-CONTEXT.md`).
+**Files scanned:** 1 (`catfinder.py`) plus context (`02-GLOSSARY.md`).
 **Pattern extraction date:** 2026-05-06

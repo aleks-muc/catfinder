@@ -14,7 +14,7 @@ key_files:
   created: []
   modified: ["catfinder.py"]
 decisions:
-  - "Inline-Purge in beiden Pfaden (Early-Return + Haupt-Pfad), keine neue Helper-Funktion in der `# --- State ---`-Section — folgt CONTEXT.md `<code_context>` und PATTERNS.md Section 1 `Hard rule (D-02)`."
+  - "Inline-Purge in beiden Pfaden (Early-Return + Haupt-Pfad), keine neue Helper-Funktion in der `# --- State ---`-Section — folgt GLOSSARY.md `<code_context>` und PATTERNS.md Section 1 `Hard rule (D-02)`."
   - "Neuer `had_prior_state: bool = False`-Parameter an render_report (statt Inferenz aus scope_note) — explizite Boolean-Konvention wie `no_browser: bool = False` (CLAUDE.md `Function Design`)."
   - "Empty-State-Branch nutzt mehrzeilige Klammer-Concatenation statt Triple-Quoted-Style — hält Zeilen unter 100 Chars (PATTERNS.md Section 4 Analog B)."
 metrics:
@@ -177,7 +177,7 @@ def render_report(
 
 ## Big-Bang-Erstlauf-Erwartung (D-04)
 
-Per CONTEXT.md D-04 ("Big-Bang Approach") wird der **erste produktive Lauf nach Deploy** mit dem bestehenden, mit Zombies gefüllten `state/seen_cats.json` einmalig eine sehr lange "Nicht mehr verfügbar"-Sektion erzeugen — alle akkumulierten Zombies werden auf einmal als verschwunden gemeldet, danach gepurged. **Dies ist erwartetes Verhalten und kein Bug.** Anschließende Läufe sehen die "Nicht mehr verfügbar"-Sektion auf das echte Run-zu-Run-Delta begrenzt.
+Per GLOSSARY.md D-04 ("Big-Bang Approach") wird der **erste produktive Lauf nach Deploy** mit dem bestehenden, mit Zombies gefüllten `state/seen_cats.json` einmalig eine sehr lange "Nicht mehr verfügbar"-Sektion erzeugen — alle akkumulierten Zombies werden auf einmal als verschwunden gemeldet, danach gepurged. **Dies ist erwartetes Verhalten und kein Bug.** Anschließende Läufe sehen die "Nicht mehr verfügbar"-Sektion auf das echte Run-zu-Run-Delta begrenzt.
 
 CI-Commit (`chore: state & report aktualisiert`), E-Mail-Subject und Pages-URL bleiben strukturell identisch (PROJECT.md Constraint).
 

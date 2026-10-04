@@ -77,7 +77,7 @@ Reines Frontend: HTML-Button + IIFE-Click-Handler im bestehenden inline-`<script
 ### Constraints
 
 - `CLAUDE.md` §Project, §Constraints, §Code Style — Single-File, keine neuen Deps, kein Build-Step, deutsche User-Strings, snake_case Python, inline CSS/JS in f-string.
-- `.planning/phases/01-delta-basiertes-nicht-mehr-verf-gbar/01-CONTEXT.md` — Beispiel-Konvention für „kleine Änderung im inline f-string ohne Architektur-Bruch" (kürzlich abgeschlossen).
+- `.planning/phases/01-delta-basiertes-nicht-mehr-verf-gbar/01-GLOSSARY.md` — Beispiel-Konvention für „kleine Änderung im inline f-string ohne Architektur-Bruch" (kürzlich abgeschlossen).
 - `.planning/codebase/ARCHITECTURE.md` — Single-File-Architektur, Anti-Pattern-Liste (inline HTML/CSS/JS als f-string ist explizit dokumentiert und akzeptiert).
 
 </canonical_refs>

@@ -44,7 +44,7 @@ modified:
 
 - **D-06 ist obsolet:** `DEFAULT_LO`/`DEFAULT_HI` als JS-Konstanten existieren nicht mehr; der inline-JS-Code zieht den Slider beim Reset auf die volle Datenbandbreite (`LO`/`HI`). Die Python-seitigen `default_lo`/`default_hi`-Berechnungen (Zeilen 306-307) bleiben — sie steuern weiterhin die initialen Slider-Values beim Report-Load (Zeilen 319-320).
 - **D-01..D-04 + D-07 unangetastet:** Position rechts (`margin-left:auto;`), Link-Stil (`#resetBtn` ohne Border), immer sichtbar (kein `display:none`-Toggle), silent (kein Confirm-Dialog), Atomarität (single `update()` am Handler-Ende) bleiben gültig.
-- **Lessons:** Post-hoc UX-Decision-Reversal — der semantische Wunsch „alle Filter aus" statt „Default-Reset" wäre besser im CONTEXT.md-Discuss-Schritt von Phase 2 aufgetaucht; hier nachgezogen als Quick-Task.
+- **Lessons:** Post-hoc UX-Decision-Reversal — der semantische Wunsch „alle Filter aus" statt „Default-Reset" wäre besser im GLOSSARY.md-Discuss-Schritt von Phase 2 aufgetaucht; hier nachgezogen als Quick-Task.
 
 ## Self-Check: PASSED
 

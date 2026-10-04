@@ -23,7 +23,7 @@ All four edit regions have an **exact** analog (same role + same data flow) insi
 
 ### 1. State Purge Logic (state, file-I/O)
 
-**Where it lands:** Either as a new private helper near `save_state` in the `# --- State ---` section (`catfinder.py:122-147`), or inline in `main()` directly before the existing `save_state(state)` call at `catfinder.py:856`. CONTEXT.md `<code_context>` recommends inline-in-`main()`; planner decides.
+**Where it lands:** Either as a new private helper near `save_state` in the `# --- State ---` section (`catfinder.py:122-147`), or inline in `main()` directly before the existing `save_state(state)` call at `catfinder.py:856`. GLOSSARY.md `<code_context>` recommends inline-in-`main()`; planner decides.
 
 **Analog:** `save_state` itself (`catfinder.py:136-147`) — for the **atomic-write guarantee that must remain intact**. The purge mutates the in-memory dict; `save_state` then handles durability.
 
@@ -43,7 +43,7 @@ def save_state(state: dict[str, dict]) -> None:
         raise
 ```
 
-**Hard rule (D-02 in CONTEXT.md, REPORT-02):** Purge happens on the in-memory `state` dict **before** calling `save_state(state)` so the existing atomic-write path stays the only disk-touching code. Do **not** introduce a second write path.
+**Hard rule (D-02 in GLOSSARY.md, REPORT-02):** Purge happens on the in-memory `state` dict **before** calling `save_state(state)` so the existing atomic-write path stays the only disk-touching code. Do **not** introduce a second write path.
 
 **Type-hint convention** for any new helper (per `CLAUDE.md` "Type Hints"): use built-in generics + `from __future__ import annotations` (already at file top). Example shape:
 ```python
@@ -99,7 +99,7 @@ for cid in sorted(known_ids - current_ids):
 - **Whitelist for `Rating`** — the `r not in (...)` check at lines 750-751 and 776-777 is duplicated; planner *may* extract once but this is **not required** (mirroring is the existing house style here).
 - **Sorted iteration** of `known_ids - current_ids` (`sorted(...)` at line 761) — keeps output deterministic. Preserve this.
 
-**Required new signal — "had prior state":** Per CONTEXT.md `<code_context>` D-07, the renderer must distinguish "Erstlauf, hide section" from "regular run, empty-state hint". Two viable approaches (planner picks):
+**Required new signal — "had prior state":** Per GLOSSARY.md `<code_context>` D-07, the renderer must distinguish "Erstlauf, hide section" from "regular run, empty-state hint". Two viable approaches (planner picks):
 
 a) **New parameter** added to `render_report` signature. Existing signature (`catfinder.py:548-555`) is the analog for shape — note the `... | None = None` defaults that get normalized at the function top:
 ```python
@@ -199,7 +199,7 @@ This is the most subtle correctness point in the phase — flag it clearly in th
 if not evaluated_sorted:
     sect1_inner = '<div class="empty">Keine neuen Katzen seit dem letzten Lauf. 🎉</div>'
 ```
-This is the **exact** pattern to mirror per CONTEXT.md D-06: `<div class="empty">…</div>`, German text, sparkles emoji at the end. CSS for `.empty` already exists at `catfinder.py:521`:
+This is the **exact** pattern to mirror per GLOSSARY.md D-06: `<div class="empty">…</div>`, German text, sparkles emoji at the end. CSS for `.empty` already exists at `catfinder.py:521`:
 ```css
 .empty { text-align: center; color: #666; padding: 4rem 1rem; }
 ```
@@ -209,7 +209,7 @@ This is the **exact** pattern to mirror per CONTEXT.md D-06: `<div class="empty"
 ```python
 sect_gone = f'<section><h2 class="group">🚫 Nicht mehr verfügbar ({len(no_longer_listed)})</h2><div class="grid">{"".join(cards)}</div></section>'
 ```
-Pattern to copy for the new empty-state branch (per CONTEXT.md D-05 wording + `<specifics>` count-suffix `(0)`):
+Pattern to copy for the new empty-state branch (per GLOSSARY.md D-05 wording + `<specifics>` count-suffix `(0)`):
 ```python
 sect_gone = (
     '<section><h2 class="group">🚫 Nicht mehr verfügbar (0)</h2>'
@@ -244,9 +244,9 @@ elif had_prior_state:
 # else: leave sect_gone = "" (Erstlauf / Cold-Start: section completely hidden)
 ```
 
-**Sort key reuse (already correct, no change):** Line 638 uses `sorted(no_longer_listed, key=_card_sort_key)` — the existing `_card_sort_key` from `catfinder.py:484-491` stays the canonical ordering for the populated branch (per CONTEXT.md `<decisions>` "Sortierung in der Sektion bleibt `_card_sort_key`").
+**Sort key reuse (already correct, no change):** Line 638 uses `sorted(no_longer_listed, key=_card_sort_key)` — the existing `_card_sort_key` from `catfinder.py:484-491` stays the canonical ordering for the populated branch (per GLOSSARY.md `<decisions>` "Sortierung in der Sektion bleibt `_card_sort_key`").
 
-**Visual treatment of populated cards stays unchanged** (`catfinder.py:643-654`): `opacity: .6;` on the card and grey button background `style="background:#9e9e9e;"` — explicitly kept per CONTEXT.md `<decisions>` last bullet.
+**Visual treatment of populated cards stays unchanged** (`catfinder.py:643-654`): `opacity: .6;` on the card and grey button background `style="background:#9e9e9e;"` — explicitly kept per GLOSSARY.md `<decisions>` last bullet.
 
 ---
 
@@ -259,7 +259,7 @@ elif had_prior_state:
 - `f"Warnung: State-Datei konnte nicht gelesen werden ({e}). Starte frisch."` (`catfinder.py:132`) — `Warnung:` prefix for non-fatal recovery.
 - `f"State aktualisiert: {len(state)} Katzen bekannt."` (`catfinder.py:857`) — top-level status, no prefix.
 - `'<div class="empty">Keine neuen Katzen seit dem letzten Lauf. 🎉</div>'` (`catfinder.py:605`) — empty-state idiom.
-- New string per CONTEXT.md D-05: `"Seit dem letzten Lauf sind keine Katzen verschwunden. ✨"`
+- New string per GLOSSARY.md D-05: `"Seit dem letzten Lauf sind keine Katzen verschwunden. ✨"`
 
 ### Atomic file writes (already present, don't break)
 **Source:** `catfinder.py:136-147` (`save_state`).

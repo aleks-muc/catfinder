@@ -1,7 +1,7 @@
 # Phase 2: Filter-Reset-Button - Discussion Log
 
 > **Audit trail only.** Do not use as input to planning, research, or execution agents.
-> Decisions are captured in CONTEXT.md — this log preserves the alternatives considered.
+> Decisions are captured in GLOSSARY.md — this log preserves the alternatives considered.
 
 **Date:** 2026-05-06
 **Phase:** 2-filter-reset-button

@@ -17,10 +17,10 @@
 
 ### What Worked
 
-- **CONTEXT.md mit gelockten Decisions vor dem Plan**: D-01..D-07 in Phase 2 hat den Planner und Executor durchgängig konkret gehalten — keine vagen Entscheidungen, keine Re-Plan-Iterationen. Plan-Checker hat first-iteration `VERIFICATION PASSED` zurückgegeben.
+- **GLOSSARY.md mit gelockten Decisions vor dem Plan**: D-01..D-07 in Phase 2 hat den Planner und Executor durchgängig konkret gehalten — keine vagen Entscheidungen, keine Re-Plan-Iterationen. Plan-Checker hat first-iteration `VERIFICATION PASSED` zurückgegeben.
 - **Pattern-Mapper vor dem Planner**: `02-PATTERNS.md` mit line-anchored Excerpts aus `_build_filter_bar` (pairBtn/fitBtn/sorgBtn-Handler als Analoga) hat den Executor präzise gemacht — der Reset-Handler folgt 1:1 der existierenden IIFE-Struktur.
 - **Checkpoint-Pattern (Task 5 = checkpoint:human-verify)**: Manueller Browser-Smoke-Test für visuell-CSS-abhängige Akzeptanz (D-02 Link-Stil) — günstiger als automatischer Visual-Regression-Setup. User-Approval an genau einer Stelle, Continuation-Agent schreibt SUMMARY.md.
-- **`--skip-research` für kleine, gut-verstandene Phasen**: Phase 2 brauchte keine externe Recherche — Domänenwissen lag in CONTEXT.md.
+- **`--skip-research` für kleine, gut-verstandene Phasen**: Phase 2 brauchte keine externe Recherche — Domänenwissen lag in GLOSSARY.md.
 
 ### What Was Inefficient
 
@@ -30,7 +30,7 @@
 
 ### Patterns Established
 
-- **CONTEXT.md mit nummerierten D-IDs als Locked-Decisions**: D-01..D-07 als atomare Entscheidungs-Anker im Plan und in jedem Task-`<read_first>` referenziert. Reduziert Drift.
+- **GLOSSARY.md mit nummerierten D-IDs als Locked-Decisions**: D-01..D-07 als atomare Entscheidungs-Anker im Plan und in jedem Task-`<read_first>` referenziert. Reduziert Drift.
 - **Single-Plan-Phasen für atomare Single-File-Edits**: Phase 2 (4 Sub-Edits + 1 Checkpoint = 5 Tasks in 1 Plan) statt 4 Micro-Plans. Decision-Rationale: alle Sub-Edits müssen zusammen getestet werden.
 - **Slider-Null-Tolerance als Domain-Pattern**: `if(minR)minR.value=...` für conditional-rendered Slider-Block. Wird wieder kommen, wenn andere conditional-rendered Inputs hinzukommen.
 - **F-string-Brace-Escaping als bekannte Falle**: doubled `{{ }}` für CSS/JS-Literals, einfaches `{name}` für Python-Interpolation. Bei jeder `_build_filter_bar`-Änderung explizit checken.
@@ -40,13 +40,13 @@
 1. **Pattern-Mapping vor Planning lohnt sich auch bei kleinen Änderungen**: Phase 2 hat in ~80 Sekunden Pattern-Mapper-Lauf alle Analoga aufgelistet — der Planner war dann minutenlang konkreter.
 2. **Manueller Browser-Smoke-Test als Checkpoint ist legitim für visuell-zentrische UIs**: Wenn das Projekt keine Visual-Regression-Tests hat, ist `checkpoint:human-verify` sauberer als heuristische Pseudo-Verifikation. Der Cost ist 1 Klick + 1 Augen-Check.
 3. **CI-Bot-Commits in den Workflow einplanen**: GitHub-Actions pushen `state/seen_cats.json` und `docs/index.html` zwischen lokalen Sessions zurück. Vor jedem `git push` ein `git fetch + rebase` einplanen.
-4. **`--skip-research` nicht aus Faulheit, sondern wenn CONTEXT.md komplett ist**: Bei Phase 2 war alles in 7 D-IDs gelockt — Recherche hätte nichts hinzugefügt. Bei Phasen mit echtem Domain-Unbekannten weiter Research nutzen.
+4. **`--skip-research` nicht aus Faulheit, sondern wenn GLOSSARY.md komplett ist**: Bei Phase 2 war alles in 7 D-IDs gelockt — Recherche hätte nichts hinzugefügt. Bei Phasen mit echtem Domain-Unbekannten weiter Research nutzen.
 
 ### Cost Observations
 
 - Model mix für die Planning/Execution-Pipeline: Pattern-Mapper sonnet, Planner opus, Plan-Checker sonnet, Executor sonnet, Verifier sonnet, Code-Reviewer sonnet. Opus nur dort eingesetzt, wo Reasoning über Decisions+Constraints stattfindet.
 - Sessions: 2 produktive (1 pro Phase). Phase 2 inklusive Plan + Execute + Verify in einer Session.
-- Notable: Phase 2 hat 0 Revisions-Iterationen gebraucht (Plan-Checker passed first try) — Indiz, dass CONTEXT.md mit gelockten Decisions Planning-Iterationen fast komplett eliminiert.
+- Notable: Phase 2 hat 0 Revisions-Iterationen gebraucht (Plan-Checker passed first try) — Indiz, dass GLOSSARY.md mit gelockten Decisions Planning-Iterationen fast komplett eliminiert.
 
 ---
 
@@ -56,7 +56,7 @@
 
 | Milestone | Sessions | Phases | Key Change |
 |-----------|----------|--------|------------|
-| v1.0 | 2 | 2 | Initial GSD-Adoption: CONTEXT.md → Pattern-Mapper → Plan → Execute → Verify-Pipeline durchläuft sauber für Single-File-Python-Projekt. |
+| v1.0 | 2 | 2 | Initial GSD-Adoption: GLOSSARY.md → Pattern-Mapper → Plan → Execute → Verify-Pipeline durchläuft sauber für Single-File-Python-Projekt. |
 
 ### Cumulative Quality
 
