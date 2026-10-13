@@ -141,7 +141,7 @@
     "cat_id": "260105",
     "companion_count": 0,
     "first_seen": "2026-09-16T15:05:05",
-    "has_interested": false,
+    "has_interested": true,
     "health": "keine",
     "health_note": "",
     "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260105-1-134166764245155395.jpg",
@@ -167,23 +167,6 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260205",
     "rating": "aeltere_kinder",
     "reason": "Größere Kinder ab 16 Jahren sind für sie in Ordnung, sofern sie einen ruhigen Umgang mit Tieren gewohnt sind.",
-    "sex": ""
-  },
-  "260757": {
-    "age_hint": "Alter: 4 Jahre",
-    "breed": "",
-    "cat_id": "260757",
-    "companion_count": 0,
-    "first_seen": "2026-05-08T15:13:04",
-    "has_interested": true,
-    "health": "erwaehnt",
-    "health_note": "Gelegentliche Blasenprobleme mit Unsauberkeit, besonders auf Decken, inzwischen seltener; neurologische Auffälligkeit in Stresssituationen ohne aktuelle Medikamente.",
-    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/260757-1-134227244811972043.jpg",
-    "name": "LUCIA",
-    "partner_name": "",
-    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/260757",
-    "rating": "aeltere_kinder",
-    "reason": "Sie eignet sich gut für Familien mit Kindern ab 13 Jahren, da sie zwar sehr zutraulich und verschmust ist, aber auch ein lebhaftes und verspieltes Wesen hat.",
     "sex": ""
   },
   "260880": {
