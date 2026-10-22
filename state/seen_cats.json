@@ -237,6 +237,23 @@
     "reason": "Kinder sollten jedoch mindestens 12 Jahre alt sein und Verständnis für die Bedürfnisse einer Katze mitbringen.",
     "sex": ""
   },
+  "261679": {
+    "age_hint": "9 Jahre alt",
+    "breed": "",
+    "cat_id": "261679",
+    "companion_count": 0,
+    "first_seen": "2026-10-22T10:46:24",
+    "has_interested": false,
+    "health": "dauerbehandlung",
+    "health_note": "Benötigt hypoallergenes Spezialfutter und Futterzusätze zur Unterstützung der Verdauung und Vorbeugung von Verstopfungen.",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/261679-1-134371354334460691.jpg",
+    "name": "LUCY",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/261679",
+    "rating": "unbekannt",
+    "reason": "Der Text trifft keine explizite Aussage zur Kinderverträglichkeit; Lucy kam ins Tierheim, weil ein Kind allergisch auf sie reagierte, was aber nicht ihre Eignung für andere Kinder aussagt.",
+    "sex": ""
+  },
   "261948": {
     "age_hint": "3 Jahre alt",
     "breed": "",
@@ -611,6 +628,23 @@
     "reason": "Für Obelix können wir uns ein Zuhause mit größeren, verständnisvollen Kindern vorstellen.",
     "sex": ""
   },
+  "263543": {
+    "age_hint": "Alter: 3 Jahre",
+    "breed": "",
+    "cat_id": "263543",
+    "companion_count": 0,
+    "first_seen": "2026-10-22T10:46:24",
+    "has_interested": false,
+    "health": "erwaehnt",
+    "health_note": "Alfred hatte einen Bruch am Vorderbein und wird derzeit langsam und kontrolliert wieder an das Klettern und Springen gewöhnt.",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/263543-1-134371240209342499.jpg",
+    "name": "ALFRED",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263543",
+    "rating": "aeltere_kinder",
+    "reason": "Größere Kinder sind im neuen Zuhause denkbar, sofern sie verständnisvoll mit seiner lebhaften Art umgehen können.",
+    "sex": ""
+  },
   "263546": {
     "age_hint": "Alter: 5 Jahre",
     "breed": "",
@@ -798,6 +832,23 @@
     "reason": "Auch eine Familie mit Kindern kommt für ihn infrage, sofern diese respektvoll und liebevoll mit ihm umgehen.",
     "sex": ""
   },
+  "263785": {
+    "age_hint": "26 Jahre alt",
+    "breed": "",
+    "cat_id": "263785",
+    "companion_count": 2,
+    "first_seen": "2026-10-22T10:46:24",
+    "has_interested": false,
+    "health": "keine",
+    "health_note": "",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/263785-1-134371237224759866.jpg",
+    "name": "SPEEDY",
+    "partner_name": "TILL",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/263785",
+    "rating": "geeignet",
+    "reason": "Die beiden eignen sich gut für eine Familie und sind sowohl mit Hunden als auch mit Kleintieren verträglich.",
+    "sex": ""
+  },
   "263885": {
     "age_hint": "5 Jahre alt",
     "breed": "",
@@ -917,6 +968,23 @@
     "reason": "Auch Familien mit Kindern können wir uns gut für die beiden vorstellen.",
     "sex": ""
   },
+  "264167": {
+    "age_hint": "Alter: 8 Monate",
+    "breed": "",
+    "cat_id": "264167",
+    "companion_count": 2,
+    "first_seen": "2026-10-22T10:46:24",
+    "has_interested": false,
+    "health": "erwaehnt",
+    "health_note": "Till benötigt regelmäßig befeuchtende Augentropfen, vermutlich aufgrund einer früheren Herpesinfektion.",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/264167-1-134371238123514263.jpg",
+    "name": "TILL",
+    "partner_name": "SPEEDY",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/264167",
+    "rating": "geeignet",
+    "reason": "Die beiden eignen sich gut für eine Familie und sind sowohl mit Hunden als auch mit Kleintieren verträglich.",
+    "sex": ""
+  },
   "264335": {
     "age_hint": "Alter: 12 Jahre",
     "breed": "",
@@ -1017,6 +1085,57 @@
     "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/264480",
     "rating": "aeltere_kinder",
     "reason": "Auch Familien mit größeren Kindern können wir uns gut für die beiden vorstellen.",
+    "sex": ""
+  },
+  "264636": {
+    "age_hint": "7 Jahre alt",
+    "breed": "",
+    "cat_id": "264636",
+    "companion_count": 0,
+    "first_seen": "2026-10-22T10:46:24",
+    "has_interested": false,
+    "health": "erwaehnt",
+    "health_note": "Neigt in belastenden oder ungewohnten Situationen zu stressbedingtem Durchfall.",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/264636-1-134371339958028866.jpg",
+    "name": "SIMSALA",
+    "partner_name": "",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/264636",
+    "rating": "aeltere_kinder",
+    "reason": "Größere Kinder ab etwa 15 Jahren sind im neuen Zuhause denkbar, sofern sie ruhig und respektvoll mit Simsala umgehen und seine Rückzugsmöglichkeiten achten.",
+    "sex": ""
+  },
+  "264637": {
+    "age_hint": "6 Jahre alt",
+    "breed": "",
+    "cat_id": "264637",
+    "companion_count": 2,
+    "first_seen": "2026-10-22T10:46:24",
+    "has_interested": false,
+    "health": "keine",
+    "health_note": "",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/264637-1-134370547278276864.jpg",
+    "name": "DICKER",
+    "partner_name": "STINKER",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/264637",
+    "rating": "nicht_geeignet",
+    "reason": "Kinder sollten nicht im neuen Zuhause leben, da die beiden eine möglichst entspannte und reizarme Umgebung benötigen.",
+    "sex": ""
+  },
+  "264638": {
+    "age_hint": "6 Jahre alt",
+    "breed": "",
+    "cat_id": "264638",
+    "companion_count": 2,
+    "first_seen": "2026-10-22T10:46:24",
+    "has_interested": false,
+    "health": "erwaehnt",
+    "health_note": "Bei Stinker steht noch eine Zahnsanierung an.",
+    "image_url": "https://assets-tiervermittlung.tierschutzverein-muenchen.de/264638-1-134371355578986014.jpg",
+    "name": "STINKER",
+    "partner_name": "DICKER",
+    "profile_url": "https://tierschutzverein-muenchen.de/tiervermittlung/tierheim/katzen/264638",
+    "rating": "nicht_geeignet",
+    "reason": "Kinder sollten nicht im neuen Zuhause leben, da die beiden eine möglichst entspannte und reizarme Umgebung benötigen.",
     "sex": ""
   }
 }
